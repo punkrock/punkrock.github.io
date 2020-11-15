@@ -13,43 +13,46 @@
 <style type="text/css">
 	body {font-family: Arial, Helvetica, sans-serif;}
 	.inner-pre {font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;}
+  .nohigh {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
 </style>
 
 </head>
 
 <body>
 
-<pre>
-        ______  _   _  _   _  _   ________  _____  _____  _   __
+<pre>        ______  _   _  _   _  _   ________  _____  _____  _   __
         | ___ \| | | || \ | || | / /| ___ \|  _  |/  __ \| | / /
         | |_/ /| | | ||  \| || |/ / | |_/ /| | | || /  \/| |/ / 
         |  __/ | | | || . ` ||    \ |    / | | | || |    |    \ 
         | |    | |_| || |\  || |\  \| |\ \ \ \_/ /| \__/\| |\  \
         \_|     \___/ \_| \_/\_| \_/\_| \_| \___/  \____/\_| \_/
 </pre>
-<pre>
----------------------------------------------------------------------------
+<pre>---------------------------------------------------------------------------
  <span class="inner-pre"><a href="https://punkrock.github.io">Home</a> | <a href="https://punkrock.github.io/lisk.html">Lisk</a> | <a href="https://punkrock.github.io/about.html">About</a></span>
 ---------------------------------------------------------------------------
 </pre>
-
-<p>
-<p>
-<h1><strong>Lisk Betanet v4 on VPS with Ubuntu 18.04 & 20.04<br /><br /></strong></h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Lisk Betanet v4 on VPS with Ubuntu 18.04 &amp; 20.04<br /><br /></strong></h1>
 <h3>STEP 1 - Create lisk user, install needed stuff and configure Lisk Commander for Betanet</h3>
-<pre>~# adduser lisk<br />~# gpasswd -a lisk sudo<br />~# su - lisk<br /><br />~$ sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />~$ wget https://downloads.lisk.io/lisk/beta/installLisk.sh<br />~$ bash installLisk.sh install -r beta</pre>
+<pre><span class="nohigh">~# </span>adduser lisk<br /><span class="nohigh">~# </span>gpasswd -a lisk sudo<br /><span class="nohigh">~# </span>su - lisk<br /><br /><span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br /><span class="nohigh">~$ </span>wget https://downloads.lisk.io/lisk/beta/installLisk.sh<br /><span class="nohigh">~$ </span>bash installLisk.sh install -r beta</pre>
 <blockquote>
   <pre><strong><span style="color: #008000;"><code>Where do you want to install Lisk to? (Default /home/lisk): PRESS ENTER</code></span></strong><br /><code><strong><span style="color: #008000;">Would you like to synchronize from the Genesis Block? (Default no): PRESS ENTER</span></strong></code></pre>
 </blockquote>
-<pre>~$ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />~$ sudo apt-get install -y nodejs<br /><br />~$ sudo npm install --global --production lisk-commander<br /><br />~$ lisk -v</pre>
+<pre><span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br /><span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /><span class="nohigh">~$ </span>sudo npm install --global --production lisk-commander<br /><br /><span class="nohigh">~$ </span>lisk -v</pre>
 <blockquote>
   <p><code><strong><span style="color: #339966;">lisk-commander/4.0.0 linux-x64 node-v12.19.0</span></strong></code></p>
 </blockquote>
-<p><code>~$ lisk config:set api.nodes http://127.0.0.1:5000</code></p>
+<p><code><span class="nohigh">~$ </span>lisk config:set api.nodes http://127.0.0.1:5000</code></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3>STEP 2 - Create your account</h3>
-<p><code>~$ lisk account:create</code></p>
+<p><code><span class="nohigh">~$ </span>lisk account:create</code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>[{"passphrase":"clutch brain ... ... ... finger divert","privateKey":"cd3e1c06ada43ff313959a88609e.......edb268334e42d4cec1a02b07bbfa995429067583f","publicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","address":"2448569909047398614L"}]<br /></sup></span></p>
 </blockquote>
@@ -57,31 +60,32 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3>STEP 3 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
-<p><code>~$ lisk account:create</code></p>
+<p><code><span class="nohigh">~$ </span>lisk account:create</code></p>
 <p><em>You just need the 12 words. Don't lose them!<code></code></em></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>pitch strike ... ... ... verb unusual</sup></span></p>
 </blockquote>
-<p><code>~$ lisk passphrase:encrypt --outputPublicKey</code></p>
+<p><code><span class="nohigh">~$ </span>lisk passphrase:encrypt --outputPublicKey</code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>Please enter passphrase: clutch brain ... ... ... finger divert</sup></span><br /><span style="color: #008000;"><sup>Please re-enter passphrase: clutch brain ... ... ... finger divert</sup></span><br /><span style="color: #008000;"><sup>Please enter password: pitch strike ... ... ... verb unusual</sup></span><br /><span style="color: #008000;"><sup>Please re-enter password: pitch strike ... ... ... verb unusual</sup></span></p>
 </blockquote>
 <p><em><br />Copy and paste the output into a txt-file. You'll need parts of it for your config.json:<br /></em></p>
 <blockquote>
-  <p><sup><span style="color: #008000;">{"encryptedPassphrase":"<span style="background-color: #ff99cc;">iterations=1000000&amp;cipherText=10465521ad0efd65598...5d39789e13884d72ac7d3d25637f42cf0b2d17eec5aaea329a6937c983fa4d0d&amp;iv=285a384...426fd7&amp;salt=3b5112ea4...d540cf&amp;tag=5c328b1ef9...83002b105&amp;version=1</span>","publicKey":"<span style="background-color: #ffcc99;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>"}</span></sup></p>
+  <p><sup><span style="color: #008000;">{"encryptedPassphrase":"<span style="background-color: #ff99cc;">iterations=100.......version=1</span>","publicKey":"<span style="background-color: #ffcc99;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>"}</span></sup></p>
 </blockquote>
-<p><code>~$ lisk hash-onion -o ./hash_onion.json</code><br /><code>~$ clear</code><br /><code>~$ cat ./hash_onion.json</code></p>
-<p><em><br />Copy and paste the output into a txt-file. You'll need the hashes for your config.json (I have removed many hashes to keep it clean!):</em></p>
-<blockquote>
-  <p><sup><span style="color: #008000;">{"count":1000000,"distance":1000,"hashes":[<span style="background-color: #ffff99;">"26bda338469...4346e7c24467","29445544a71cfcb6...0962845","15c0abffc9e05402c0b...1016a2435d","7b2cff74cde...5f70e48a73334f7","45b5e26...2e3300a3fe911541e","a92f1f10e6...bf21fac3a8ea81fabe","6fab020bddf22...4612e571cddb8c","bdda4d338...080a0b1caf082d843d","7345208b7c...8dc978ff81a69568"</span>]}</span></sup></p>
-</blockquote>
-<p><code>~$ cd ~ &amp;&amp; cd lisk-beta &amp;&amp; &gt; config.json</code><br /><code>~$ cd ~ &amp;&amp; cd lisk-beta &amp;&amp; nano config.json</code></p>
-<p><br /><em>Now paste the following code into the config.json:</em></p>
-<p><code>{</code><br /><code>"forging": {</code><br /><code>"delegates": [</code><br /><code>{</code><br /><span style="color: #000000;"><code>"encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=1000000&amp;cipherText=9d75ddc72cd29b1e7c......b37aacc26&amp;iv=e8fb6......1b&amp;salt=d95ee......314157a36&amp;version=1</span>",</code></span><br /><code><span style="color: #000000;">"publicKey": "<span style="background-color: #ffcc99;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>",</span></code><br /><code>"hashOnion": {"count":1000000,"distance":1000,"hashes":<span style="color: #000000;">[<span style="background-color: #ffff99;">"3670520c7473...cb445861a6","f6b72fe40...fd4976efdf2d0","eaf4f97b682a...e542908f93dd",".........................................."</span>]</span></code><br /><code>} </code><br /><code>}</code><br /><code>]</code><br /><code>},</code></p>
-<p><code>"components": {</code><br /><code>"logger": {</code><br /><code>"fileLogLevel": "info"</code><br /><code>}</code><br /><code>}</code><br /><code>}</code><br /><br /><br /><em>Now you need to remove the highlighted parts and replace them with the parts from the outputs you have generated above. Be careful. Make sure to add all onion hashes. Just copy the part you really need!</em></p>
-<p><em>Save and exit.</em></p>
+<br />
+<p>Now you create the onion hashes file:</p>
+<p><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; cd lisk-beta &amp;&amp; lisk hash-onion -o hash_onion.json</code></p>
+<br />Now you create a bash file:<br /><br /><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</code></em></p>
+<p>&nbsp;</p>
+<p><em><code></code></em><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
+<p><code>cd ~ &amp;&amp; &gt; ~/lisk-beta/config.json<br />ONION=$(cat ~/lisk-beta/hash_onion.json)<br /></code><code></code><code>cat &gt; ~/lisk-beta/config.json &lt;&lt; EOF_betanet_config</code><br /><code>{</code><br /><code>&nbsp;&nbsp;&nbsp; "forging": {</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "delegates": [</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { </code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100...............version=1</span>",</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "publicKey": "<span style="background-color: #ffcc99;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>",</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "hashOnion": $ONION</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</code><br /><code>&nbsp;&nbsp;&nbsp; },</code></p>
+<p><code>&nbsp;&nbsp;&nbsp; "components": {</code><br /><code>&nbsp;&nbsp;&nbsp; "logger": {</code><br /><code>&nbsp;&nbsp;&nbsp; "fileLogLevel": "info"</code><br /><code>&nbsp; &nbsp; &nbsp; &nbsp; }</code><br /><code>&nbsp;&nbsp;&nbsp; }</code><br /><code>}<br /></code><code></code><code></code><code>EOF_betanet_config</code><code></code></p>
+<p><br /><em>Now remove the highlighted parts for <code>encryptedPassphrase</code> and <code>publicKey</code> and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the <code>create_config.sh</code> file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your <code>config.json</code>:<br /></em></p>
+<p><code><span class="nohigh">~$ </span>chmod +x create_config.sh</code></p>
+<p><code><span class="nohigh">~$ </span>./create_config.sh</code></p>
 <p><br /><em>Now you check if the config.json is working correct. Restart Lisk Core.</em></p>
-<p><code>~$ cd ~ &amp;&amp; cd lisk-beta &amp;&amp; bash lisk.sh reload</code></p>
+<p><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; cd lisk-beta &amp;&amp; bash lisk.sh reload</code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>Lisk configured for betanet</sup></span><br /><span style="color: #008000;"><sup>Stopping Lisk to reload PM2 config</sup></span><br /><span style="color: #008000;"><sup>[+] Lisk stopped successfully.</sup></span><br /><span style="color: #008000;"><sup>[+] Lisk started successfully.</sup></span><br /><span style="color: #008000;"><sup>[+] Lisk is running as PID: 24395</sup></span><br /><span style="color: #008000;"><sup>Current Block Height: 26211</sup></span></p>
 </blockquote>
@@ -97,36 +101,43 @@
     <li><span style="color: #000000;"><strong>networkIdentifier:</strong> this is always the same for betanet transactions</span></li>
   </ul>
 </blockquote>
-<p><code><span style="color: #000000;">~$ lisk transaction:create:delegate 0 25 punkr0ck --networkIdentifier="08ec0e01794b57e5ceaf5203be8c1bda51bcdd39bb6fc516adbe93223f85d630"</span></code></p>
+<p><code><span style="color: #000000;"><span class="nohigh">~$ </span>lisk 
+  transaction:create:delegate 0 25 punkr0ck 
+  --networkIdentifier="08ec0e01794b57e5ceaf5203be8c1bda51bcdd39bb6fc516adbe93223f85d630"</span></code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>? Please enter passphrase: clutch brain ... ... ... finger divert</sup></span><br /><span style="color: #008000;"><sup>? Please re-enter passphrase: clutch brain ... ... ... finger divert</sup></span></p>
   <p><span style="color: #008000;"><sup>{"id":"17989794152979373617","type":10,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"0","fee":"2500000000","signatures":["b4cf4729c4f93a698cf51ad500cf272f0360803c213acb044bd2554e0ac25d16a6bfff8489cd14dc926155d111242baf325357fd3461081b35af21cdbf625e0c"],"asset":{"username":"punkr0ck"}}</sup></span></p>
 </blockquote>
 <p><em>Copy the output of the signed transaction and broadcast it:</em></p>
-<p><code>~$ lisk transaction:broadcast '{"id":"17989794152979373617","type":10,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"0","fee":"2500000000","signatures":["b4cf4729c4f93a698cf51ad500cf272f0360803c213acb044bd2554e0ac25d16a6bfff8489cd14dc926155d111242baf325357fd3461081b35af21cdbf625e0c"],"asset":{"username":"punkr0ck"}}'</code></p>
+<p><code><span class="nohigh">~$ </span>lisk transaction:broadcast 
+  '{"id":"17989794152979373617","type":10,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"0","fee":"2500000000","signatures":["b4cf4729c4f93a698cf51ad500cf272f0360803c213acb044bd2554e0ac25d16a6bfff8489cd14dc926155d111242baf325357fd3461081b35af21cdbf625e0c"],"asset":{"username":"punkr0ck"}}'</code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>{"message":"Transaction(s) accepted"}</sup></span></p>
 </blockquote>
 <p><em>If it got accepted, your delegate name is registered.</em></p>
 <p>&nbsp;</p>
 <p><em>Now check your account balance and vote for yourself:</em></p>
-<p><code><em>~$ lisk account:get 2448569909047398614L</em></code></p>
+<p><code><em><span class="nohigh">~$ </span>lisk account:get 2448569909047398614L</em></code></p>
 <blockquote>
   <p><sup><span style="color: #008000;">[{"address":"2448569909047398614L","publicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","username":"punkr0ck","isDelegate":true,"nonce":"1","balance":"1097500000000","votes":[],"unlocking":[],"totalVotesReceived":"0","delegate":{"isBanned":false,"pomHeights":[],"lastForgedHeight":0,"consecutiveMissedBlocks":0,"approval":0},"asset":{},"missedBlocks":0,"producedBlocks":0,"fees":"0","rewards":"0","productivity":0,"keys":{"optionalKeys":[],"mandatoryKeys":[],"numberOfSignatures":0}}]</span></sup></p>
 </blockquote>
-<p><em>The part "balance":"1097500000000 means you have 10975 LSK or 1097500000000 Beddows.</em><br /><em>Now vote for yourself with a big part of the balance. I will use 10950 LSK here:</em><br /><br /><code>~$ lisk transaction:create:vote 1 10 --votes="2448569909047398614L,10950" --networkIdentifier="08ec0e01794b57e5ceaf5203be8c1bda51bcdd39bb6fc516adbe93223f85d630"</code></p>
+<p><em>The part "balance":"1097500000000 means you have 10975 LSK or 1097500000000 Beddows.</em><br /><em>Now vote for yourself with a big part of the balance. I will use 10950 LSK here:</em><br /><br /><code><span class="nohigh">~$ </span>lisk transaction:create:vote 1 10 --votes="2448569909047398614L,10950" 
+  --networkIdentifier="08ec0e01794b57e5ceaf5203be8c1bda51bcdd39bb6fc516adbe93223f85d630"</code></p>
 <blockquote>
   <p><sup><span style="color: #008000;">? Please enter passphrase: clutch brain ... ... ... finger divert<br />? Please re-enter passphrase: clutch brain ... ... ... finger divert<br />{"id":"16328384932121501273","type":13,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"1","fee":"1000000000","signatures":["2e59e976d3a29534fecca2431f8324b67242377cbd19c9cacb64a9a12b6010e9e74c7bda2a3d279fd92bb00c561514df305c1102bc882977ca313aca95531709"],"asset":{"votes":[{"delegateAddress":"2448569909047398614L","amount":"1095000000000"}]}}</span></sup></p>
 </blockquote>
 <p><em>Now copy the output of the signed message and broadcast it:</em></p>
-<p><code>~$ lisk transaction:broadcast '{"id":"16328384932121501273","type":13,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"1","fee":"1000000000","signatures":["2e59e976d3a29534fecca2431f8324b67242377cbd19c9cacb64a9a12b6010e9e74c7bda2a3d279fd92bb00c561514df305c1102bc882977ca313aca95531709"],"asset":{"votes":[{"delegateAddress":"2448569909047398614L","amount":"1095000000000"}]}}'</code></p>
+<p><code><span class="nohigh">~$ </span>lisk transaction:broadcast 
+  '{"id":"16328384932121501273","type":13,"senderPublicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","senderId":"2448569909047398614L","nonce":"1","fee":"1000000000","signatures":["2e59e976d3a29534fecca2431f8324b67242377cbd19c9cacb64a9a12b6010e9e74c7bda2a3d279fd92bb00c561514df305c1102bc882977ca313aca95531709"],"asset":{"votes":[{"delegateAddress":"2448569909047398614L","amount":"1095000000000"}]}}'</code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>{"message":"Transaction(s) accepted"}</sup></span></p>
   <p>&nbsp;</p>
 </blockquote>
 <h3>STEP 5 - Reload Lisk Core and activate forging</h3>
-<p><code>~$ cd ~ &amp;&amp; cd lisk-beta &amp;&amp; bash lisk.sh reload<br /><br /><strong>IMPORTANT! Now you need the passWORD you used to encrypt your passPHRASE (Step 3) and you need to use the publicKey of your account.</strong></code></p>
-<p><code>~$ curl -k -H "Content-Type: application/json" -X PUT -d '{"password":"<span style="background-color: #ccffcc;">pitch strike ... ... ... verb unusual</span>", "forging":true, "publicKey":"<span style="background-color: #ccffcc;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>"}' <a href="http://localhost:5000/api/node/status/forging">http://localhost:5000/api/node/status/forging</a></code></p>
+<p><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; cd lisk-beta &amp;&amp; bash lisk.sh reload<br /><br /><strong>IMPORTANT!
+  Now you need the passWORD you used to encrypt your passPHRASE (Step 3) 
+  and you need to use the publicKey of your account.</strong></code></p>
+<p><code><span class="nohigh">~$ </span>curl -k -H "Content-Type: application/json" -X PUT -d '{"password":"<span style="background-color: #ccffcc;">pitch strike ... ... ... verb unusual</span>", "forging":true, "publicKey":"<span style="background-color: #ccffcc;">41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f</span>"}' <a href="http://localhost:5000/api/node/status/forging">http://localhost:5000/api/node/status/forging</a></code></p>
 <blockquote>
   <p><span style="color: #008000;"><sup>{"meta":{},"data":[{"publicKey":"41c659f3fd5c8a3ed8d55beedb268334e42d4cec1a02b07bbfa995429067583f","forging":true}],"links":{}}</sup></span></p>
 </blockquote>
