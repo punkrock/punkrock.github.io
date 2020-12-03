@@ -1,0 +1,147 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>punkrock.github.io</title>
+  <meta name="description" content="Ressources for mining, forging and validating. Vote for punkrock!">
+  <meta name="author" content="punkrock">
+
+<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+<style type="text/css">
+	body {font-family: Arial, Helvetica, sans-serif;}
+	.inner-pre {font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;}
+  .nohigh {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+</style>
+
+</head>
+
+<body>
+
+  <pre>        ______  _   _  _   _  _   ________  _____  _____  _   __
+    | ___ \| | | || \ | || | / /| ___ \|  _  |/  __ \| | / /
+    | |_/ /| | | ||  \| || |/ / | |_/ /| | | || /  \/| |/ / 
+    |  __/ | | | || . ` ||    \ |    / | | | || |    |    \ 
+    | |    | |_| || |\  || |\  \| |\ \ \ \_/ /| \__/\| |\  \
+    \_|     \___/ \_| \_/\_| \_/\_| \_| \___/  \____/\_| \_/
+</pre>
+<pre>---------------------------------------------------------------------------
+<span class="inner-pre"><a href="https://punkrock.github.io">Home</a> | <a href="https://punkrock.github.io/lisk.html">Lisk</a> | <a href="https://punkrock.github.io/about.html">About</a></span>
+---------------------------------------------------------------------------
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Lisk Betanet v5 on VPS with Ubuntu 18.04 &amp; 20.04<br /><br /></strong></h1>
+<h3>STEP 1 - Create lisk user, install needed stuff and configure Lisk Commander for Betanet</h3>
+<pre><span class="nohigh">~# </span>adduser lisk<br /><span class="nohigh">~# </span>gpasswd -a lisk sudo<br /><span class="nohigh">~# </span>su - lisk<br /><br /><span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br /><br /><span class="nohigh">~$ </span>curl https://downloads.lisk.io/lisk/betanet/3.0.0-beta.2/lisk-core-v3.0.0-beta.2-linux-x64.tar.gz -o lisk-core.tar.gz<br /><span class="nohigh">~$ </span>tar -xf ./lisk-core.tar.gz<br /><br /><span class="nohigh">~$ </span>echo 'export PATH="$PATH:$HOME/lisk-core/bin"' &gt;&gt; ~/.bashrc<br /><span class="nohigh">~$ </span>source ~/.bashrc</pre>
+<!-- <pre><span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br /><span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /><span class="nohigh">~$ </span>sudo npm install --global --production lisk-commander<br /><br /><span class="nohigh">~$ </span>lisk -v</pre>
+<blockquote>
+<p><code><strong><span style="color: #339966;">lisk-commander/4.0.0 linux-x64 node-v12.19.0</span></strong></code></p>
+</blockquote>
+<p><code><span class="nohigh">~$ </span>lisk config:set api.nodes http://127.0.0.1:5000</code></p>
+<p>&nbsp;</p> -->
+<p>&nbsp;</p>
+<h3>STEP 2 - Create your account</h3>
+<p><code><span class="nohigh">~$ </span>lisk-core account:create</code></p>
+<blockquote>
+<p><span style="color: #008000;"><sup>[ { "passphrase": "monkey ... ... ... ... ... ... ... ... ... ... image", "privateKey": "fc7d6bdf...4e51155a", "publicKey": "c50da2f4e489d33d22ffd26192eddff5ed9e6aa08c4d5a4794c62b034e51155a", "binaryAddress": "<span style="background-color: #ffcc99;">cf05384d5707179ea691731726313e83a00dc6f4</span>", "address": "<span style="background-color: #ccffcc;">lskajvtut6wzj5ah4ky7o5roo4fu7uzsywkawa94w</span>" } ]<br /></sup></span></p>
+</blockquote>
+<p><em>Store the output and don't lose it.<br />You can now use the <a href="https://betanet5-faucet.lisk.io/" target="_blank" rel="noopener">Faucet for Betanet</a> (if not working try <a href="https://betanet-faucet.lisk.io/" target="_blank" rel="noopener">this link</a>) to get some betaLSK (enter <span style="background-color: #ccffcc;">your address</span>, not to the <span style="background-color: #ffcc99;">binaryAddress</span>). You also need to ask shuse2 or Manu at Lisk's Discord (<a href="https://Lisk.Chat">https://lisk.chat</a>) for 11000 betaLSK. They need your <span style="background-color: #ffcc99;">binaryAddress</span>.<br /></em></p>
+<p>&nbsp;</p>
+<h3>STEP 3 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
+<p><code><span class="nohigh">~$ </span>lisk-core account:create</code></p>
+<p><em>You just need the 12 words. Don't lose them!<code></code></em></p>
+<blockquote>
+<p><span style="color: #008000;"><sup>pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
+</blockquote>
+<p><code><span class="nohigh">~$ </span>lisk-core passphrase:encrypt</code></p>
+<blockquote>
+<p><span style="color: #008000;"><sup>Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span><br /><span style="color: #008000;"><sup>Please re-enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
+</blockquote>
+<p><em><br />Copy and paste the output into a txt-file. You'll need parts of it for your config.json:<br /></em></p>
+<blockquote>
+<p><sup><span style="color: #008000;">{"encryptedPassphrase":"<span style="background-color: #ff99cc;">iterations=100.......version=1</span>"}</span></sup></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>Now you create the onion hashes file:</p>
+<p><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; lisk-core hash-onion -o hash_onion.json</code></p>
+<p><br />Now you create a bash file:<br /><br /><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</code></p>
+<p>&nbsp;</p>
+<p><em><code></code></em><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
+<p><code></code></p>
+<p><code>cd ~ &amp;&amp; &gt; ~/lisk-core/config.json<br />ONION=$(cat ~/hash_onion.json)<br /></code><code></code><code>cat &gt; ~/lisk-core/config.json &lt;&lt; EOF_betanet_config</code><br /><code>{</code><br /><code>"logger": {</code><br /><code>"fileLogLevel": "info"</code><br /><code>},</code><br /><code>"plugins": {</code><br /><code>"httpApi": {</code><br /><code>"whiteList": [</code><br /><code>"127.0.0.1"</code><br /><code>]</code><br /><code>}</code><br /><code>},</code><br /><code>"forging": {</code><br /><code>"delegates": [</code><br /><code>{</code><br /><code>"address": "<span style="background-color: #ffcc99;">binaryAddress</span>",</code><br /><code>"encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100............version=1</span>",</code><br /><code>"hashOnion": </code><code>$ONION</code><br /><code>}</code><br /><code>]</code><br /><code>}</code><br /><code>}</code><br /><code></code><code></code><code></code><code>EOF_betanet_config</code></p>
+<p><code></code><code></code></p>
+<p><br /><em>Now remove the highlighted parts for <code>address</code> and <code>encryptedPassphrase</code> and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the <code>create_config.sh</code> file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your <code>config.json</code>:<br /></em></p>
+<p><code><span class="nohigh">~$ </span>chmod +x create_config.sh</code></p>
+<p><code><span class="nohigh">~$ </span>./create_config.sh</code></p>
+<p><br /><em>Now you check if the config.json is working correct.<br /></em></p>
+<p><code><span class="nohigh">~$ screen -d -m -S lisk </span>lisk-core start -n betanet -c ~/lisk-core/config.json<br /><br /><em><span class="nohigh">~$ screen -r</span></em></code></p>
+<blockquote>
+<p><sub><span style="color: #008000;">20:01:03 INFO lisk-framework: Starting the app - lisk-core (module=lisk:app)<br />20:01:03 INFO lisk-framework: If you experience any type of error, please open an issue on Lisk GitHub: https://github.com/LiskHQ/lisk-sdk/issues (module=lisk:app)<br />20:01:03 INFO lisk-framework: Contribution guidelines can be found at Lisk-sdk: https://github.com/LiskHQ/lisk-sdk/blob/development/docs/CONTRIBUTING.md (module=lisk:app)<br />20:01:03 INFO lisk-framework: Booting the application with Lisk Framework(3.0.0-beta.2.8362aa8) (module=lisk:app)<br />20:01:03 INFO lisk-framework: Initializing controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Loading controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Event * was subscribed but not registered to the bus yet. (module=lisk:app)<br />20:01:04 INFO lisk-framework: New block added to the chain (module=lisk:app)<br />{<br />"id": "5a92c178ca2125f358f61d2174fc5c5500f94ebf76da22165751cf3923003789",<br />"height": 0,<br />"numberOfTransactions": 0<br />} <br />20:01:04 INFO lisk-framework: Blockchain ready (module=lisk:app)<br />20:01:04 INFO lisk-framework: Node ready and launched (module=lisk:app)<br />20:01:07 INFO lisk-framework: Starting synchronizer (module=lisk:app)</span></sub></p>
+</blockquote>
+<p><em><br />To detach from screen session correctly press CTRL+a+d<br />If the output is like the one above, your config.json seems correct.<br /></em><em>If not, you have made mistakes when replacing the parts. Check again.</em></p>
+<p>&nbsp;</p>
+<h3>STEP 4 - Register your delegate and vote for yourself</h3>
+<blockquote>
+<p><span style="color: #000000;"><strong>Explainations</strong></span></p>
+<ul>
+<li><span style="color: #000000;"><strong>5:</strong> Module ID<br /></span></li>
+<li><span style="color: #000000;"><strong>0:</strong> Asset ID<br /></span></li>
+<li><span style="color: #000000;"><strong>1100000000:</strong> Registration fee in Beddows, including transaction fee (11 LSK)<br /></span></li>
+<li><span style="color: #000000;"><strong>punkrock:</strong> Choose your username<br /></span></li>
+</ul>
+</blockquote>
+<p><code><span style="color: #000000;"><span class="nohigh">~$ </span>lisk-core 
+transaction:create 5 0 1100000000</span></code></p>
+<blockquote>
+<p><span style="color: #008000;"><sup>? Please enter: username: Choose your username<br />? Please enter passphrase: clutch brain ... ... ... finger divert</sup></span><br /><span style="color: #008000;"><sup>? Please re-enter passphrase: clutch brain ... ... ... finger divert</sup></span></p>
+<p><sup><span style="color: #008000;">{"transaction":"<span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span>"}</span></sup></p>
+</blockquote>
+<p><em>Copy the output of the signed transaction and broadcast it:</em></p>
+<p><code><span class="nohigh">~$ </span>lisk-core transaction:send <span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span></code></p>
+<blockquote>
+<p><sup><span style="color: #008000;">Transaction with id: '2cdcf658350427e8509385235f5ac429c01dbf77cda07bcb01f5504007e9ee3f' received by node</span></sup></p>
+</blockquote>
+<p><em>If it got accepted, your delegate name is registered.</em></p>
+<p>&nbsp;</p>
+<p><em>Now check your account balance and vote for yourself:</em></p>
+<p><code><em><span class="nohigh">~$ </span>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></em></code></p>
+<blockquote>
+<p><sup><span style="color: #008000;">{"address":"cf05384d5707179ea691731726313e83a00dc6f4","token":{"balance":"1008999800000"},"sequence":{"nonce":"1"},"keys":{"numberOfSignatures":0,"mandatoryKeys":[],"optionalKeys":[]},"dpos":{"delegate":{"username":"punkrock","pomHeights":[],"consecutiveMissedBlocks":0,"lastForgedHeight":19128,"isBanned":false,"totalVotesReceived":"0"},"sentVotes":[],"unlocking":[]}}</span></sup></p>
+</blockquote>
+<p><em>The part "balance":"1008999800000 means you have 10089.998 LSK or 1008999800000 Beddows.</em><br /><em>Now vote for yourself with a big part of the balance. I will use 10060 LSK here:<br /><br /><strong>IMPORTANT: You can only use an amount in 10-LSK-steps! 10066 LSK not allowed. Only 10060 or 10070 for example.</strong></em><br /><br /></p>
+<p><span style="color: #000000;"><strong>Explainations</strong></span></p>
+<ul>
+<li><span style="color: #000000;"><strong>5:</strong> Module ID<br /></span></li>
+<li><span style="color: #000000;"><strong>1:</strong> Asset ID<br /></span></li>
+<li><span style="color: #000000;"><strong>100000000:</strong> Transaction fee<br /></span></li>
+</ul>
+<p><code><span class="nohigh">~$ </span><span style="color: #000000;">lisk-core 
+transaction:create 5 1 100000000</span></code></p>
+<blockquote>
+<p><sup><span style="color: #008000;">? Please enter: votes(delegateAddress, amount): <span style="background-color: #ffcc99;">BinaryAddress</span>, 1006000000000<br />? Want to enter another votes(delegateAddress, amount) No<br />? Please enter passphrase: [hidden]<br />? Please re-enter passphrase: [hidden]<br />{"transaction":"0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05"}</span></sup></p>
+</blockquote>
+<p><em>Now copy the output of the signed message and broadcast it:</em></p>
+<p><code><span class="nohigh">~$ </span>lisk-core transaction:send 0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05<br /></code></p>
+<blockquote>
+<p><sup><span style="color: #008000;">Transaction with id: '620518d6a7a8545b760da9ea44a8ac08b40929a8ca372074d774b787ac2bee9c' received by node.</span></sup></p>
+<p>&nbsp;</p>
+</blockquote>
+<h3>STEP 5 - Start Lisk (if not running) and activate forging</h3>
+<p>Check if Lisk is running. If <code>screen -r</code> doesn't show Lisk logs, it's obviously not running.</p>
+<p><code><span class="nohigh">~$ </span><span class="nohigh">screen -d -m -S lisk </span>lisk-core start -n betanet -c ~/lisk-core/config.json<br /></code></p>
+<p><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code></p>
+<blockquote>
+<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+</blockquote>
+<p>If the output says <code>"forging":true</code>, congratulations. You should forge on Betanet.<br /><br />To confirm you can always use <code>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></code> to see if your balanace is increasing. Or you check logs for forged blocks with <code>cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block"</code> or wait for forged blocks with <code>tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block"</code>. Korben3's Explorer for Betanet v5 is not online yet. Thanks to shuse2 and przemer for helping.</p>
+<h2><br />Happy forging!<br />punkrock</h2>
+  </body>
+</html>
