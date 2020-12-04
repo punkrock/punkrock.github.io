@@ -137,6 +137,7 @@ transaction:create 5 1 100000000</span></code></p>
 <h3>STEP 5 - Start Lisk (if not running) and activate forging</h3>
 <p>Check if Lisk is running. If <code>screen -r</code> doesn't show Lisk logs, it's obviously not running.</p>
 <p><code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/lisk-core/config.json<br /></code></p>
+<p>Detach from the screen session with CTRL+a+d</p>
 <p><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code></p>
 <blockquote>
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
