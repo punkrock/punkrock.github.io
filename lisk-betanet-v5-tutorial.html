@@ -20,6 +20,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
   }
+  #demobox {
+  background-color: #cfc ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
 </style>
 
 </head>
@@ -40,20 +45,17 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h1><strong>Lisk Betanet v5 on VPS with Ubuntu 18.04 &amp; 20.04<br /><br /></strong></h1>
-<!-- <div class="highlighted-div">
-<h3>STEP 0 - Upgrade Lisk Core</h3>
-<p><em>Backup your config.json<br />
-<b>Important:</b> Make sure to use the path where your config.json with the onion-hashes is!</em></p>
-<pre><span class="nohigh">~$ </span>mv ~/.lisk/lisk-core/config.json ~/config.json.backup<br /><br /></pre>
-<em>Now stop Lisk Core, delete the lisk-core folder and upgrade Lisk Core.<br />Note that stopping Lisk Core is described for those who run Lisk Core with screen. PM2-users should know what to do.</em><br />
-<pre><span class="nohigh">~$ </span>pkill screen
-<span class="nohigh">~$ </span>rm -rf ~/.lisk/lisk-core
-<span class="nohigh">~$ </span>npm upgrade -g lisk-core
-<span class="nohigh">~$ </span>mv ~/config.json.backup ~/.lisk/lisk-core/config.json
-<span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json</pre>
-<em>Now wait until your node is back on latest blockheight and enable forging.</em><br />
-<pre><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code></pre></div>
-<br /> <br /><br /> -->
+
+<div id="demobox">
+  How to update:
+  <p><code><span class="nohigh">~$ </span>npm update -g lisk-core
+  <br>
+  <p><em>If you get warnings about npm and/or nvm, try this:<code></code></em></p>
+  <p><code><span class="nohigh">~$ </span>nvm install 12.20.1
+  <p><code><span class="nohigh">~$ </span>npm install -g npm
+  </div> 
+<br>
+
 <h3>STEP 1 - Create lisk user, install needed stuff</h3>
 <pre><span class="nohigh">~# </span>adduser lisk<br /><span class="nohigh">~# </span>gpasswd -a lisk sudo<br /><span class="nohigh">~# </span>su - lisk<br /><br /><span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
 <span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br /><span class="nohigh">~$ </span>nvm install 12.20.1<br /><br /><span class="nohigh">~$ </span>npm install --global --production lisk-core<br /></pre>
