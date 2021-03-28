@@ -20,7 +20,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
   }
-  #demobox {
+  #update {
   background-color: #f0f0f0 ;
   padding: 10px ;
   border: 1px solid green ;
@@ -44,33 +44,17 @@
 </pre>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<h1><strong>Lisk Betanet v5 on VPS with Ubuntu 18.04 &amp; 20.04<br /><br /></strong></h1>
+<h1><strong>Lisk Betanet v5 on VPS with Ubuntu 20.04<br /><br /></strong></h1>
 
-<div id="demobox">
-  How to update (only the stuff in this gray box is needed to update your nodes. To install a betanet node from scratch, start below the gray box at STEP  1):
-  <p><em>Stop your node:</em></p>
-  <p><span class="nohigh">~$ </span>screen -r (CTRL+c)
-  <p><span class="nohigh">~$ </span>npm update -g lisk-core
-  <br>
-  <p><em>If you get warnings about npm and/or nvm, try this:</em></p>
-  <p><span class="nohigh">~$ </span>nvm install 12.20.1
-  <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
-    <p><em>Now restart your node:</em></p>
-    <p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p>
-    <br>
-    <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
-    <p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
-    <p><em>Now enable forging:</em></p>
-    <img src="forging-status.jpg" width="1200" height="auto">
-    <p><span class="nohigh">~$ </span>lisk-core forging:status
-    <p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></p>
-<blockquote>
-<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-</blockquote>
-  </div> 
-<br>
+<h1>Summary</h1>
+1. <a href="#step1">Create lisk user, install needed stuff</a><br>
+2. <a href="#step2">Create your account</a><br>
+3. <a href="#step3">Create a random 12-word passphrase and encrypt your account-passphrase</a><br>
+4. <a href="#step4">Register your delegate and vote for yourself</a><br>
+5. <a href="#step5">Start Lisk (if not running) and activate forging</a><br>
+6. <a href="#update">How to update to a new version</a><br><br><br><br>
 
-<h3>STEP 1 - Create lisk user, install needed stuff</h3>
+<h3 id="step1">STEP 1 - Create lisk user, install needed stuff</h3>
 <code><span class="nohigh">~# </span>adduser lisk<br />
 <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
 <span class="nohigh">~# </span>su - lisk<br /><br />
@@ -84,14 +68,14 @@
 <span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /></code>
 <b>Now start Lisk for the first time. This will create the folders ~/.lisk/lisk-core</b><br>
 <code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br></code>
-<h3>STEP 2 - Create your account</h3>
+<h3 id="step2">STEP 2 - Create your account</h3>
 <code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
 <blockquote>
 <p><span style="color: #008000;"><sup>[ { "passphrase": "monkey ... ... ... ... ... ... ... ... ... ... image", "privateKey": "fc7d6bdf...4e51155a", "publicKey": "c50da2f4e489d33d22ffd26192eddff5ed9e6aa08c4d5a4794c62b034e51155a", "binaryAddress": "<span style="background-color: #ffcc99;">cf05384d5707179ea691731726313e83a00dc6f4</span>", "address": "<span style="background-color: #ccffcc;">lskajvtut6wzj5ah4ky7o5roo4fu7uzsywkawa94w</span>" } ]<br /></sup></span></p>
 </blockquote>
 <p><em>Store the output and don't lose it.<br />You can now use the <a href="https://betanet5-faucet.lisk.io/" target="_blank" rel="noopener">Faucet for Betanet</a> (if not working try <a href="https://betanet-faucet.lisk.io/" target="_blank" rel="noopener">this link</a>) to get some betaLSK (enter <span style="background-color: #ccffcc;">your address</span>, not to the <span style="background-color: #ffcc99;">binaryAddress</span>). You also need to ask shuse2 or Manu at Lisk's Discord (<a href="https://Lisk.Chat">https://lisk.chat</a>) for 11000 betaLSK. They need your <span style="background-color: #ffcc99;">binaryAddress</span>.<br /></em></p>
 <p>&nbsp;</p>
-<h3>STEP 3 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
+<h3 id="step3">STEP 3 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
 <code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
 <p><em>You just need the 12 words. Don't lose them!</em></p>
 <blockquote>
@@ -127,7 +111,7 @@
 </blockquote>
 <p><em><br />To detach from screen session correctly press CTRL+a+d<br />If the output is like the one above, your config.json seems correct.<br /></em><em>If not, you have made mistakes when replacing the parts. Check again.</em></p>
 <p>&nbsp;</p>
-<h3>STEP 4 - Register your delegate and vote for yourself</h3>
+<h3 id="step4">STEP 4 - Register your delegate and vote for yourself</h3>
 <blockquote>
 <p><span style="color: #000000;"><strong>Explainations</strong></span> <a href="https://i.imgur.com/cNWLgvW.jpg" target="_blank" rel="noopener">(All Lisk Module and Asset ID's)</a></p>
 <ul>
@@ -171,7 +155,7 @@
 <p><sup><span style="color: #008000;">Transaction with id: '620518d6a7a8545b760da9ea44a8ac08b40929a8ca372074d774b787ac2bee9c' received by node.</span></sup></p>
 <p>&nbsp;</p>
 </blockquote>
-<h3>STEP 5 - Start Lisk (if not running) and activate forging</h3>
+<h3 id="step5">STEP 5 - Start Lisk (if not running) and activate forging</h3>
 <p>Check if Lisk is running. If screen -r doesn't show Lisk logs, it's obviously not running and you need to start it again with the following command:</p>
 <code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
 <p>Detach from the screen session with CTRL+a+d</p>
@@ -180,7 +164,32 @@
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
 </blockquote>
 <p>If the output says "forging":true, congratulations. You should forge on Betanet.<br /><br />To confirm you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing. Or you check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
-<h3>Ressources</h3>
+
+  <div id="update">
+    <h1>How to update to a new version</h1>
+    The stuff in this gray box is needed to update your betanet nodes:
+    <p><b>Stop your node:</b></p>
+    <p><span class="nohigh">~$ </span>screen -r (CTRL+c)
+    <p><span class="nohigh">~$ </span>npm update -g lisk-core
+    <br>
+    <p><b>If you get warnings about npm and/or nvm, try this:</b></p>
+    <p><span class="nohigh">~$ </span>nvm install 12.20.1
+    <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
+      <p><b>Now restart your node:</b></p>
+      <p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p>
+      <br>
+      <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
+      <p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
+      <p><b>Now enable forging:</b></p>
+      <img src="forging-status.jpg" width="1200" height="auto">
+      <p><span class="nohigh">~$ </span>lisk-core forging:status
+      <p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></p>
+  <blockquote>
+  <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+  </blockquote>
+    </div> 
+  <br>
+  <h3>Ressources</h3>
 <a title="Lisk Betanet Explorer v5 (by korben3)" href="http://liskminiexplorer.korben3.com" target="_blank" rel="noopener">Lisk Betanet v5 Explorer (by Korben3)</a> 
 <br>
 <a title="Lisk Betanet Explorer v5 (by moosty)" href="https://explorer.moosty.com/" target="_blank" rel="noopener">Lisk Betanet v5 Explorer (by moosty)</a><br><br><br>
