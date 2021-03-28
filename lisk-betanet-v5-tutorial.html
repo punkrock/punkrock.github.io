@@ -159,8 +159,14 @@
 <p>Check if Lisk is running. If screen -r doesn't show Lisk logs, it's obviously not running and you need to start it again with the following command:</p>
 <code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
 <p>Detach from the screen session with CTRL+a+d</p>
-<code><p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</p></code>
-<blockquote>
+<code>
+  <p><span class="nohigh">~$ </span>cd ~<br>
+  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/Tools/lisk-forging-enable.sh -o ~/lisk-forge-enable.sh<br>
+  <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
+  <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
+  </code>
+  <br>
+  <blockquote>
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
 </blockquote>
 <p>If the output says "forging":true, congratulations. You should forge on Betanet.<br /><br />To confirm you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing. Or you check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
@@ -169,31 +175,36 @@
     <h1>How to update to a new version</h1>
     The stuff in this gray box is needed to update your betanet nodes:
     <p><b>Stop your node:</b></p>
-    <p><span class="nohigh">~$ </span>screen -r (CTRL+c)
-    <p><span class="nohigh">~$ </span>npm update -g lisk-core
+    <code><p><span class="nohigh">~$ </span>screen -r (CTRL+c)
+    <p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
     <br>
-    <p><b>If you get warnings about npm and/or nvm, try this:</b></p>
-    <p><span class="nohigh">~$ </span>nvm install 12.20.1
-    <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
-      <p><b>Now restart your node:</b></p>
-      <p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p>
-      <br>
-      <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
-      <p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
-      <p><b>Now enable forging:</b></p>
-      <img src="forging-status.jpg" width="1200" height="auto">
-      <p><span class="nohigh">~$ </span>lisk-core forging:status
-      <p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></p>
-  <blockquote>
-  <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-  </blockquote>
-    </div> 
-  <br>
-  <h3>Ressources</h3>
+  <p><b>If you get warnings about npm and/or nvm, try this:</b></p>
+<code><p><span class="nohigh">~$ </span>nvm install 12.20.1
+    <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br></code>
+    <p><b>Now restart your node:</b></p>
+  <code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
+    <br>
+    <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
+  <code><p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+    <p><b>Now enable forging (<span style="color: #cc0000;">If you already have the lisk-forge-enable.sh script, you don't need to download it again - just execute it</span>):</b></p>
+<code>
+<p><span class="nohigh">~$ </span>cd ~<br>
+<p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/Tools/lisk-forging-enable.sh -o ~/lisk-forge-enable.sh<br>
+<p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
+<p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
+</code>
+<br>
+<blockquote>
+<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+</blockquote>
+</div> 
+<br>
+
+<h3>Ressources</h3>
 <a title="Lisk Betanet Explorer v5 (by korben3)" href="http://liskminiexplorer.korben3.com" target="_blank" rel="noopener">Lisk Betanet v5 Explorer (by Korben3)</a> 
 <br>
 <a title="Lisk Betanet Explorer v5 (by moosty)" href="https://explorer.moosty.com/" target="_blank" rel="noopener">Lisk Betanet v5 Explorer (by moosty)</a><br><br><br>
-<b>Thanks to shuse2 and przemer for helping and gr33ndrag0n for the bash script.</b><br>
+<b>Thanks to shuse2 and przemer for helping and gr33ndrag0n for the bash scripts.</b><br>
 Happy forging!<br /><br>punkrock</h2>
   </body>
 </html>
