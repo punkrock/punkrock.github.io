@@ -48,19 +48,19 @@
 
 <div id="demobox">
   How to update (only the stuff in this gray box is needed to update your nodes. To install a betanet node from scratch, start below the gray box at STEP  1):
-  <p><em>Stop your node:<code></code></em></p>
+  <p><em>Stop your node:</em></p>
   <p><code><span class="nohigh">~$ </span>screen -r (CTRL+c)
   <p><code><span class="nohigh">~$ </span>npm update -g lisk-core
   <br>
-  <p><em>If you get warnings about npm and/or nvm, try this:<code></code></em></p>
+  <p><em>If you get warnings about npm and/or nvm, try this:</em></p>
   <p><code><span class="nohigh">~$ </span>nvm install 12.20.1
   <p><code><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
-    <p><em>Now restart your node:<code></code></em></p>
+    <p><em>Now restart your node:</em></p>
     <p><code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></code></p>
     <br>
-    <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:<code></code></em></p>
+    <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
     <p><code><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
-    <p><em>Now enable forging:<code></code></em></p>
+    <p><em>Now enable forging:</em></p>
     <img src="forging-status.jpg" width="1200" height="auto">
     <p><code><span class="nohigh">~$ </span>lisk-core forging:status
     <p><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></code></p>
@@ -71,15 +71,19 @@
 <br>
 
 <h3>STEP 1 - Create lisk user, install needed stuff</h3>
-<pre><span class="nohigh">~# </span>adduser lisk<br /><span class="nohigh">~# </span>gpasswd -a lisk sudo<br /><span class="nohigh">~# </span>su - lisk<br /><br /><span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
-<span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br /><span class="nohigh">~$ </span>nvm install 12.20.1<br /><br /><span class="nohigh">~$ </span>npm install --global --production lisk-core<br /></pre>
-<pre><span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br /><span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /><span class="nohigh">~$ </span>sudo npm install --global --production lisk-commander<br /><br /><span class="nohigh">~$ </span>lisk -v</pre>
-<blockquote>
-<p><code><strong><span style="color: #339966;">lisk-commander/4.0.0 linux-x64 node-v12.19.0</span></strong></code></p>
-</blockquote>
-<p><code><span class="nohigh">~$ </span>lisk config:set api.nodes http://127.0.0.1:5000</code></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<span class="nohigh">~# </span>adduser lisk<br />
+<span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
+<span class="nohigh">~# </span>su - lisk<br /><br />
+<span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
+<span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
+<span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br>
+<b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
+<span class="nohigh">~$ </span>nvm install 12.20.1<br />
+<span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
+<span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
+<span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br />
+<b>Now start Lisk for the first time. This will create the folders ~/.lisk/lisk-core</b><br>
+<span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br>
 <h3>STEP 2 - Create your account</h3>
 <p><code><span class="nohigh">~$ </span>lisk-core account:create</code></p>
 <blockquote>
