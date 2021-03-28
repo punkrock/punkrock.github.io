@@ -49,21 +49,21 @@
 <div id="demobox">
   How to update (only the stuff in this gray box is needed to update your nodes. To install a betanet node from scratch, start below the gray box at STEP  1):
   <p><em>Stop your node:</em></p>
-  <p><code><span class="nohigh">~$ </span>screen -r (CTRL+c)
-  <p><code><span class="nohigh">~$ </span>npm update -g lisk-core
+  <p><span class="nohigh">~$ </span>screen -r (CTRL+c)
+  <p><span class="nohigh">~$ </span>npm update -g lisk-core
   <br>
   <p><em>If you get warnings about npm and/or nvm, try this:</em></p>
-  <p><code><span class="nohigh">~$ </span>nvm install 12.20.1
-  <p><code><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
+  <p><span class="nohigh">~$ </span>nvm install 12.20.1
+  <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br>
     <p><em>Now restart your node:</em></p>
-    <p><code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></code></p>
+    <p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p>
     <br>
     <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
-    <p><code><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
+    <p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br>
     <p><em>Now enable forging:</em></p>
     <img src="forging-status.jpg" width="1200" height="auto">
-    <p><code><span class="nohigh">~$ </span>lisk-core forging:status
-    <p><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></code></p>
+    <p><span class="nohigh">~$ </span>lisk-core forging:status
+    <p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> <span style="background-color: #ff0000;">height</span> <span style="background-color: #00ffff;">maxHeightPreviouslyForged</span> <span style="background-color: #ffff00;">maxHeightPrevoted</span></p>
 <blockquote>
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
 </blockquote>
@@ -71,33 +71,33 @@
 <br>
 
 <h3>STEP 1 - Create lisk user, install needed stuff</h3>
-<span class="nohigh">~# </span>adduser lisk<br />
+<code><span class="nohigh">~# </span>adduser lisk<br />
 <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
 <span class="nohigh">~# </span>su - lisk<br /><br />
 <span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
 <span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
-<span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br>
+<span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br></code>
 <b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
-<span class="nohigh">~$ </span>nvm install 12.20.1<br />
+<code><span class="nohigh">~$ </span>nvm install 12.20.1<br />
 <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
 <span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
-<span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br />
+<span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /></code>
 <b>Now start Lisk for the first time. This will create the folders ~/.lisk/lisk-core</b><br>
-<span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br>
+<code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br></code>
 <h3>STEP 2 - Create your account</h3>
-<p><code><span class="nohigh">~$ </span>lisk-core account:create</code></p>
+<code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
 <blockquote>
 <p><span style="color: #008000;"><sup>[ { "passphrase": "monkey ... ... ... ... ... ... ... ... ... ... image", "privateKey": "fc7d6bdf...4e51155a", "publicKey": "c50da2f4e489d33d22ffd26192eddff5ed9e6aa08c4d5a4794c62b034e51155a", "binaryAddress": "<span style="background-color: #ffcc99;">cf05384d5707179ea691731726313e83a00dc6f4</span>", "address": "<span style="background-color: #ccffcc;">lskajvtut6wzj5ah4ky7o5roo4fu7uzsywkawa94w</span>" } ]<br /></sup></span></p>
 </blockquote>
 <p><em>Store the output and don't lose it.<br />You can now use the <a href="https://betanet5-faucet.lisk.io/" target="_blank" rel="noopener">Faucet for Betanet</a> (if not working try <a href="https://betanet-faucet.lisk.io/" target="_blank" rel="noopener">this link</a>) to get some betaLSK (enter <span style="background-color: #ccffcc;">your address</span>, not to the <span style="background-color: #ffcc99;">binaryAddress</span>). You also need to ask shuse2 or Manu at Lisk's Discord (<a href="https://Lisk.Chat">https://lisk.chat</a>) for 11000 betaLSK. They need your <span style="background-color: #ffcc99;">binaryAddress</span>.<br /></em></p>
 <p>&nbsp;</p>
 <h3>STEP 3 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
-<p><code><span class="nohigh">~$ </span>lisk-core account:create</code></p>
-<p><em>You just need the 12 words. Don't lose them!<code></code></em></p>
+<code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
+<p><em>You just need the 12 words. Don't lose them!</em></p>
 <blockquote>
 <p><span style="color: #008000;"><sup>pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
 </blockquote>
-<p><code><span class="nohigh">~$ </span>lisk-core passphrase:encrypt</code></p>
+<code><p><span class="nohigh">~$ </span>lisk-core passphrase:encrypt</p></code>
 <blockquote>
 <p><span style="color: #008000;"><sup>Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span><br /><span style="color: #008000;"><sup>Please re-enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
 </blockquote>
@@ -107,20 +107,21 @@
 </blockquote>
 <p>&nbsp;</p>
 <p>Now you create the onion hashes file:</p>
-<p><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; lisk-core hash-onion -o hash_onion.json</code></p>
-<p><br />Now you create a bash file:<br /><br /><code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</code></p>
+<code><p><span class="nohigh">~$ </span>cd ~ &amp;&amp; lisk-core hash-onion -o hash_onion.json</p></code>
+<p><br />Now you create a bash file:<br /><br />
+<code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</p></code>
 <p>&nbsp;</p>
-<p><em><code></code></em><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
-<p><code></code></p>
-<p><code>cd ~ &amp;&amp; &gt; ~/.lisk/lisk-core/config.json<br />ONION=$(cat ~/hash_onion.json)<br /></code><code></code><code>cat &gt; ~/.lisk/lisk-core/config.json &lt;&lt; EOF_betanet_config</code><br /><code>{</code><br /><code>"logger": {</code><br /><code>"fileLogLevel": "info"</code><br /><code>},</code><br /><code>"plugins": {</code><br /><code>"httpApi": {</code><br /><code>"whiteList": [</code><br /><code>"127.0.0.1"</code><br /><code>]</code><br /><code>}</code><br /><code>},</code><br /><code>"forging": {</code><br /><code>"delegates": [</code><br /><code>{</code><br /><code>"address": "<span style="background-color: #ffcc99;">binaryAddress</span>",</code><br /><code>"encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100............version=1</span>",</code><br /><code>"hashOnion": </code><code>$ONION</code><br /><code>}</code><br /><code>]</code><br /><code>}</code><br /><code>}</code><br /><code></code><code></code><code></code><code>EOF_betanet_config</code></p>
-<p><code></code><code></code></p>
-<p><br /><em>Now remove the highlighted parts for <code>address</code> and <code>encryptedPassphrase</code> and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the <code>create_config.sh</code> file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your <code>config.json</code>:<br /></em></p>
-<p><code><span class="nohigh">~$ </span>chmod +x create_config.sh</code></p>
-<p><code><span class="nohigh">~$ </span>./create_config.sh</code></p>
+<p><em></em><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
+<p></p>
+<code><p>cd ~ &amp;&amp; &gt; ~/.lisk/lisk-core/config.json<br />ONION=$(cat ~/hash_onion.json)<br />cat &gt; ~/.lisk/lisk-core/config.json &lt;&lt; EOF_betanet_config<br />{<br />"logger": {<br />"fileLogLevel": "info"<br />},<br />"plugins": {<br />"httpApi": {<br />"whiteList": [<br />"127.0.0.1"<br />]<br />}<br />},<br />"forging": {<br />"delegates": [<br />{<br />"address": "<span style="background-color: #ffcc99;">binaryAddress</span>",<br />"encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100............version=1</span>",<br />"hashOnion": $ONION<br />}<br />]<br />}<br />}<br />EOF_betanet_config</p></code>
+<p></p>
+<p><br /><em>Now remove the highlighted parts for address and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
+<code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
+<p><span class="nohigh">~$ </span>./create_config.sh</p></code>
 <p><br /><em>Now you check if the config.json is working correct. I am using screen, to keep it as simple as possible.<br>If you want to use PM2 instead of screen to manage your node, you can check out the <a href="https://github.com/Lemii/guides/blob/master/managing-the-lisk-core-process-with-pm2.md" target="_blank" rel="noopener">PM2-guide by lemii</a><br /></em></p>
-<span class="nohigh">~$ </span>pkill screen
-<p><code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /><br />
-  <em><span class="nohigh">~$ </span>screen -r</em></code></p>
+<code><span class="nohigh">~$ </span>pkill screen
+<p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /><br />
+  <em><span class="nohigh">~$ </span>screen -r</em></p></code>
 <blockquote>
 <p><sub><span style="color: #008000;">20:01:03 INFO lisk-framework: Starting the app - lisk-core (module=lisk:app)<br />20:01:03 INFO lisk-framework: If you experience any type of error, please open an issue on Lisk GitHub: https://github.com/LiskHQ/lisk-sdk/issues (module=lisk:app)<br />20:01:03 INFO lisk-framework: Contribution guidelines can be found at Lisk-sdk: https://github.com/LiskHQ/lisk-sdk/blob/development/docs/CONTRIBUTING.md (module=lisk:app)<br />20:01:03 INFO lisk-framework: Booting the application with Lisk Framework(3.0.0-beta.2.8362aa8) (module=lisk:app)<br />20:01:03 INFO lisk-framework: Initializing controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Loading controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Event * was subscribed but not registered to the bus yet. (module=lisk:app)<br />20:01:04 INFO lisk-framework: New block added to the chain (module=lisk:app)<br />{<br />"id": "5a92c178ca2125f358f61d2174fc5c5500f94ebf76da22165751cf3923003789",<br />"height": 0,<br />"numberOfTransactions": 0<br />} <br />20:01:04 INFO lisk-framework: Blockchain ready (module=lisk:app)<br />20:01:04 INFO lisk-framework: Node ready and launched (module=lisk:app)<br />20:01:07 INFO lisk-framework: Starting synchronizer (module=lisk:app)</span></sub></p>
 </blockquote>
@@ -136,21 +137,20 @@
 <li><span style="color: #000000;"><strong>punkrock:</strong> Choose your username<br /></span></li>
 </ul>
 </blockquote>
-<p><code><span style="color: #000000;"><span class="nohigh">~$ </span>lisk-core 
-transaction:create 5 0 1100000000</span></code></p>
+<code><p><span style="color: #000000;"><span class="nohigh">~$ </span>lisk-core transaction:create 5 0 1100000000</span></p></code>
 <blockquote>
 <p><span style="color: #008000;"><sup>? Please enter: username: Choose your username<br />? Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>? Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span></p>
 <p><sup><span style="color: #008000;">{"transaction":"<span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span>"}</span></sup></p>
 </blockquote>
 <p><em>Copy the output of the signed transaction and broadcast it:</em></p>
-<p><code><span class="nohigh">~$ </span>lisk-core transaction:send <span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span></code></p>
+<code><p><span class="nohigh">~$ </span>lisk-core transaction:send <span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span></p></code>
 <blockquote>
 <p><sup><span style="color: #008000;">Transaction with id: '2cdcf658350427e8509385235f5ac429c01dbf77cda07bcb01f5504007e9ee3f' received by node</span></sup></p>
 </blockquote>
 <p><em>If it got accepted, your delegate name is registered.</em></p>
 <p>&nbsp;</p>
 <p><em>Now check your account balance and vote for yourself:</em></p>
-<p><code><em><span class="nohigh">~$ </span>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></em></code></p>
+<code><p><em><span class="nohigh">~$ </span>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></em></p></code>
 <blockquote>
 <p><sup><span style="color: #008000;">{"address":"cf05384d5707179ea691731726313e83a00dc6f4","token":{"balance":"1008999800000"},"sequence":{"nonce":"1"},"keys":{"numberOfSignatures":0,"mandatoryKeys":[],"optionalKeys":[]},"dpos":{"delegate":{"username":"punkrock","pomHeights":[],"consecutiveMissedBlocks":0,"lastForgedHeight":19128,"isBanned":false,"totalVotesReceived":"0"},"sentVotes":[],"unlocking":[]}}</span></sup></p>
 </blockquote>
@@ -161,26 +161,25 @@ transaction:create 5 0 1100000000</span></code></p>
 <li><span style="color: #000000;"><strong>1:</strong> Asset ID<br /></span></li>
 <li><span style="color: #000000;"><strong>100000000:</strong> Transaction fee<br /></span></li>
 </ul>
-<p><code><span class="nohigh">~$ </span><span style="color: #000000;">lisk-core 
-transaction:create 5 1 100000000</span></code></p>
+<code><p><span class="nohigh">~$ </span><span style="color: #000000;">lisk-core transaction:create 5 1 100000000</span></p></code>
 <blockquote>
 <p><sup><span style="color: #008000;">? Please enter: votes(delegateAddress, amount): <span style="background-color: #ffcc99;">BinaryAddress</span>, 1006000000000<br />? Want to enter another votes(delegateAddress, amount) No<br />? Please enter passphrase: [hidden]<br />? Please re-enter passphrase: [hidden]<br />{"transaction":"0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05"}</span></sup></p>
 </blockquote>
 <p><em>Now copy the output of the signed message and broadcast it:</em></p>
-<p><code><span class="nohigh">~$ </span>lisk-core transaction:send 0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05<br /></code></p>
+<code><p><span class="nohigh">~$ </span>lisk-core transaction:send 0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05<br /></p></code>
 <blockquote>
 <p><sup><span style="color: #008000;">Transaction with id: '620518d6a7a8545b760da9ea44a8ac08b40929a8ca372074d774b787ac2bee9c' received by node.</span></sup></p>
 <p>&nbsp;</p>
 </blockquote>
 <h3>STEP 5 - Start Lisk (if not running) and activate forging</h3>
-<p>Check if Lisk is running. If <code>screen -r</code> doesn't show Lisk logs, it's obviously not running.</p>
-<p><code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></code></p>
+<p>Check if Lisk is running. If screen -r doesn't show Lisk logs, it's obviously not running.</p>
+<code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
 <p>Detach from the screen session with CTRL+a+d</p>
-<p><code><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code></p>
+<code><p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</p></code>
 <blockquote>
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
 </blockquote>
-<p>If the output says <code>"forging":true</code>, congratulations. You should forge on Betanet.<br /><br />To confirm you can always use <code>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></code> to see if your balanace is increasing. Or you check logs for forged blocks with <code>cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block"</code> or wait for forged blocks with <code>tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block"</code>.<br><br>
+<p>If the output says "forging":true, congratulations. You should forge on Betanet.<br /><br />To confirm you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing. Or you check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
 <h3>Ressources</h3>
 <a title="Lisk Betanet Explorer v5 (by korben3)" href="http://liskminiexplorer.korben3.com" target="_blank" rel="noopener">Lisk Betanet v5 Explorer (by Korben3)</a> 
 <br>
