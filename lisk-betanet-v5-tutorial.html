@@ -159,18 +159,9 @@
 <p>Check if Lisk is running. If screen -r doesn't show Lisk logs, it's obviously not running and you need to start it again with the following command:</p>
 <code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
 <p>Detach from the screen session with CTRL+a+d</p>
-<br><br>
-<span style="color: #cc0000;"><b>NEW FORGERS ONLY!</span> If you have never forged on betanet with your account, enable forging with this command:</b><br>
-<code><p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code><br>
-  <blockquote>
-    <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-    </blockquote>
-<br><br>
-    <span style="color: #cc0000;"><b>ONLY FOR FORGERS WHO HAVE FORGED ON BETANET ALREADY!</b></span>
-
 <code>
   <p><span class="nohigh">~$ </span>cd ~<br>
-  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/Tools/lisk-forging-enable.sh -o ~/lisk-forge-enable.sh<br>
+  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/SH/lisk-enable-forging.sh -o ~/lisk-forge-enable.sh<br>
   <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
   <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
   </code>
@@ -196,18 +187,9 @@
     <p><em>If your machine doesn't find the command lisk-core, then do the following command and try again to start your node:</em></p>
   <code><p><span class="nohigh">~$ </span> export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
     <p><b>Now enable forging</b></p>
-
-    <span style="color: #cc0000;"><b>NEW FORGERS ONLY!</span> If you have never forged on betanet with your account, enable forging with this command:</b><br>
-<code><p><span class="nohigh">~$ </span>lisk-core forging:enable <span style="background-color: #ffcc99;">BinaryAddress</span> 0 0 0</code><br>
-  <blockquote>
-    <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-    </blockquote>
-  <br>
-  <br>
-  <span style="color: #cc0000;"><b>ONLY FOR FORGERS WHO HAVE FORGED ON BETANET ALREADY!</b></span>
 <code>
 <p><span class="nohigh">~$ </span>cd ~<br>
-<p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/Tools/lisk-forging-enable.sh -o ~/lisk-forge-enable.sh<br>
+<p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/SH/lisk-enable-forging.sh -o ~/lisk-forge-enable.sh<br>
 <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
 <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
 </code>
