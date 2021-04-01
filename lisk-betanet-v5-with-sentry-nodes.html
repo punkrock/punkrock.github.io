@@ -144,11 +144,11 @@ Now wait until it is in sync with the Lisk network. In the meantime you should c
   <b>Now we use a script to kill the internet connection, start Lisk for the first time, stop it and turn the internet connection back on.<br>
     We do this because we don't want to expose the IP of our forging node to the network and create the folders ~/.lisk/lisk-core in a secure way.</b><br><br>
 
+
+    Check the name of your network adapter:<br>
+    <code><span class="nohigh">~$ </span>ifconfig</code><br><br>
+    Create script file:<br>
   <code><span class="nohigh">~$ </span>nano first-start-and-stop.sh</code><br><br>
-
-  Check the name of your network adapter:<br>
-  <code><span class="nohigh">~$ </span>ifconfig</code><br><br>
-
 
 Copy and paste the code below into the file<br>
 <b><span style="background-color: #cc0000; color: #ffffff;">Info:</span></b> Replace eth0 if needed!<br>
