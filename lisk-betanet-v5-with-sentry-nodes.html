@@ -44,13 +44,13 @@
 </pre>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<h1><strong>Lisk Betanet v5 on VPS with Ubuntu 20.04 <span style="color: #cc0000;">WITH SENTRY NODES</span><br /><br /></strong></h1>
+<h1><strong>Lisk Betanet v5 on VPS with Ubuntu 20.04 <span style="color: #cc0000;">WITH TRUSTED NODES</span><br /><br /></strong></h1>
 
 <h1>Summary</h1>
-<b>On your sentry node(s):</b><br>
-1. <a href="#step1">Install Lisk Core and some other stuff on your sentry node(s)</a><br>
+<b>On your trusted node(s):</b><br>
+1. <a href="#step1">Install Lisk Core and some other stuff on your trusted node(s)</a><br>
 2. <a href="#step2">Setup UFW</a><br>
-3. <a href="#step3">Create configuration file for the Sentry Node</a><br><br>
+3. <a href="#step3">Create configuration file for the trusted Node</a><br><br>
 <b>On your forging node:</b><br>
 4. <a href="#step4">Setup a new forging node</a><br>
 5. <a href="#step5">Create your forging account</a><br>
@@ -59,7 +59,7 @@
 8. <a href="#step8">Start Lisk and activate forging</a><br>
 <br><br><br><br>
 
-<h3 id="step1">STEP 1 - Install Lisk Core and some other stuff on your sentry node(s)</h3>
+<h3 id="step1">STEP 1 - Install Lisk Core and some other stuff on your trusted node(s)</h3>
 <code><span class="nohigh">~# </span>adduser lisk<br />
 <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
 <span class="nohigh">~# </span>su - lisk<br /><br />
@@ -82,7 +82,7 @@
 <span class="nohigh">~$ </span>sudo ufw status verbose</code>
 
 <br><br><br>
-<h3 id="step3">STEP 3 - Create configuration file for the Sentry Node</h3>
+<h3 id="step3">STEP 3 - Create configuration file for the trusted Node</h3>
 
 Start Lisk for the first time. This will create the folders ~/.lisk/lisk-core<br>
 <code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br></code>
@@ -111,7 +111,7 @@ Now start Lisk and check if it is running:<br>
 <blockquote>
 <p><sub><span style="color: #008000;">20:01:03 INFO lisk-framework: Starting the app - lisk-core (module=lisk:app)<br />20:01:03 INFO lisk-framework: If you experience any type of error, please open an issue on Lisk GitHub: https://github.com/LiskHQ/lisk-sdk/issues (module=lisk:app)<br />20:01:03 INFO lisk-framework: Contribution guidelines can be found at Lisk-sdk: https://github.com/LiskHQ/lisk-sdk/blob/development/docs/CONTRIBUTING.md (module=lisk:app)<br />20:01:03 INFO lisk-framework: Booting the application with Lisk Framework(3.0.0-beta.2.8362aa8) (module=lisk:app)<br />20:01:03 INFO lisk-framework: Initializing controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Loading controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Event * was subscribed but not registered to the bus yet. (module=lisk:app)<br />20:01:04 INFO lisk-framework: New block added to the chain (module=lisk:app)<br />{<br />"id": "5a92c178ca2125f358f61d2174fc5c5500f94ebf76da22165751cf3923003789",<br />"height": 0,<br />"numberOfTransactions": 0<br />} <br />20:01:04 INFO lisk-framework: Blockchain ready (module=lisk:app)<br />20:01:04 INFO lisk-framework: Node ready and launched (module=lisk:app)<br />20:01:07 INFO lisk-framework: Starting synchronizer (module=lisk:app)</span></sub></p>
 </blockquote><br>
-Now wait until it is in sync with the Lisk network. In the meantime you should create another sentry node. <br>You should have at least two sentry nodes but maximum four as this is the limit per forging node. <br>But: Your sentry nodes can also have four additional sentry nodes. ;)</p>
+Now wait until it is in sync with the Lisk network. In the meantime you should create another trusted node. <br>You should have at least two trusted nodes but maximum four as this is the limit per forging node. <br>But: Your trusted nodes can also have four additional trusted nodes. ;)</p>
 <p>&nbsp;</p>
 
 <h3 id="step4">STEP 4 - Setup a new forging node</h3>
@@ -209,12 +209,12 @@ If everything worked, you should be able to cd into the lisk folder:<br>
           "advertiseAddress": false,
           "seedPeers": [],
           "fixedPeers": [{
-                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">SENTRY.NODE.1.IP</span>",
+                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">trusted.NODE.1.IP</span>",
                   "port": 5001
               },
   
               {
-                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">SENTRY.NODE.2.IP</span>",
+                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">trusted.NODE.2.IP</span>",
                   "port": 5001
               }
           ]
@@ -241,11 +241,11 @@ If everything worked, you should be able to cd into the lisk folder:<br>
   }
   EOF_betanet_config</pre>
 <p></p>
-<p><br /><em>Now remove the highlighted parts for SENTRY.NODE.1.IP, SENTRY.NODE.2.IP, binaryAddress and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
+<p><br /><em>Now remove the highlighted parts for trusted.NODE.1.IP, trusted.NODE.2.IP, binaryAddress and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
 <code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
 <p><span class="nohigh">~$ </span>./create_config.sh</p></code>
 <p><br /><em>Now you check if the config.json is working correct. I am using screen, to keep it as simple as possible.<br>If you want to use PM2 instead of screen to manage your node, you can check out the <a href="https://github.com/Lemii/guides/blob/master/managing-the-lisk-core-process-with-pm2.md" target="_blank" rel="noopener">PM2-guide by lemii</a><br /></em></p>
-<b><span style="background-color: #cc0000; color: #ffffff;">Info:</span></b> You will now connect your forging node to your sentry nodes. Make sure they are in sync with the network, before you move on!<br>
+<b><span style="background-color: #cc0000; color: #ffffff;">Info:</span></b> You will now connect your forging node to your trusted nodes. Make sure they are in sync with the network, before you move on!<br>
 <code>
 <p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /><br />
   <em><span class="nohigh">~$ </span>screen -r</em></p></code>
@@ -311,8 +311,8 @@ If everything worked, you should be able to cd into the lisk folder:<br>
   <blockquote>
 <p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
 </blockquote>
-<p>If the output says "forging":true, congratulations. You should forge on Betanet securely behind your sentry nodes.<br />
-  <b><span style="background-color: #cc0000; color: #ffffff;">Important:</span></b> To verify that <b>only</b> the IP's of your sentry nodes are on the network, <a href="https://betanet5.lisk.io/api/peers?state=connected" target=_blank>check this link</a> and search for the IP's. Your forging node IP should not appear here!<br>
+<p>If the output says "forging":true, congratulations. You should forge on Betanet securely behind your trusted nodes.<br />
+  <b><span style="background-color: #cc0000; color: #ffffff;">Important:</span></b> To verify that <b>only</b> the IP's of your trusted nodes are on the network, <a href="https://betanet5.lisk.io/api/peers?state=connected" target=_blank>check this link</a> and search for the IP's. Your forging node IP should not appear here!<br>
 
   <br />To confirm that you are forging, use the <a href="https://explorer.moosty.com/delegates" target=_blank>Moosty's Betanet Explorer</a> or <a href="http://liskminiexplorer.korben3.com/" target=_blank>Korben's Betanet Explorer</a> or you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing.
   <br>You also can check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
