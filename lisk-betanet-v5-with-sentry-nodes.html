@@ -47,9 +47,11 @@
 <h1><strong>Lisk Betanet v5 on VPS with Ubuntu 20.04 <span style="color: #cc0000;">WITH SENTRY NODES</span><br /><br /></strong></h1>
 
 <h1>Summary</h1>
-1. <a href="#step1">Install Lisk Core and some other stuff</a><br>
+<b>On your sentry node(s):</b><br>
+1. <a href="#step1">Install Lisk Core and some other stuff on your sentry node(s)</a><br>
 2. <a href="#step2">Setup UFW</a><br>
-3. <a href="#step3">Create configuration file for the Sentry Node</a><br>
+3. <a href="#step3">Create configuration file for the Sentry Node</a><br><br>
+<b>On your forging node:</b><br>
 4. <a href="#step4">Setup a new forging node</a><br>
 5. <a href="#step5">Create your forging account</a><br>
 6. <a href="#step6">Create a random 12-word passphrase and encrypt your account-passphrase</a><br>
@@ -57,7 +59,7 @@
 8. <a href="#step8">Start Lisk and activate forging</a><br>
 <br><br><br><br>
 
-<h3 id="step1">STEP 1 - Install Lisk Core and some other stuff</h3>
+<h3 id="step1">STEP 1 - Install Lisk Core and some other stuff on your sentry node(s)</h3>
 <code><span class="nohigh">~# </span>adduser lisk<br />
 <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
 <span class="nohigh">~# </span>su - lisk<br /><br />
@@ -114,7 +116,7 @@ Now wait until it is in sync with the Lisk network. In the meantime you should c
 
 <h3 id="step4">STEP 4 - Setup a new forging node</h3>
 
-<b><span style="background-color: #cc0000; color: #ffffff;">IMPORTANT:</span></b> To make sure that the IP of your forging node has never been seen on the network don't use a server that was already connected to the Lisk network.
+<b><span style="background-color: #cc0000; color: #ffffff;">IMPORTANT:</span></b> To make sure that the IP of your forging node has never been seen on the network. Don't use a server that was already connected to the Lisk network.
 <br>Start with a new server and follow the upcoming steps. We will create a forging node from scratch:<br><br>
 
 <code><span class="nohigh">~# </span>adduser lisk<br />
