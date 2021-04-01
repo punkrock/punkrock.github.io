@@ -131,12 +131,11 @@ Now wait until it is in sync with the Lisk network. In the meantime you should c
   <span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
   <span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br></code>
   <code><span class="nohigh">~$ </span>sudo apt-get install -y ifupdown<br /><br /></code>
-  
+
   <br><b>Setup UFW</b><br>
   <code><span class="nohigh">~$ </span>sudo ufw default deny incoming<br>
     <span class="nohigh">~$ </span>sudo ufw default allow outgoing<br>
     <span class="nohigh">~$ </span>sudo ufw allow ssh<br>
-    <span class="nohigh">~$ </span>sudo ufw allow 5001/tcp<br>
     <span class="nohigh">~$ </span>sudo ufw enable<br>
     <span class="nohigh">~$ </span>sudo ufw status verbose</code>
     
