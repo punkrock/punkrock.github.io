@@ -87,6 +87,13 @@
 
 Start Lisk for the first time. This will create the folders ~/.lisk/lisk-core<br>
 <code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet<br><br></code>
+<br>
+<p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
+<code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
+  Put the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+
+
 
 Stop Lisk<br>
 <code><span class="nohigh">~$ </span>pkill screen<br><br></code>
@@ -127,7 +134,7 @@ Now wait until it is in sync with the Lisk network. In the meantime you should c
   <span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
   <span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br></code>
   <b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
-  <code><span class="nohigh">~$ </span>nvm install 12.20.1<br />
+  <code><span class="nohigh">~$ </span>nvm install 12.22.1<br />
   <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
   <span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
   <span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br></code>
