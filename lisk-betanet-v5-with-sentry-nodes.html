@@ -319,6 +319,37 @@ If everything worked, you should be able to cd into the lisk folder:<br>
   <br>You also can check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
 <br><br>
 
+<div id="update">
+  <h1>How to update to a new version</h1>
+  The stuff in this gray box is needed to update your betanet nodes:
+  <p><b>Stop your node:</b></p>
+  <code><p><span class="nohigh">~$ </span>screen -r (CTRL+c)
+  <p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
+  <br>
+<p><b>If you get warnings about npm and/or nvm, try this:</b></p>
+<code><p><span class="nohigh">~$ </span>nvm install 12.20.1
+  <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br></code>
+  <p><b>Now restart your node:</b></p>
+<code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start -n betanet -c ~/.lisk/lisk-core/config.json<br /></p></code>
+  <br>
+  <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
+  <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
+    Put the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+  <p><b>Now enable forging</b></p>
+<code>
+<p><span class="nohigh">~$ </span>cd ~<br>
+<p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/SH/lisk-enable-forging.sh -o ~/lisk-forge-enable.sh<br>
+<p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
+<p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
+</code>
+<br>
+<blockquote>
+<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+</blockquote>
+</div> 
+<br>
+
 Happy forging!<br /><br>punkrock</h2>
   </body>
 </html><code>
