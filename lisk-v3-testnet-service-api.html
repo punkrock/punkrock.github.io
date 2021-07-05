@@ -282,17 +282,17 @@ module.exports = {
 <code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-available/default</code>
 
 
-<br><br><em>Now empty the file (CTRL + k) completely and add the following:</em>
+<br><br><em>Now empty the file (CTRL + k) completely and add the following <span style="color: #cc0000;"><b>and make sure to change the URL's to your domain!</b></span>:</em>
 
 <div id="box"><pre>
 server {
     listen      80;
-    server_name lisk-v3-api.YourDomain.tld;
+    server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
 }
 
 server {
     listen       80;
-    server_name lisk-v3-service.YourDomain.tld;
+    server_name lisk-v3-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
 }
 </pre></div>
 
@@ -307,13 +307,13 @@ server {
 <code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-enabled/default</code>
 
 
-<br><br><em>Now empty the file (CTRL + k) completely and add the following:</em>
+<br><br><em>Now empty the file (CTRL + k) completely and add the following <span style="color: #cc0000;"><b>and make sure to change the URL's to your domain!</b></span>:</em>
 <div id="box"><pre>
 server {
   listen 443 ssl;
-  server_name lisk-v3-api.YourDomain.tld;
-  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/privkey.pem; # managed by Certbot
+  server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
   ssl_verify_client off;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
@@ -339,9 +339,9 @@ location / {
 
 server {
   listen 443 ssl;
-  server_name lisk-v3-service.YourDomain.tld;
-  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/privkey.pem; # managed by Certbot
+  server_name lisk-v3-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
   ssl_verify_client off;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
@@ -359,14 +359,14 @@ location / {
 }
 
 server {
-    if ($host = lisk-v3-api.YourDomain.tld) {
+    if ($host = lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
         listen 80 ;
         listen [::]:80 ;
-    server_name lisk-v3-api.YourDomain.tld;
+    server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
     return 404; # managed by Certbot
 } 
 </pre></div>
