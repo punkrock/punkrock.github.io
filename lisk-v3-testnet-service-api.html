@@ -1,0 +1,472 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>punkrock.github.io</title>
+  <meta name="description" content="Ressources for mining, forging and validating. Vote for punkrock!">
+  <meta name="author" content="punkrock">
+
+<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+<style type="text/css">
+	body {font-family: Arial, Helvetica, sans-serif;}
+  .highlighted-div { background-color: #ecffcb; width: auto; padding: 20px; display: inline-block }
+	.inner-pre {font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;}
+  .nohigh {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  #update {
+  background-color: #f0f0f0 ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
+  #box {
+  background-color: #f0f0f0 ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
+</style>
+
+</head>
+
+<body>
+
+  <pre>    ______  _   _  _   _  _   ________  _____  _____  _   __
+    | ___ \| | | || \ | || | / /| ___ \|  _  |/  __ \| | / /
+    | |_/ /| | | ||  \| || |/ / | |_/ /| | | || /  \/| |/ / 
+    |  __/ | | | || . ` ||    \ |    / | | | || |    |    \ 
+    | |    | |_| || |\  || |\  \| |\ \ \ \_/ /| \__/\| |\  \
+    \_|     \___/ \_| \_/\_| \_/\_| \_| \___/  \____/\_| \_/
+</pre>
+<pre>---------------------------------------------------------------------------
+<span class="inner-pre"><a href="https://punkrock.github.io">Home</a> | <a href="https://punkrock.github.io/lisk.html">Lisk</a></span>
+---------------------------------------------------------------------------
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Lisk API & Service for Lisk v3 on Uubuntu 20.04<br /><br /></strong></h1>
+
+<h1>Summary</h1>
+1. <a href="#step1">Add A-Records for api and service</a><br>
+2. <a href="#step2">Create user and install some stuff</a><br>
+3. <a href="#step3">Secure SSH</a><br>
+4. <a href="#step4">Config Firewall</a><br>
+5. <a href="#step5">Install Lisk Core</a><br>
+6. <a href="#step6">Install pm2</a><br>
+7. <a href="#step7">Install MySQL Server</a><br>
+8. <a href="#step8">Install Redis</a><br>
+9. <a href="#step9">Install Lisk Service</a><br>
+10. <a href="#step10">Config Nginx and get TLS certificates</a><br>
+11. <a href="#step11">Install market</a><br>
+12. <a href="#step12">"Start everything"-script</a><br>
+13. <a href="#step13">Cronjob</a><br>
+14. <a href="#step13">Credits</a><br>
+<br><br><br>
+<code id="step1">
+#########################################<br>
+### Add A-Records for api and service ###<br>
+#########################################<br></code>
+
+<br><em>Login to your domain hoster and set two A RECORDS for api and service.<br><br>
+This example will result in the domains:<br>
+- https://lisk-testnet-api.YourDomain.tld<br>
+- https://lisk-testnet-service.YourDomain.tld</em><br><br>
+
+<img src="./a-records.jpg">
+
+<br><br><br><br>
+<code id="step2">########################################<br>
+## Create user and install some stuff ##<br>
+########################################<br></code>
+
+<code><p><span class="nohigh">~# </span> adduser lisk</code>
+<code><p><span class="nohigh">~# </span> gpasswd -a lisk sudo</code>
+<code><p><span class="nohigh">~# </span> visudo</code><br><br>
+
+<em>Add this line to the end of the file:</em>
+<div id="box"><pre>lisk ALL=(ALL) NOPASSWD: ALL</pre></div>
+
+<code><p><span class="nohigh">~# </span> su - lisk</code>
+
+<code><p><span class="nohigh">~$ </span> sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade && sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen && sudo apt-get -y install unattended-upgrades && sudo nano /etc/apt/apt.conf.d/20auto-upgrades</code>
+<br><br><em>Add this to the file:</em>
+<div id="box">
+<pre>
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+</pre></div>
+<br><em>Save & exit</em><br><br>
+
+<code><p><span class="nohigh">~$ </span> sudo apt-get install -y build-essential git make</code>
+
+<code><p><span class="nohigh">~$ </span> sudo apt install nginx -y</code>
+
+<br><br><br><br>
+
+<code id="step3">################<br>
+## Secure SSH ##<br>
+################<br></code>
+
+<code><p><span class="nohigh">~$ </span> cd && mkdir .ssh && cd .ssh && ssh-keygen -o -a 100 -t ed25519</code>
+<br><br><em>Always press ENTER to confirm</em></br></code>
+
+<code><p><span class="nohigh">~$ </span> cat id_ed25519.pub >> authorized_keys</code>
+
+<code><p><span class="nohigh">~$ </span> chmod 600 authorized_keys && cd .. && chmod 700 .ssh</code>
+<br><br><em>
+Save the private key (id_XXXXXXX) to your hard drive. <br>Then delete the private key (id_XXXXXXX) and the public key (id_XXXXXXX.pub) on your server</em>
+
+<code><p><span class="nohigh">~$ </span> sudo nano /etc/ssh/sshd_config</code>
+
+<div id="box"><pre>Port 24</pre></div>
+<br>
+<div id="box">
+<pre>
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin no
+StrictModes yes
+AuthorizedKeysFile	%h/.ssh/authorized_keys
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+PasswordAuthentication no</pre></div>
+<br><em>Save & Exit</em><br><br>
+
+<code><p><span class="nohigh">~$ </span> sudo /etc/init.d/ssh restart</code><br><br>
+
+<em>Now edit your SSH settings with your new port and keys and start a new session.</em>
+
+<br><br><br><br>
+
+<code id="step4">#####################<br>
+## Config Firewall ##<br>
+#####################<br></code>
+
+<code><p><span class="nohigh">~$ </span> sudo ufw default deny<br>
+<span class="nohigh">~$ </span> sudo ufw allow 'Nginx Full'<br>
+<span class="nohigh">~$ </span> sudo ufw allow 24,7000,7001/tcp<br>
+<span class="nohigh">~$ </span> sudo ufw enable</code>
+<br><br><em>Confirm with "yes"</em>
+
+<br><br><br><br>
+<code id="step5">
+#########################<br>
+### Install Lisk Core ###<br>
+#########################<br></code>
+
+<code><p><span class="nohigh">~$ </span> wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash</code>
+
+<br><br><em>NOW START A NEW SSH SESSION<br><br></em>
+
+<code><p><span class="nohigh">~$ </span> nvm install 12.22.1<br>
+<span class="nohigh">~$ </span> npm install --global --production lisk-core<br>
+<span class="nohigh">~$ </span> curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br>
+<span class="nohigh">~$ </span> sudo apt-get install -y nodejs</code><br>
+
+<code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
+
+<div id="box">
+<pre>
+{
+  "name": "Lisk Core",
+  "script": "/home/lisk/.nvm/versions/node/v12.22.1/bin/lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
+  "env": {
+    "LISK_NETWORK": "testnet"
+  }
+}
+</pre>
+</div>
+
+<br><br><br><code id="step6">
+###################<br>
+### Install pm2 ###<br>
+###################<br></code>
+
+<code><p><span class="nohigh">~$ </span> npm i -g pm2</code>
+
+<br><br><br><br>
+<code id="step7">
+############################<br>
+### Install MySQL Server ###<br>
+############################<br></code>
+
+<code><p><span class="nohigh">~$ </span> sudo apt install mysql-server -y</code>
+<code><p><span class="nohigh">~$ </span> sudo mysql_secure_installation</code>
+<br><br><em>First type "No" (secure password stuff) and choose a simple password like "123" (you will change it to a secure one in the next step). For the other questions type always "Yes".</em>
+<br><br>
+<em>Now connect to MySQL and change your root password and make sure to use at least 16 characters, lower case, upper case, numbers, special characters!</em>
+
+<code><p><span class="nohigh">~$ </span> sudo mysql -u root -p</code><br><br>
+
+<code>CREATE DATABASE testnet;</code><br>
+<code>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Cr4zypa55w0rd!!!"""@qwertz';</code><br>
+<code>FLUSH PRIVILEGES;</code><br>
+<code>\q</code><br>
+
+<code><p><span class="nohigh">~$ </span> sudo systemctl restart mysql</code>
+<code><p><span class="nohigh">~$ </span> sudo systemctl enable mysql</code>
+
+
+<br><br><br><br><code id="step8">
+#####################<br>
+### Install Redis ###<br>
+#####################<br></code>
+
+<code><p><span class="nohigh">~$ </span> sudo apt-get install redis-server -y</code>
+
+
+<br><br><br><br><code id="step9">
+############################<br>
+### Install Lisk Service ###<br>
+############################<br></code>
+
+<code><p><span class="nohigh">~$ </span> cd && git clone https://github.com/LiskHQ/lisk-service.git
+<span class="nohigh">~$ </span> cd lisk-service && git checkout v0.4.0
+<span class="nohigh">~$ </span> git checkout development
+<span class="nohigh">~$ </span> make build-local</code>
+
+<code><p><span class="nohigh">~$ </span> nano ecosystem.core3.config.js</code>
+
+<br><br><em>Now empty the file (CTRL + k) completely and add the following <span style="color: #cc0000;"><b>and make sure to change the MySQL password!</b></span></em>
+<div id="box"><pre>
+module.exports = {
+        apps: [
+                {
+                        name: 'lisk-service-gateway',
+                        script: 'app.js',
+                        cwd: './services/gateway',
+                        pid_file: './pids/service_gateway.pid',
+                        out_file: './logs/service_gateway.log',
+                        error_file: './logs/service_gateway.err',
+                        log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                        watch: false,
+                        kill_timeout: 10000,
+                        max_memory_restart: '512M',
+                        instances: 1,
+                        autorestart: true,
+                       env: {
+                                PORT: '9901',
+
+                                // --- Remember to set the properties below
+                                 SERVICE_BROKER: 'redis://localhost:6379/0',
+                                 GENESIS_HEIGHT: '14075260',
+                        },
+                },
+                {
+                        name: 'lisk-service-core',
+                        script: 'app.js',
+                        cwd: './services/core',
+                        pid_file: './pids/service_core.pid',
+                        out_file: './logs/service_core.log',
+                        error_file: './logs/service_core.err',
+                        log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                        watch: false,
+                        kill_timeout: 10000,
+                        max_memory_restart: '512M',
+                        instances: 1,
+                        autorestart: true,
+                        env: {
+                                // --- Remember to set the properties below
+                                SERVICE_BROKER: 'redis://localhost:6379/0',
+                                LISK_CORE_WS: 'ws://localhost:8888',
+                                SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
+                                SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/testnet',
+                                LISK_STATIC: 'https://static-data.lisk.io',
+                                GEOIP_JSON: 'https://geoip.lisk.io/json',
+                                ENABLE_TRANSACTION_STATS: 'true',
+                                TRANSACTION_STATS_HISTORY_LENGTH_DAYS: '40',
+                                TRANSACTION_STATS_UPDATE_INTERVAL: '3600',
+                                INDEX_N_BLOCKS: '12000',
+                                ENABLE_FEE_ESTIMATOR_QUICK: 'false',
+                                ENABLE_FEE_ESTIMATOR_FULL: 'false',
+                                FEE_EST_COLD_START_BATCH_SIZE: '1',
+                                FEE_EST_DEFAULT_START_BLOCK_HEIGHT: '1',
+                                GENESIS_HEIGHT: '14075260'
+                        },
+                },
+        ],
+};
+</pre></div>
+
+
+<br><br><br><br><code id="step10">
+#############################################<br>
+### Config Nginx and get TLS certificates ###<br>
+#############################################<br></code>
+
+
+<code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-available/default</code>
+
+
+<br><br><em>Now empty the file (CTRL + k) completely and add the following:</em>
+
+<div id="box"><pre>
+server {
+    listen      80;
+    server_name lisk-v3-api.YourDomain.tld;
+}
+
+server {
+    listen       80;
+    server_name lisk-v3-service.YourDomain.tld;
+}
+</pre></div>
+
+
+<code><p><span class="nohigh">~$ </span> sudo rm -rf /etc/nginx/sites-enabled/default<br>
+<span class="nohigh">~$ </span> sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/<br>
+<span class="nohigh">~$ </span> sudo systemctl restart nginx<br>
+<span class="nohigh">~$ </span> sudo apt install python3-certbot-nginx -y<br>
+<span class="nohigh">~$ </span> sudo certbot --nginx -d lisk-v3-api.YourDomain.tld -d lisk-v3-service.YourDomain.tld</code>
+<br><br><em>If asked for redirects, press 2 (redirect)</em>
+	
+<code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-enabled/default</code>
+
+
+<br><br><em>Now empty the file (CTRL + k) completely and add the following:</em>
+<div id="box"><pre>
+server {
+  listen 443 ssl;
+  server_name lisk-v3-api.YourDomain.tld;
+  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/privkey.pem; # managed by Certbot
+  ssl_verify_client off;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+location /ws {
+    proxy_pass http://localhost:8888;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_pass http://localhost:7000/;
+    proxy_ssl_session_reuse off;
+    proxy_set_header Host $http_host;
+    proxy_cache_bypass $http_upgrade;
+    proxy_redirect off;
+  }
+
+}
+
+server {
+  listen 443 ssl;
+  server_name lisk-v3-service.YourDomain.tld;
+  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.YourDomain.tld/privkey.pem; # managed by Certbot
+  ssl_verify_client off;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_pass http://localhost:9901/;
+    proxy_ssl_session_reuse off;
+    proxy_set_header Host $http_host;
+    proxy_cache_bypass $http_upgrade;
+    proxy_redirect off;
+  }
+
+}
+
+server {
+    if ($host = lisk-v3-api.YourDomain.tld) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80 ;
+        listen [::]:80 ;
+    server_name lisk-v3-api.YourDomain.tld;
+    return 404; # managed by Certbot
+} 
+</pre></div>
+<br>
+<code><p><span class="nohigh">~$ </span> sudo service nginx restart<br>
+<span class="nohigh">~$ </span> sudo certbot renew --dry-run</code>
+
+
+<br><br><br><br><code id="step11">
+######################<br>
+### Install market ###<br>
+######################<br></code>
+
+<code><p><span class="nohigh">~$ </span> cd && cd lisk-service/services/market<br>
+<span class="nohigh">~$ </span> npm install</code>
+
+<br><br><br><br>
+<code id="step12">
+#################################<br>
+### "Start everything"-script ###<br>
+#################################<br></code>
+
+<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
+
+<br><br><em>Now add the following:</em>
+<div id="box"><pre>
+#!/bin/bash
+cd /home/lisk/
+wait
+/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start core-start.json
+wait
+cd /home/lisk/lisk-service
+wait
+/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start ecosystem.core3.config.js
+wait
+cd /home/lisk/lisk-service/services/market
+wait
+/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start npm --name "lisk-service-markets" -- start
+</pre></div>
+
+<code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
+<span class="nohigh">~$ </span> ./starteverything.sh</code>
+
+<br><br><em>Now open the pm2-monitor to see the logs for each process:</em>
+<code><p><span class="nohigh">~$ </span> pm2 monit</code>
+
+<br><br><em>It will now take some time until your node is in sync with the network.<br> Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-v3-service.YOURDOMAIN.TLD</em>
+<br><br><br>
+
+<em><b>Other pm2 commands:</b></em><br>
+pm2 restart all<br>
+pm2 stop all<br>
+pm2 start all<br>
+pm2 status<br>
+pm2 delete all<br>
+pm2 save<br>
+
+<br><br><br><code id="step13">
+###############<br>
+### Cronjob ###<br>
+###############<br></code>
+<br>
+<em>This cronjob makes sure that after a reboot all processes are being started</em>
+<code><p><span class="nohigh">~$ </span> mkdir reboot-logs<br>
+<span class="nohigh">~$ </span> crontab -e</code>
+
+<div id="box"><pre>
+@reboot bash starteverything.sh > $HOME/reboot-logs/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-crontablogs.log 2>&1
+</pre></div>
+
+
+<br><br><br><code id="step14">
+###############<br>
+### Credits ###<br>
+###############<br></code>
+<br>
+<em>Thanks to lemii, przemer and Corbifex for helping.
+Happy forging on Lisk v3 Testnet!
+<br><br><b>punkrock</b></em>
+<br><br>
