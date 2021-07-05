@@ -67,12 +67,9 @@
 13. <a href="#step13">Cronjob</a><br>
 14. <a href="#step13">Credits</a><br>
 <br><br><br>
-<code id="step1">
-#########################################<br>
-### Add A-Records for api and service ###<br>
-#########################################<br></code>
 
-<br><em>Login to your domain hoster and set two A RECORDS for api and service.<br><br>
+<h3 id="step1">1. Add A-Records for api and service</h3>
+<em>Login to your domain hoster and set two A RECORDS for api and service.<br><br>
 This example will result in the domains:<br>
 - https://lisk-testnet-api.YourDomain.tld<br>
 - https://lisk-testnet-service.YourDomain.tld</em><br><br>
@@ -80,9 +77,7 @@ This example will result in the domains:<br>
 <img src="./a-records.jpg">
 
 <br><br><br><br>
-<code id="step2">########################################<br>
-## Create user and install some stuff ##<br>
-########################################<br></code>
+<h3 id="step2">2. Create user and install some stuff</h3>
 
 <code><p><span class="nohigh">~# </span> adduser lisk</code>
 <code><p><span class="nohigh">~# </span> gpasswd -a lisk sudo</code>
@@ -110,9 +105,7 @@ APT::Periodic::Unattended-Upgrade "1";
 
 <br><br><br><br>
 
-<code id="step3">################<br>
-## Secure SSH ##<br>
-################<br></code>
+<h3 id="step3">3. Secure SSH</h3>
 
 <code><p><span class="nohigh">~$ </span> cd && mkdir .ssh && cd .ssh && ssh-keygen -o -a 100 -t ed25519</code>
 <br><br><em>Always press ENTER to confirm</em></br></code>
@@ -145,9 +138,7 @@ PasswordAuthentication no</pre></div>
 
 <br><br><br><br>
 
-<code id="step4">#####################<br>
-## Config Firewall ##<br>
-#####################<br></code>
+<h3 id="step4">4. Config Firewall</h3>
 
 <code><p><span class="nohigh">~$ </span> sudo ufw default deny<br>
 <span class="nohigh">~$ </span> sudo ufw allow 'Nginx Full'<br>
@@ -156,10 +147,7 @@ PasswordAuthentication no</pre></div>
 <br><br><em>Confirm with "yes"</em>
 
 <br><br><br><br>
-<code id="step5">
-#########################<br>
-### Install Lisk Core ###<br>
-#########################<br></code>
+<h3 id="step5">5. Install Lisk Core</h3>
 
 <code><p><span class="nohigh">~$ </span> wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash</code>
 
@@ -184,18 +172,13 @@ PasswordAuthentication no</pre></div>
 </pre>
 </div>
 
-<br><br><br><code id="step6">
-###################<br>
-### Install pm2 ###<br>
-###################<br></code>
+<br><br><br>
+<h3 id="step6">6. Install pm2</h3>
 
 <code><p><span class="nohigh">~$ </span> npm i -g pm2</code>
 
 <br><br><br><br>
-<code id="step7">
-############################<br>
-### Install MySQL Server ###<br>
-############################<br></code>
+<h3 id="step7">7. Install MySQL Server</h3>
 
 <code><p><span class="nohigh">~$ </span> sudo apt install mysql-server -y</code>
 <code><p><span class="nohigh">~$ </span> sudo mysql_secure_installation</code>
@@ -214,18 +197,14 @@ PasswordAuthentication no</pre></div>
 <code><p><span class="nohigh">~$ </span> sudo systemctl enable mysql</code>
 
 
-<br><br><br><br><code id="step8">
-#####################<br>
-### Install Redis ###<br>
-#####################<br></code>
+<br><br><br><br>
+<h3 id="step8">8. Install Redis</h3>
 
 <code><p><span class="nohigh">~$ </span> sudo apt-get install redis-server -y</code>
 
 
-<br><br><br><br><code id="step9">
-############################<br>
-### Install Lisk Service ###<br>
-############################<br></code>
+<br><br><br><br>
+<h3 id="step9">9. Install Lisk Service</h3>
 
 <code><p><span class="nohigh">~$ </span> cd && git clone https://github.com/LiskHQ/lisk-service.git
 <span class="nohigh">~$ </span> cd lisk-service && git checkout v0.4.0
@@ -296,10 +275,8 @@ module.exports = {
 </pre></div>
 
 
-<br><br><br><br><code id="step10">
-#############################################<br>
-### Config Nginx and get TLS certificates ###<br>
-#############################################<br></code>
+<br><br><br><br>
+<h3 id="step10">10. Config Nginx and get TLS certificates</h3>
 
 
 <code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-available/default</code>
@@ -398,19 +375,14 @@ server {
 <span class="nohigh">~$ </span> sudo certbot renew --dry-run</code>
 
 
-<br><br><br><br><code id="step11">
-######################<br>
-### Install market ###<br>
-######################<br></code>
+<br><br><br><br>
+<h3 id="step11">11. Install market</h3>
 
 <code><p><span class="nohigh">~$ </span> cd && cd lisk-service/services/market<br>
 <span class="nohigh">~$ </span> npm install</code>
 
 <br><br><br><br>
-<code id="step12">
-#################################<br>
-### "Start everything"-script ###<br>
-#################################<br></code>
+<h3 id="step12">12. "Start everything"-script</h3>
 
 <code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
 
@@ -447,10 +419,8 @@ pm2 status<br>
 pm2 delete all<br>
 pm2 save<br>
 
-<br><br><br><code id="step13">
-###############<br>
-### Cronjob ###<br>
-###############<br></code>
+<br><br><br>
+<h3 id="step13">13. Cronjob</h3>
 <br>
 <em>This cronjob makes sure that after a reboot all processes are being started</em>
 <code><p><span class="nohigh">~$ </span> mkdir reboot-logs<br>
@@ -461,10 +431,8 @@ pm2 save<br>
 </pre></div>
 
 
-<br><br><br><code id="step14">
-###############<br>
-### Credits ###<br>
-###############<br></code>
+<br><br><br>
+<h3 id="step14">14. Credits</h3>
 <br>
 <em>Thanks to lemii, przemer and Corbifex for helping.
 Happy forging on Lisk v3 Testnet!
