@@ -65,9 +65,44 @@
 <code><span class="nohigh">~$ </span>nvm install 12.22.1<br />
 <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
 <span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
-<span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br /><br /></code>
-<b>Now start Lisk for the first time. This will create the folders ~/.lisk/lisk-core</b><br>
-<code><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start --api-ws -n testnet<br><br></code>
+<span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br />
+<span class="nohigh">~$ </span>npm i -g pm2<br></code><br>
+
+
+Start Lisk for the first time using PM2. The first start will create the folders ~/.lisk/lisk-core<br>
+<code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
+<br><br>
+Copy paste this code into the file:
+<div id="box">
+    <pre>
+{
+  "name": "lisk-core",
+  "script": "/home/lisk/.nvm/versions/node/v12.22.1/bin/lisk-core start --api-ws -c ~/.lisk/lisk-core/config.json",
+  "env": {
+  "LISK_NETWORK": "testnet"
+  }
+ }
+</pre>
+</div>
+
+Save & Exit<br><br>
+Start Lisk Core:<br>
+<code><p><span class="nohigh">~$ </span>pm2 start core-start.json</code><br><br>
+<br>Now check if Lisk Core is running:<br>
+<code><span class="nohigh">~$ </span>pm2 list<br /></code><br>
+
+If you see the PM2 status "errored", check the PM2 error logs:<br>
+<code><span class="nohigh">~$ </span>pm2 logs<br /></code>
+
+
+<br>
+<p><em>If your machine doesn't find the command lisk-core, then open ~./profile...</em></p>
+<code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br></p></code>
+...and add the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+
+
+
 <h3 id="step2">STEP 2 - Create your account</h3>
 <code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
 <blockquote>
@@ -102,10 +137,9 @@
 <p><br /><em>Now remove the highlighted parts for address and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
 <code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
 <p><span class="nohigh">~$ </span>./create_config.sh</p></code>
-<p><br /><em>Now you check if the config.json is working correct. I am using screen, to keep it as simple as possible.<br>If you want to use PM2 instead of screen to manage your node, you can check out the <a href="https://github.com/Lemii/guides/blob/master/managing-the-lisk-core-process-with-pm2.md" target="_blank" rel="noopener">PM2-guide by lemii</a><br /></em></p>
-<code><span class="nohigh">~$ </span>pkill screen
-<p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start --api-ws -n testnet -c ~/.lisk/lisk-core/config.json<br /><br />
-  <em><span class="nohigh">~$ </span>screen -r</em></p></code>
+<p><br />Now you check if the config.json is working correct.</p>
+<code><span class="nohigh">~$ </span>pm2 restart all<br>
+  <span class="nohigh">~$ </span>pm2 logs</p></code>
 <blockquote>
 <p><sub><span style="color: #008000;">20:01:03 INFO lisk-framework: Starting the app - lisk-core (module=lisk:app)<br />20:01:03 INFO lisk-framework: If you experience any type of error, please open an issue on Lisk GitHub: https://github.com/LiskHQ/lisk-sdk/issues (module=lisk:app)<br />20:01:03 INFO lisk-framework: Contribution guidelines can be found at Lisk-sdk: https://github.com/LiskHQ/lisk-sdk/blob/development/docs/CONTRIBUTING.md (module=lisk:app)<br />20:01:03 INFO lisk-framework: Booting the application with Lisk Framework(3.0.0-beta.2.8362aa8) (module=lisk:app)<br />20:01:03 INFO lisk-framework: Initializing controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Loading controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Event * was subscribed but not registered to the bus yet. (module=lisk:app)<br />20:01:04 INFO lisk-framework: New block added to the chain (module=lisk:app)<br />{<br />"id": "5a92c178ca2125f358f61d2174fc5c5500f94ebf76da22165751cf3923003789",<br />"height": 0,<br />"numberOfTransactions": 0<br />} <br />20:01:04 INFO lisk-framework: Blockchain ready (module=lisk:app)<br />20:01:04 INFO lisk-framework: Node ready and launched (module=lisk:app)<br />20:01:07 INFO lisk-framework: Starting synchronizer (module=lisk:app)</span></sub></p>
 </blockquote>
@@ -183,33 +217,35 @@ Use <a href="https://github.com/LiskHQ/lisk-desktop/tags" target="_blank" rel="n
 <p>&nbsp;</p>
 </blockquote>
 <h3 id="step5">STEP 5 - Start Lisk (if not running) and activate forging</h3>
-<p>Check if Lisk is running. If screen -r doesn't show Lisk logs, it's obviously not running and you need to start it again with the following command:</p>
-<code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start --api-ws -n testnet -c ~/.lisk/lisk-core/config.json<br /></p></code>
-<p>Detach from the screen session with CTRL+a+d</p>
+<p>Check if Lisk is running. If "pm2 list" or "pm2 status" shows "stopped" or "errored", start it again with the following command:</p>
+<code><p><span class="nohigh">~$ </span>pm2 start core-start.json<br /></p></code>
+
 <code>
   <p><span class="nohigh">~$ </span>cd ~<br>
-  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/SH/lisk-enable-forging.sh -o ~/lisk-forge-enable.sh<br>
+  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/Gr33nDrag0n69/LiskCore3Tools/main/SH/lisk-forging-enable.sh -o ~/lisk-forge-enable.sh<br>
   <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
   <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
   </code>
   <br>
   <blockquote>
-<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-</blockquote>
+<sup><span style="color: #008000;">Enable Forging on punkrocker?y<br />
+lisk-core forging:enable 8f6b8f41152871464d6f1d59b9f91d2f1791cc69 14219835 14219764 14219764<br />
+? Enter password to decrypt the encrypted passphrase:  *****************************************************************************<br />
+Forging status:<br />
+{"address":"8f6b8f41152871464d6f1d59b9f91d2f1791cc69","forging":true}<br /></span></sup>
+</blockquote><br>
 <p>If the output says "forging":true, congratulations. You should forge on Testnet.<br /><br />To confirm you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing. Or you check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
 
   <div id="update">
     <h1>How to update to a new version</h1>
     The stuff in this gray box is needed to update your testnet nodes:
-    <p><b>Stop your node:</b></p>
-    <code><p><span class="nohigh">~$ </span>screen -r (CTRL+c)
-    <p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
+    <code><p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
     <br>
   <p><b>If you get warnings about npm and/or nvm, try this:</b></p>
 <code><p><span class="nohigh">~$ </span>nvm install 12.22.1
     <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br></code>
     <p><b>Now restart your node:</b></p>
-  <code><p><span class="nohigh">~$ </span>screen -d -m -S lisk lisk-core start --api-ws -n testnet -c ~/.lisk/lisk-core/config.json<br /></p></code>
+  <code><p><span class="nohigh">~$ </span>pm2 restart all<br /></p></code>
     <br>
     <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
     <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
@@ -217,15 +253,16 @@ Use <a href="https://github.com/LiskHQ/lisk-desktop/tags" target="_blank" rel="n
   <code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
     <p><b>Now enable forging</b></p>
 <code>
-<p><span class="nohigh">~$ </span>cd ~<br>
-<p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/punkrock/LiskBeta/main/SH/lisk-enable-forging.sh -o ~/lisk-forge-enable.sh<br>
-<p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forge-enable.sh<br>
 <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
 </code>
 <br>
-<blockquote>
-<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
-</blockquote>
+  <blockquote>
+<sup><span style="color: #008000;">Enable Forging on punkrocker?y<br />
+lisk-core forging:enable 8f6b8f41152871464d6f1d59b9f91d2f1791cc69 14219835 14219764 14219764<br />
+? Enter password to decrypt the encrypted passphrase:  *****************************************************************************<br />
+Forging status:<br />
+{"address":"8f6b8f41152871464d6f1d59b9f91d2f1791cc69","forging":true}<br /></span></sup>
+</blockquote><br>
 </div> 
 <br>
 
