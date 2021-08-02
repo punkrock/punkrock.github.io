@@ -153,7 +153,7 @@ PasswordAuthentication no</pre></div>
 
 <br><br><em>Now start a new SSH session!<br><br></em>
 
-<code><p><span class="nohigh">~$ </span> nvm install 12.22.1<br>
+<code><p><span class="nohigh">~$ </span> nvm install 12.22.3<br>
 <span class="nohigh">~$ </span> npm install --global --production lisk-core<br>
 <span class="nohigh">~$ </span> curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br>
 <span class="nohigh">~$ </span> sudo apt-get install -y nodejs</code><br>
@@ -164,7 +164,7 @@ PasswordAuthentication no</pre></div>
 <pre>
 {
   "name": "Lisk Core",
-  "script": "/home/lisk/.nvm/versions/node/v12.22.1/bin/lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
+  "script": "/home/lisk/.nvm/versions/node/v12.22.3/bin/lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
   "env": {
     "LISK_NETWORK": "testnet"
   }
@@ -391,15 +391,15 @@ server {
 #!/bin/bash
 cd /home/lisk/
 wait
-/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start core-start.json
+/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start core-start.json
 wait
 cd /home/lisk/lisk-service
 wait
-/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start ecosystem.core3.config.js
+/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start ecosystem.core3.config.js
 wait
 cd /home/lisk/lisk-service/services/market
 wait
-/home/lisk/.nvm/versions/node/v12.22.1/bin/pm2 start npm --name "lisk-service-markets" -- start
+/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start npm --name "lisk-service-markets" -- start
 </pre></div>
 
 <code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
