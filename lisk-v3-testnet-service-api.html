@@ -65,7 +65,8 @@
 11. <a href="#step11">Install market</a><br>
 12. <a href="#step12">"Start everything"-script</a><br>
 13. <a href="#step13">Cronjob</a><br>
-14. <a href="#step13">Credits</a><br>
+14. <a href="#step14">Update Lisk Service</a><br>
+15. <a href="#step15">Credits</a><br>
 <br><br><br>
 
 <h3 id="step1">1. Add A-Records for api and service</h3>
@@ -149,14 +150,14 @@ PasswordAuthentication no</pre></div>
 <br><br><br><br>
 <h3 id="step5">5. Install Lisk Core</h3>
 
-<code><p><span class="nohigh">~$ </span> wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash</code>
+<code><p><span class="nohigh">~$ </span> wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash</code>
 
 <br><br><em>Now start a new SSH session!<br><br></em>
 
-<code><p><span class="nohigh">~$ </span> nvm install 12.22.3<br>
-<span class="nohigh">~$ </span> npm install --global --production lisk-core<br>
-<span class="nohigh">~$ </span> curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br>
-<span class="nohigh">~$ </span> sudo apt-get install -y nodejs</code><br>
+<code><p><span class="nohigh">~$ </span>nvm install 12.22.4<br>
+<span class="nohigh">~$ </span>npm install --global --production lisk-core<br>
+<span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br>
+<span class="nohigh">~$ </span>sudo apt-get install -y nodejs</code><br>
 
 <code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
 
@@ -164,7 +165,7 @@ PasswordAuthentication no</pre></div>
 <pre>
 {
   "name": "Lisk Core",
-  "script": "/home/lisk/.nvm/versions/node/v12.22.3/bin/lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
+  "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
   "env": {
     "LISK_NETWORK": "testnet"
   }
@@ -389,24 +390,25 @@ server {
 <br><br><em>Now add the following:</em>
 <div id="box"><pre>
 #!/bin/bash
-cd /home/lisk/
-wait
-/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start core-start.json
-wait
-cd /home/lisk/lisk-service
-wait
-/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start ecosystem.core3.config.js
-wait
-cd /home/lisk/lisk-service/services/market
-wait
-/home/lisk/.nvm/versions/node/v12.22.3/bin/pm2 start npm --name "lisk-service-markets" -- start
+export PATH="$PATH:$HOME/.nvm/versions/node/v12.22.4/bin"
+export PATH="$PATH:$HOME/usr/bin"
+cd
+pm2 start core-start.json
+sleep 5s
+cd
+cd lisk-service
+npm start
+sleep 5s
+cd
+cd lisk-service/services/market
+pm2 start npm --name "lisk-service-markets" -- run start
 </pre></div>
 
 <code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
 <span class="nohigh">~$ </span> ./starteverything.sh</code>
 
 <br><br><em>Now open the pm2-monitor to see the logs for each process:</em>
-<code><p><span class="nohigh">~$ </span> pm2 monit</code>
+<code><p><span class="nohigh">~$ </span>pm2 monit</code>
 
 <br><br><em>It will now take some time until your node is in sync with the network.<br> Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-v3-service.YOURDOMAIN.TLD</em>
 <br><br><br>
@@ -421,6 +423,7 @@ pm2 save<br>
 
 <br><br><br>
 <h3 id="step13">13. Cronjob</h3>
+<h3 id="step13">13. Cronjob</h3>
 <br>
 <em>This cronjob makes sure that after a reboot all processes are being started</em>
 <code><p><span class="nohigh">~$ </span> mkdir reboot-logs<br>
@@ -429,10 +432,33 @@ pm2 save<br>
 <div id="box"><pre>
 @reboot bash starteverything.sh > $HOME/reboot-logs/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-crontablogs.log 2>&1
 </pre></div>
+<br><br><br>
 
+<div id="update">
+<h3 id="step14">14. Update Lisk Service</h3>
+<code>
+<span class="nohigh">~$ </span>pm2 stop all<br>
+<span class="nohigh">~$ </span>pm2 delete all<br>
+<span class="nohigh">~$ </span>cp lisk-service/ecosystem.core3.config.js ecosystem.core3.config.js<br>
+<span class="nohigh">~$ </span>rm -rf lisk-service<br>
+<span class="nohigh">~$ </span>npm remove -g lisk-service #just in case<br>
+<span class="nohigh">~$ </span>sudo reboot<br>
+<span class="nohigh">~$ </span>git clone https://github.com/LiskHQ/lisk-service.git<br>
+<span class="nohigh">~$ </span>cp ecosystem.core3.config.js lisk-service/ecosystem.core3.config.js<br>
+<span class="nohigh">~$ </span>cd lisk-service<br>
+<span class="nohigh">~$ </span>git fetch && git pull<br>
+<span class="nohigh">~$ </span>git checkout v0.4.2<br>
+<span class="nohigh">~$ </span>make build-local<br>
+<span class="nohigh">~$ </span>npm start<br>
+<span class="nohigh">~$ </span>cd && cd lisk-service/services/market<br>
+<span class="nohigh">~$ </span>npm i<br>
+<span class="nohigh">~$ </span>pm2 start npm --name "lisk-service-market" -- run start<br>
+<span class="nohigh">~$ </span>cd && pm2 start core-start.json<br>
+</code>
+</div>
 
 <br><br><br>
-<h3 id="step14">14. Credits</h3>
+<h3 id="step15">15. Credits</h3>
 <br>
 <em>Thanks to lemii, przemer and Corbifex for helping.
 Happy forging on Lisk v3 Testnet!
