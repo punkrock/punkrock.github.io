@@ -470,20 +470,26 @@ pm2 save<br>
 <span class="nohigh">~$ </span>pm2 delete all<br>
 <span class="nohigh">~$ </span>cp lisk-service/ecosystem.core3.config.js ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>rm -rf lisk-service<br>
-<span class="nohigh">~$ </span>npm remove -g lisk-service #just in case<br>
+<span class="nohigh">~$ </span>npm remove -g lisk-service<br>
+
+Now (if you have) disable reboot script (@reboot)
+<span class="nohigh">~$ </span>crontab -e<br>
 <span class="nohigh">~$ </span>sudo reboot<br>
 <span class="nohigh">~$ </span>git clone https://github.com/LiskHQ/lisk-service.git<br>
 <span class="nohigh">~$ </span>cp ecosystem.core3.config.js lisk-service/ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>rm -rf ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>cd lisk-service<br>
 <span class="nohigh">~$ </span>git fetch && git pull<br>
-<span class="nohigh">~$ </span>git checkout v0.4.2<br>
+<span class="nohigh">~$ </span>git checkout latest<br>
 <span class="nohigh">~$ </span>make build-local<br>
-<span class="nohigh">~$ </span>npm start<br>
 <span class="nohigh">~$ </span>cd && cd lisk-service/services/market<br>
 <span class="nohigh">~$ </span>npm i<br>
-<span class="nohigh">~$ </span>pm2 start npm --name "lisk-service-market" -- run start<br>
-<span class="nohigh">~$ </span>cd && pm2 start core-start.json<br>
+<span class="nohigh">~$ </span>cd<br>
+<span class="nohigh">~$ </span>./starteverything.sh<br>
+
+Now (if you have) enable reboot script (@reboot)
+<span class="nohigh">~$ </span>crontab -e<br>
+
 </code>
 </div>
 
