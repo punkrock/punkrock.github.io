@@ -52,7 +52,8 @@
 3. <a href="#step3">Create a random 12-word passphrase and encrypt your account-passphrase</a><br>
 4. <a href="#step4">Register your delegate and vote for yourself</a><br>
 5. <a href="#step5">Start Lisk (if not running) and activate forging</a><br>
-6. <a href="#update">How to update to a new version</a><br><br><br><br>
+6. <a href="#update">How to update to a new version</a><br>
+7. <a href="#step7">Switch to another forging node and activate forging</a><br><br><br><br>
 
 <h3 id="step1">STEP 1 - Create lisk user, install needed stuff</h3>
 <code><span class="nohigh">~# </span>adduser lisk<br />
@@ -235,7 +236,7 @@ Forging status:<br />
 <p>If the output says "forging":true, congratulations. You should forge on Mainnet.<br /><br />To confirm you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing. Or you check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
 
   <div id="update">
-    <h1>How to update to a new version</h1>
+    <h1>STEP 6 - How to update to a new version</h1>
     The stuff in this gray box is needed to update your mainnet nodes:
     <code><p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
     <br>
@@ -246,7 +247,7 @@ Forging status:<br />
   <code><p><span class="nohigh">~$ </span>pm2 restart all<br /></p></code>
     <br>
     <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
-    <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
+    <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br></code>
       Put the following line to the end of the file, save and start a new session:<br>
   <code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
     <p><b>Now enable forging</b></p>
@@ -262,8 +263,46 @@ Forging status:<br />
 {"address":"8f6b8f41152871464d6f1d59b9f91d2f1791cc69","forging":true}<br /></span></sup>
 </blockquote><br>
 </div> 
-<br>
+<br><br><br><br>
 
+<h3 id="step7">STEP 7 - Switch to another forging node and activate forging</h3>
+<span style="color: #cc0000;"><h1>!!! DANGER ZONE !!!</h1></span>
+<img src="./dangerzone.jpg"><br><br>
+
+<span style="color: #cc0000;"><b>WARNING! Read carefully!</b><br>
+You are using this guide on your own risk!<br>
+Mistakes when enabling forging with wrong numbers or wrong order can lead to a ban and lock up your locked LSK up to 780,000 blocks (minimum 90 days!).<br><br><br></span>
+
+
+<b>On your current forging node you do this:</b>
+<p><span class="nohigh">~$ </span>lisk-core forging:status<br />
+<blockquote>
+<sup><span style="color: #008000;">
+[{"address":"8f6b8f41152871464d6f1d59b9f91d2f1791cc69","forging":true,"height":14396145,"maxHeightPrevoted":14396056,"maxHeightPreviouslyForged":14396074}]
+</span></sup>
+</blockquote>
+<span style="color: #cc0000;"><b>Notice:</b></span><br>
+Sometimes the output is: "height", "maxHeightPrevoted", "maxHeightPreviouslyForged"<br>
+Another time it can be: "height", "maxHeightPreviouslyForged", "maxHeightPrevoted"<br>
+You always have to use the order "height", "maxHeightPreviouslyForged", "maxHeightPrevoted" on your new node!<br><br>
+
+Now stop your node:
+<p><span class="nohigh">~$ </span>pm2 delete all<br /><br>
+
+
+<span style="color: #cc0000;"><b>Notice:</b></span> Make 100% sure you are not forging anymore on this server or you can get banned for double forging!<br>
+
+Now add the three numbers from above in this order: Height maxHeightPreviouslyForged maxHeightPrevoted.<br>
+You always have to triple check the order, because above output can be different every time!<br><br>
+<br>
+<b>On your new forging node you do this:</b><br>
+
+<p><span class="nohigh">~$ </span>lisk-core forging:enable 8f6b8f41152871464d6f1d59b9f91d2f1791cc69 <b>Height</b> maxHeight<b>Previously</b>Forged maxHeight<b>Prevoted</b> --overwrite<br /><br />
+<span style="color: #cc0000;"><b>Notice:</b></span><br>
+Use the correct order and don't forget the flag --overwrite or you get in trouble!<br><br>
+
+
+<br><br><br>
 <h3>Ressources</h3>
 <a title="Lisk v3 Mainnet Explorer by moosty" href="https://liskscan.com/" target="_blank" rel="noopener">Lisk v3 Mainnet Explorer by moosty</a> or <a title="Lisk v3 Mainnet Explorer by Carbonara" href="https://lisk.observer/" target="_blank" rel="noopener">Lisk v3 Mainnet Explorer by Carbonara</a> 
 <br>
