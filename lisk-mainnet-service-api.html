@@ -143,7 +143,7 @@ PasswordAuthentication no</pre></div>
 
 <code><p><span class="nohigh">~$ </span> sudo ufw default deny<br>
 <span class="nohigh">~$ </span> sudo ufw allow 'Nginx Full'<br>
-<span class="nohigh">~$ </span> sudo ufw allow 24,7000,7001/tcp<br>
+<span class="nohigh">~$ </span> sudo ufw allow 24,8000,8001/tcp<br>
 <span class="nohigh">~$ </span> sudo ufw enable</code>
 <br><br><em>Confirm with "yes"</em>
 
@@ -163,7 +163,7 @@ PasswordAuthentication no</pre></div>
 <pre>
 {
   "name": "Lisk Core",
-  "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=7000",
+  "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=8000",
   "env": {
     "LISK_NETWORK": "testnet"
   }
@@ -355,7 +355,7 @@ location / {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-NginX-Proxy true;
-    proxy_pass http://localhost:7000/;
+    proxy_pass http://localhost:8000/;
     proxy_ssl_session_reuse off;
     proxy_set_header Host $http_host;
     proxy_cache_bypass $http_upgrade;
