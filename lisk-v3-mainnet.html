@@ -104,7 +104,7 @@ Save & Exit<br><br>
 <blockquote>
 <p><span style="color: #008000;"><sup>Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span><br /><span style="color: #008000;"><sup>Please re-enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
 </blockquote>
-<p><em><br />Copy and paste the output into a txt-file. You'll need parts of it for your config.json:<br /></em></p>
+<p><em><br />Copy and paste the output into a txt-file. You'll need the highlighted part for the create_config.sh file blow:<br /></em></p>
 <blockquote>
 <p><sup><span style="color: #008000;">{"encryptedPassphrase":"<span style="background-color: #ff99cc;">iterations=100.......version=1</span>"}</span></sup></p>
 </blockquote>
@@ -119,9 +119,37 @@ Save & Exit<br><br>
 <p><br />Now you create a bash file:<br /><br />
 <code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</p></code>
 <p>&nbsp;</p>
-<p><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
+<p><em>Paste the following into the file and do <b>NOT</b> close it.<br>You need now replace "<b>binaryAddress</b>" with your binary address and you need to replace the "<b>iterations=100.........version=1</b>" stuff:</em></p>
 <p></p>
-<pre><code><p>cd ~ &amp;&amp; &gt; ~/.lisk/lisk-core/config.json<br />ONION=$(cat ~/hash_onion.json)<br />cat &gt; ~/.lisk/lisk-core/config.json &lt;&lt; EOF_mainnet_config<br />{<br />"logger": {<br />"fileLogLevel": "error",<br>"consoleLogLevel": "info"<br />},<br />"plugins": {<br />"httpApi": {<br />"whiteList": [<br />"127.0.0.1"<br />]<br />}<br />},<br />"forging": {<br />"delegates": [<br />{<br />"address": "<span style="background-color: #ffcc99;">binaryAddress</span>",<br />"encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100............version=1</span>",<br />"hashOnion": $ONION<br />}<br />]<br />}<br />}<br />EOF_mainnet_config</p></code></pre>
+<pre>
+
+cd ~ && > ~/.lisk/lisk-core/config.json
+ONION=$(cat ~/hash_onion.json)
+cat > ~/.lisk/lisk-core/config.json << EOF_mainnet_config
+{
+"logger": {
+"fileLogLevel": "error",
+"consoleLogLevel": "info"
+},
+"plugins": {
+"httpApi": {
+"whiteList": [
+"127.0.0.1"
+]
+}
+},
+"forging": {
+"delegates": [
+{
+"address": "binaryAddress",
+"encryptedPassphrase": "iterations=100............version=1",
+"hashOnion": $ONION
+}
+]
+}
+}
+EOF_mainnet_config
+</pre>
 <p></p>
 <p><br /><em>Now remove the highlighted parts for address and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
 <code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
