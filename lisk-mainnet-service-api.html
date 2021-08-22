@@ -52,6 +52,7 @@
 <h1><strong>Lisk API & Service for Lisk Core v3 on Uubuntu 20.04<br /><br /></strong></h1>
 
 <h1>Summary</h1>
+0. <a href="#step0">Hardware requirements</a><br>
 1. <a href="#step1">Add A-Records for api and service</a><br>
 2. <a href="#step2">Create user and install some stuff</a><br>
 3. <a href="#step3">Secure SSH</a><br>
@@ -69,11 +70,15 @@
 15. <a href="#step15">Credits</a><br>
 <br><br><br>
 
+<h3 id="step0">0. Requirements</h3>
+I recommend a server with 2 or 4 CPU's and a minimum of 8 GB RAM for a reliable Service/API-node!
+<br><br>
+
 <h3 id="step1">1. Add A-Records for api and service</h3>
 <em>Login to your domain hoster and set two A RECORDS for api and service.<br><br>
 This example will result in the domains:<br>
-- https://lisk-v3-api.YourDomain.tld<br>
-- https://lisk-v3-service.YourDomain.tld</em><br><br>
+- https://lisk-mainnet-api.YourDomain.tld<br>
+- https://lisk-mainnet-service.YourDomain.tld</em><br><br>
 
 <img src="./a-records.jpg">
 
@@ -154,9 +159,8 @@ PasswordAuthentication no</pre></div>
 
 <br><br><em>Now start a new SSH session!<br><br></em>
 
-<code><p><span class="nohigh">~$ </span>nvm install 12<br>
-<span class="nohigh">~$ </span>npm install --global --production lisk-core<br>
-
+<code><p><span class="nohigh">~$ </span>nvm install 12</code>
+<code><p><span class="nohigh">~$ </span>npm install --global --production lisk-core</code>
 <code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
 
 <div id="box">
@@ -165,7 +169,7 @@ PasswordAuthentication no</pre></div>
   "name": "Lisk Core",
   "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=8000",
   "env": {
-    "LISK_NETWORK": "testnet"
+    "LISK_NETWORK": "mainnet"
   }
 }
 </pre>
@@ -187,7 +191,7 @@ PasswordAuthentication no</pre></div>
 
 <code><p><span class="nohigh">~$ </span> sudo mysql -u root -p</code><br><br>
 
-<code>CREATE DATABASE testnet;</code><br>
+<code>CREATE DATABASE mainnet;</code><br>
 <code>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Cr4zypa55w0rd!!!"""@qwertz';</code><br>
 <code>FLUSH PRIVILEGES;</code><br>
 <code>\q</code><br>
@@ -215,83 +219,93 @@ PasswordAuthentication no</pre></div>
 <br><br><em>Now empty the file (CTRL + k) completely and add the following <span style="color: #cc0000;"><b>and make sure to change the MySQL password and get a free API-key from exchangeratesapi.io</b></span></em>
 <div id="box"><pre>
 module.exports = {
-        apps: [
-                {
-                        name: 'lisk-service-gateway',
-                        script: 'app.js',
-                        cwd: './services/gateway',
-                        pid_file: './pids/service_gateway.pid',
-                        out_file: './logs/service_gateway.log',
-                        error_file: './logs/service_gateway.err',
-                        log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-                        watch: false,
-                        kill_timeout: 10000,
-                        max_memory_restart: '512M',
-                        instances: 1,
-                        autorestart: true,
-                        env: {
-                                PORT: '9901',
-
-                                // --- Remember to set the properties below
-                                // SERVICE_BROKER: 'redis://localhost:6379/0',
-                        },
-                },
-                {
-                        name: 'lisk-service-core',
-                        script: 'app.js',
-                        cwd: './services/core',
-                        pid_file: './pids/service_core.pid',
-                        out_file: './logs/service_core.log',
-                        error_file: './logs/service_core.err',
-                        log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-                        watch: false,
-                        kill_timeout: 10000,
-                        max_memory_restart: '512M',
-                        instances: 1,
-                        autorestart: true,
-                        env: {
-                                // --- Remember to set the properties below
-                                SERVICE_BROKER: 'redis://localhost:6379/0',
-                                LISK_CORE_WS: 'ws://localhost:8888',
-                                SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
-                                SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/testnet',
-                                LISK_STATIC: 'https://static-data.lisk.com',
-                                GEOIP_JSON: 'https://geoip.lisk.io/json',
-                                ENABLE_TRANSACTION_STATS: 'true',
-                                TRANSACTION_STATS_HISTORY_LENGTH_DAYS: '40',
-                                TRANSACTION_STATS_UPDATE_INTERVAL: '3600',
-                                INDEX_N_BLOCKS: '12000',
-                                ENABLE_FEE_ESTIMATOR_QUICK: 'false',
-                                ENABLE_FEE_ESTIMATOR_FULL: 'false',
-                                FEE_EST_COLD_START_BATCH_SIZE: '1',
-                                FEE_EST_DEFAULT_START_BLOCK_HEIGHT: '1',
-                        },
-                },
-                {
-                        name: 'lisk-service-market',
-                        script: 'app.js',
-                        cwd: './services/market',
-                        pid_file: './pids/service_market.pid',
-                        out_file: './logs/service_market.log',
-                        error_file: './logs/service_market.err',
-                        log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-                        watch: false,
-                        kill_timeout: 10000,
-                        max_memory_restart: '512M',
-                        instances: 1,
-                        autorestart: true,
-                        env: {
-                                // --- Remember to set the properties below
-                                 SERVICE_BROKER: 'redis://localhost:6379/0',
-                                 SERVICE_MARKET_REDIS: 'redis://localhost:6379/2',
-                                 SERVICE_MARKET_FIAT_CURRENCIES: 'EUR,USD,CHF,GBP,RUB',
-                                 SERVICE_MARKET_TARGET_PAIRS: 'LSK_BTC,LSK_EUR,LSK_USD,LSK_CHF,BTC_EUR,BTC_USD,BTC_CHF',
-                                 EXCHANGERATESAPI_IO_API_KEY: '<span style="color: #cc0000;"><b>GET YOUR FREE API KEY FROM: exchangeratesapi.io</b></span>'
-                        },
-                },
-        ],
+    apps: [
+        {
+            name: 'lisk-service-gateway',
+            script: 'app.js',
+            cwd: './services/gateway',
+            pid_file: './pids/service_gateway.pid',
+            out_file: './logs/service_gateway.log',
+            error_file: './logs/service_gateway.err',
+            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+            watch: false,
+            kill_timeout: 10000,
+            max_memory_restart: '2000M',
+//            instances: 1,
+            autorestart: true,
+            env: {
+                PORT: '9901',
+                // --- Remember to set the properties below
+                SERVICE_BROKER: 'redis://localhost:6379/0',
+                ENABLE_HTTP_API: 'http-status,http-version2',
+                ENABLE_WS_API: 'blockchain,rpc-v2',
+                HTTP_CACHE_CONTROL_DIRECTIVES: 'public, max-age=10',
+                ENABLE_HTTP_CACHE_CONTROL: 'true',
+                SERVICE_LOG_STDOUT: true,
+                SERVICE_LOG_LEVEL: 'info'
+            },
+        },
+        {
+            name: 'lisk-service-core',
+            script: 'app.js',
+            cwd: './services/core',
+            pid_file: './pids/service_core.pid',
+            out_file: './logs/service_core.log',
+            error_file: './logs/service_core.err',
+            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+            watch: false,
+            kill_timeout: 10000,
+            max_memory_restart: '2000M',
+  //          instances: 1,
+            autorestart: true,
+            env: {
+                // --- Remember to set the properties below
+                SERVICE_BROKER: 'redis://localhost:6379/0',
+                LISK_CORE_WS: 'ws://localhost:8888',
+                SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
+                SERVICE_CORE_REDIS_VOLATILE: "redis://localhost:6379/8",
+                SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/mainnet',
+                LISK_STATIC: 'https://static-data.lisk.com',
+                GEOIP_JSON: '',
+                INDEX_N_BLOCKS: '0',
+                ENABLE_TRANSACTION_STATS: 'true',
+                TRANSACTION_STATS_HISTORY_LENGTH_DAYS: '366',
+                TRANSACTION_STATS_UPDATE_INTERVAL: '3600',
+                ENABLE_FEE_ESTIMATOR_QUICK: 'true',
+                ENABLE_FEE_ESTIMATOR_FULL: 'false',
+                GENESIS_HEIGHT: "16270293",
+                GENESIS_BLOCK_URL: 'https://downloads.lisk.io/lisk/main/genesis_block.json.tar.gz',
+                SERVICE_LOG_STDOUT: true,
+                SERVICE_LOG_LEVEL: 'info',
+                SERVICE_LOG_CONSOLE: true
+            },
+        },
+        {
+            name: 'lisk-service-market',
+            script: 'app.js',
+            cwd: './services/market',
+            pid_file: './pids/service_market.pid',
+            out_file: './logs/service_market.log',
+            error_file: './logs/service_market.err',
+            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+            watch: false,
+            kill_timeout: 10000,
+            max_memory_restart: '2000M',
+//            instances: 1,
+            autorestart: true,
+            env: {
+                // --- Remember to set the properties below
+                SERVICE_BROKER: 'redis://localhost:6379/0',
+                SERVICE_MARKET_REDIS: 'redis://localhost:6379/2',
+                SERVICE_MARKET_FIAT_CURRENCIES: 'EUR,USD,CHF,GBP,RUB',
+                SERVICE_MARKET_TARGET_PAIRS: 'LSK_BTC,LSK_EUR,LSK_USD,LSK_CHF,BTC_EUR,BTC_USD,BTC_CHF',
+                EXCHANGERATESAPI_IO_API_KEY: '<span style="color: #cc0000;"><b>GET YOUR FREE API KEY FROM: exchangeratesapi.io</b></span>',
+                SERVICE_LOG_STDOUT: true,
+                SERVICE_LOG_LEVEL: 'info'
+            },
+        },
+    ],
 };
-
 
 
 
@@ -314,12 +328,12 @@ module.exports = {
 <div id="box"><pre>
 server {
     listen      80;
-    server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+    server_name lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
 }
 
 server {
     listen       80;
-    server_name lisk-v3-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+    server_name lisk-mainnet-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
 }
 </pre></div>
 
@@ -328,7 +342,7 @@ server {
 <span class="nohigh">~$ </span> sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/<br>
 <span class="nohigh">~$ </span> sudo systemctl restart nginx<br>
 <span class="nohigh">~$ </span> sudo apt install python3-certbot-nginx -y<br>
-<span class="nohigh">~$ </span> sudo certbot --nginx -d lisk-v3-api.YourDomain.tld -d lisk-v3-service.YourDomain.tld</code>
+<span class="nohigh">~$ </span> sudo certbot --nginx -d lisk-mainnet-api.YourDomain.tld -d lisk-mainnet-service.YourDomain.tld</code>
 <br><br><em>If asked for redirects, press 2 (redirect)</em>
 	
 <code><p><span class="nohigh">~$ </span> sudo nano /etc/nginx/sites-enabled/default</code>
@@ -338,9 +352,9 @@ server {
 <div id="box"><pre>
 server {
   listen 443 ssl;
-  server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
-  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
+  server_name lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+  ssl_certificate /etc/letsencrypt/live/lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
   ssl_verify_client off;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
@@ -366,9 +380,9 @@ location / {
 
 server {
   listen 443 ssl;
-  server_name lisk-v3-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
-  ssl_certificate /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
+  server_name lisk-mainnet-service.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+  ssl_certificate /etc/letsencrypt/live/lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>/privkey.pem; # managed by Certbot
   ssl_verify_client off;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
@@ -394,14 +408,14 @@ location /socket.io {
 }
 
 server {
-    if ($host = lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>) {
+    if ($host = lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
         listen 80 ;
         listen [::]:80 ;
-    server_name lisk-v3-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
+    server_name lisk-mainnet-api.<span style="color: #cc0000;"><b>YourDomain.tld</b></span>;
     return 404; # managed by Certbot
 } 
 </pre></div>
@@ -419,19 +433,22 @@ server {
 <br><br><br><br>
 <h3 id="step12">12. "Start everything"-script</h3>
 
-<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
+<br><br><em>Now we search the full paths of lisk-core, pm2 and npm:</em>
+<code><p><span class="nohigh">~$ </span>whereis lisk-core</code>
+<code><p><span class="nohigh">~$ </span>whereis pm2</code>
+<code><p><span class="nohigh">~$ </span>whereis npm</code><br>
 
-<br><br><em>Now add the following:</em>
+<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
+<br><br><em>Now add the following and use YOUR full paths (version might be different on your server!):</em><br>
 <div id="box"><pre>
 #!/bin/bash
-export PATH="$PATH:$HOME/.nvm/versions/node/v12.22.1/bin"
-export PATH="$PATH:$HOME/usr/bin"
+export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/npm"
+export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2"
+export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/lisk-core"
 cd
 pm2 start core-start.json
-sleep 5s
-cd
 cd lisk-service
-pm2 start ecosystem.core3.config.js
+npm start
 </pre></div>
 
 <code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
@@ -440,26 +457,25 @@ pm2 start ecosystem.core3.config.js
 <br><br><em>Now open the pm2-monitor to see the logs for each process:</em>
 <code><p><span class="nohigh">~$ </span>pm2 monit</code>
 
-<br><br><em>It will now take some time until your node is in sync with the network.<br> Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-v3-service.YOURDOMAIN.TLD</em>
+<br><br><em>It will now take some time until your node is in sync with the network.<br> Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-mainnet-service.YOURDOMAIN.TLD</em>
 <br><br><br>
-
-<em><b>Other pm2 commands:</b></em><br>
-pm2 restart all<br>
-pm2 stop all<br>
-pm2 start all<br>
-pm2 status<br>
-pm2 delete all<br>
-pm2 save<br>
 
 <br><br><br>
 <h3 id="step13">13. Cronjob</h3>
 <br>
-<em>This cronjob makes sure that after a reboot all processes are being started</em>
-<code><p><span class="nohigh">~$ </span> mkdir reboot-logs<br>
-<span class="nohigh">~$ </span> crontab -e</code>
+<em>This cronjob makes sure that after a reboot all processes are being started.</em><br>
+<br>Create a folder for reboot logs:<br>
+<code><p><span class="nohigh">~$ </span>cd && mkdir reboot-logs<br></code>
+<br>
+<em>Now you need the full path of bash:</em><br>
+<code><p><span class="nohigh">~$ </span>whereis bash<br><br>
+
+<span class="nohigh">~$ </span> crontab -e</code><br><br>
+
+<em>Now add this into the file and use YOUR the full path of bash:</em><br>
 
 <div id="box"><pre>
-@reboot bash starteverything.sh > $HOME/reboot-logs/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-crontablogs.log 2>&1
+@reboot /usr/bin/bash starteverything.sh > $HOME/reboot-logs/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-crontablogs.log 2>&1
 </pre></div>
 <br><br><br>
 
@@ -472,7 +488,7 @@ pm2 save<br>
 <span class="nohigh">~$ </span>rm -rf lisk-service<br>
 <span class="nohigh">~$ </span>npm remove -g lisk-service<br><br>
 
-Now (if you have) disable reboot script (@reboot)<br>
+Now (if you have) disable/comment (add # before the line) reboot script in crontab:<br>
 <span class="nohigh">~$ </span>crontab -e<br>
 <span class="nohigh">~$ </span>sudo reboot<br>
 <span class="nohigh">~$ </span>git clone https://github.com/LiskHQ/lisk-service.git<br>
@@ -487,16 +503,25 @@ Now (if you have) disable reboot script (@reboot)<br>
 <span class="nohigh">~$ </span>cd<br>
 <span class="nohigh">~$ </span>./starteverything.sh<br><br>
 
-Now (if you have) enable reboot script (@reboot)<br>
+Now (if you have) enable/uncomment reboot script again in crontab:<br>
 <span class="nohigh">~$ </span>crontab -e<br>
 
 </code>
-</div>
+</div><br><br><br>
+
+
+<em><b>Other pm2 commands:</b></em><br>
+pm2 restart all<br>
+pm2 stop all<br>
+pm2 start all<br>
+pm2 status<br>
+pm2 delete all<br>
+pm2 save<br>
 
 <br><br><br>
 <h3 id="step15">15. Credits</h3>
 <br>
 <em>Thanks to lemii, przemer and Corbifex for helping.
-Happy forging on Lisk v3 Testnet!
+Happy forging on Lisk v3 mainnet!
 <br><br><b>punkrock</b></em>
 <br><br>
