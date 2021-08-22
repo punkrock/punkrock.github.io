@@ -86,6 +86,7 @@ Save & Exit<br><br>
 
 
 
+
 <h3 id="step2">STEP 2 - Create your account</h3>
 <code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
 <blockquote>
@@ -121,8 +122,25 @@ Save & Exit<br><br>
 <code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
 <p><span class="nohigh">~$ </span>./create_config.sh</p></code>
 <p><br />Now you check if the config.json is working correct.</p>
-<code><span class="nohigh">~$ </span>pm2 restart all<br>
-  <span class="nohigh">~$ </span>pm2 logs</p></code>
+
+
+Start Lisk Core:<br>
+<code><p><span class="nohigh">~$ </span>cd</code><br>
+<code><p><span class="nohigh">~$ </span>pm2 start core-start.json</code><br>
+<br>Now check if Lisk Core is running:<br>
+<code><span class="nohigh">~$ </span>pm2 list<br /></code><br>
+
+If you see the PM2 status "errored", check the PM2 error logs:<br>
+<code><span class="nohigh">~$ </span>pm2 logs<br /></code>
+
+
+<br><br>
+<strong><span style="color: #cc0000;">INFO:</span></strong> If your machine doesn't find the command lisk-core, then open ~./profile...
+<code><p><span class="nohigh">~$ </span>nano ~/.profile<br></p></code>
+...and add the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+
+  <code><span class="nohigh">~$ </span>pm2 logs</p></code>
 <blockquote>
 <p><sub><span style="color: #008000;">20:01:03 INFO lisk-framework: Starting the app - lisk-core (module=lisk:app)<br />20:01:03 INFO lisk-framework: If you experience any type of error, please open an issue on Lisk GitHub: https://github.com/LiskHQ/lisk-sdk/issues (module=lisk:app)<br />20:01:03 INFO lisk-framework: Contribution guidelines can be found at Lisk-sdk: https://github.com/LiskHQ/lisk-sdk/blob/development/docs/CONTRIBUTING.md (module=lisk:app)<br />20:01:03 INFO lisk-framework: Booting the application with Lisk Framework(3.0.0-beta.2.8362aa8) (module=lisk:app)<br />20:01:03 INFO lisk-framework: Initializing controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Loading controller (module=lisk:app)<br />20:01:03 INFO lisk-framework: Event * was subscribed but not registered to the bus yet. (module=lisk:app)<br />20:01:04 INFO lisk-framework: New block added to the chain (module=lisk:app)<br />{<br />"id": "5a92c178ca2125f358f61d2174fc5c5500f94ebf76da22165751cf3923003789",<br />"height": 0,<br />"numberOfTransactions": 0<br />} <br />20:01:04 INFO lisk-framework: Blockchain ready (module=lisk:app)<br />20:01:04 INFO lisk-framework: Node ready and launched (module=lisk:app)<br />20:01:07 INFO lisk-framework: Starting synchronizer (module=lisk:app)</span></sub></p>
 </blockquote>
