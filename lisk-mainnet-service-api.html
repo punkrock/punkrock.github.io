@@ -65,7 +65,7 @@
 10. <a href="#step10">Config Nginx and get TLS certificates</a><br>
 11. <a href="#step11">Install market</a><br>
 12. <a href="#step12">"Start everything"-script</a><br>
-13. <a href="#step13">Cronjob</a><br>
+13. <a href="#step13">Reboot Cronjob</a><br>
 14. <a href="#step14">Update Lisk Service</a><br>
 15. <a href="#step15">Credits</a><br>
 <br><br><br>
@@ -178,7 +178,7 @@ PasswordAuthentication no</pre></div>
 <br><br><br>
 <h3 id="step6">6. Install pm2</h3>
 
-<code><p><span class="nohigh">~$ </span> npm i -g pm2</code>
+<code><p><span class="nohigh">~$ </span> sudo npm i -g pm2</code>
 
 <br><br><br><br>
 <h3 id="step7">7. Install MySQL Server</h3>
@@ -433,22 +433,16 @@ server {
 <br><br><br><br>
 <h3 id="step12">12. "Start everything"-script</h3>
 
-<br><br><em>Now we search the full paths of lisk-core, pm2 and npm:</em>
-<code><p><span class="nohigh">~$ </span>whereis lisk-core</code>
-<code><p><span class="nohigh">~$ </span>whereis pm2</code>
-<code><p><span class="nohigh">~$ </span>whereis npm</code><br>
-
 <code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
-<br><br><em>Now add the following and use YOUR full paths (version might be different on your server!):</em><br>
+<br><br><em>Now add the following and save the file:</em><br>
 <div id="box"><pre>
 #!/bin/bash
-export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/npm"
-export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2"
-export PATH="$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/lisk-core"
+export PATH=$PATH:/usr/local/bin/
 cd
-pm2 start core-start.json
+/usr/local/bin/pm2 start core-start.json
+cd
 cd lisk-service
-npm start
+/usr/bin/npm start
 </pre></div>
 
 <code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
@@ -461,22 +455,11 @@ npm start
 <br><br><br>
 
 <br><br><br>
-<h3 id="step13">13. Cronjob</h3>
+<h3 id="step13">13. Reboot Cronjob</h3>
 <br>
 <em>This cronjob makes sure that after a reboot all processes are being started.</em><br>
-<br>Create a folder for reboot logs:<br>
-<code><p><span class="nohigh">~$ </span>cd && mkdir reboot-logs<br></code>
-<br>
-<em>Now you need the full path of bash:</em><br>
-<code><p><span class="nohigh">~$ </span>whereis bash<br><br>
 
-<span class="nohigh">~$ </span> crontab -e</code><br><br>
-
-<em>Now add this into the file and use YOUR the full path of bash:</em><br>
-
-<div id="box"><pre>
-@reboot /usr/bin/bash starteverything.sh > $HOME/reboot-logs/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-crontablogs.log 2>&1
-</pre></div>
+work in progress...
 <br><br><br>
 
 <div id="update">
