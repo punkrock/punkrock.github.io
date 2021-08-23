@@ -433,34 +433,71 @@ server {
 <br><br><br><br>
 <h3 id="step12">12. "Start everything"-script</h3>
 
-<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code>
-<br><br><em>Now add the following and save the file:</em><br>
+<strong><span style="color: #cc0000;">Important infos:</span></strong><br>
+<em>It will now take some time until your node is in sync with the network, that's why we put 120 seconds sleep between the start of Lisk Core and Lisk Service in our starteverything.sh script.<br>
+It could be that it takes much longer, especially when the chain is bigger and you start from scratch. If you start Lisk Service before Lisk Core is in sync, it can lead to database errors.<br>
+If you started from scratch, only run Lisk Core (pm2 start core-start.json) and let it get in sync with the network and stop Lisk Core before you use this starteverything.sh script.<br>
+
+<br><em>Ok, now we go on. You need to know where your pm2 and npm on your machine is:</em><br>
+<code><span class="nohigh">~$ </span> which pm2</code><br>
+<code><span class="nohigh">~$ </span> which npm</code><br>
+<br><em>If the results are for example this...</em><br>
+<div id="box"><pre>/home/lisk/.nvm/versions/node/v12.22.5/bin/npm
+/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2</div></pre>
+...then you need to add the paths into the starteverything.sh (without the pm2 and npm at the end... or add both full paths, no idea)
+<br><br>
+
+<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code><br><br>
+
+<em>Add your paths to pm2 and npm below after "export" and add everything else and save the file:</em><br>
 <div id="box"><pre>
 #!/bin/bash
-export PATH=$PATH:/usr/local/bin/
-cd
-/usr/local/bin/pm2 start core-start.json
-cd
+export PATH=$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/
+pm2 start core-start.json
+sleep 120
 cd lisk-service
-/usr/bin/npm start
+npm start
 </pre></div>
+
+<br><em>Make it executable and start it:</em><br>
 
 <code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
 <span class="nohigh">~$ </span> ./starteverything.sh</code>
 
 <br><br><em>Now open the pm2-monitor to see the logs for each process:</em>
 <code><p><span class="nohigh">~$ </span>pm2 monit</code>
+<br><br>
+ Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-mainnet-service.YOURDOMAIN.TLD</em>
 
-<br><br><em>It will now take some time until your node is in sync with the network.<br> Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-mainnet-service.YOURDOMAIN.TLD</em>
 <br><br><br>
-
-<br><br><br>
-<h3 id="step13">13. Reboot Cronjob</h3>
+<h3 id="step13">13. Add an @reboot-Cronjob</h3>
 <br>
-<em>This cronjob makes sure that after a reboot all processes are being started.</em><br>
+<em>This cronjob starts your starteverything.sh scripts after a reboot:</em><br><br>
 
-work in progress...
-<br><br><br>
+<br><em>Check where bash is:</em><br>
+<code><span class="nohigh">~$ </span> which bash</code><br>
+
+<br><em>In the following cronjob line i use /usr/bin/bash as this was my result:</em><br><br>
+
+<code><span class="nohigh">~$ </span> crontab -e</code><br><br></code>
+
+Add this, save and close:
+<div id="box"><pre>
+@reboot sleep 20 && /usr/bin/bash /home/lisk/starteverything.sh > $HOME/reboot-logs/date +%Y-%m-%d_%H:%M:%S-crontablogs.log 2>&1
+</pre></div>
+<br>
+
+<br><em>Now reboot and open pm2 monit:</em><br>
+<code><span class="nohigh">~$ </span> pm2 monit</code><br>
+
+<br><em>Lisk Core should show up and 120 seconds later, should all three service processes show up (service-core, service-gateway, service-market).<br>
+<br>To check if everything works, visit these two domains:<br></em>
+<div id="box"><pre>
+- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/v2/network/status<br>
+- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/status<br></pre></div><br>
+If you get some good looking results, nice. You now can connect with Lisk Desktop to your domain: <a href="https://lisk-mainnet-service.YOURDOMAIN.TLD">https://lisk-mainnet-service.YOURDOMAIN.TLD</a><br>
+If you see errors, bad. Try again and good luck. 
+<br><br><br><br>
 
 <div id="update">
 <h3 id="step14">14. Update Lisk Service</h3>
