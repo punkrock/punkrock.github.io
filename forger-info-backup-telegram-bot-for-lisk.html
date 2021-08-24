@@ -1,0 +1,94 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>punkrock.github.io</title>
+  <meta name="description" content="Ressources for mining, forging and validating. Vote for punkrock!">
+  <meta name="author" content="punkrock">
+
+<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+<style type="text/css">
+	body {font-family: Arial, Helvetica, sans-serif;}
+  .highlighted-div { background-color: #ecffcb; width: auto; padding: 20px; display: inline-block }
+	.inner-pre {font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;}
+  .nohigh {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  #update {
+  background-color: #f0f0f0 ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
+</style>
+
+</head>
+
+<body>
+
+  <pre>    ______  _   _  _   _  _   ________  _____  _____  _   __
+    | ___ \| | | || \ | || | / /| ___ \|  _  |/  __ \| | / /
+    | |_/ /| | | ||  \| || |/ / | |_/ /| | | || /  \/| |/ / 
+    |  __/ | | | || . ` ||    \ |    / | | | || |    |    \ 
+    | |    | |_| || |\  || |\  \| |\ \ \ \_/ /| \__/\| |\  \
+    \_|     \___/ \_| \_/\_| \_/\_| \_| \___/  \____/\_| \_/
+</pre>
+<pre>---------------------------------------------------------------------------
+<span class="inner-pre"><a href="https://punkrock.github.io">Home</a> | <a href="https://punkrock.github.io/lisk.html">Lisk</a></span>
+---------------------------------------------------------------------------
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Forger Info Backup Telegram-Bot for Lisk (by Corsaro)</strong></h1>
+
+1. Open Telegram and start a conversation with the user BotFather<br>
+2. Type /newbot<br>
+3. Give your Lisk Backup bot a title<br>
+4. Give your bot a name ending with "bot"<br>
+5. Click the link BotFather gave to you (t.me/yourbotname)<br>
+6. Visit this site (replace xxxxxxxxx with the API token BotFather gave to you: <span><pre><div id="box">https://api.telegram.org/botxxxxxxxxxx/getUpdates</div></pre></span><br>
+7. In Telegram go to the conversation with your newly created bot (t.me/yourbotname)<br>
+8. In the conversation with your bot type: /start<br>
+9. Go back to the website you have opened before.<br>
+10. You should see some stuff and the Chat ID. Copy the chat ID. You need it.
+<br><br>
+Now you have your Chat ID and the API token. You will need both to add it to the following script:
+<br><br>
+Create your backup bash script:<br>
+<code><p><span class="nohigh">~$ </span> cd && nano backupbot.sh</code><br><br>
+
+Copy this code and add it to the file (replace the token api, the chat id and the path to your logfile):<br>
+<pre>
+#!/bin/bash
+# jq needed, install it if not present **********
+apiToken="12345667890" # your telegram api token
+chat_id="XXXXXXXX" # your telegram ID
+tail -Fn0 /home/lisk/.pm2/logs/lisk-core-out.log |
+while read line ; do
+
+    echo "$line" | grep "Forged new block"
+    if [ $? = 0 ]; then
+    echo "Forged Block found: $line"
+    address=$(lisk-core forging:status | jq -r '.[].address')
+    height=$(lisk-core forging:status | jq -r '.[].height')
+    maxHeightPreviouslyForged=$(lisk-core forging:status | jq -r '.[].maxHeightPreviouslyForged')
+    maxHeightPrevoted=$(lisk-core forging:status | jq -r '.[].maxHeightPrevoted')
+    # $address $height $maxHeightPreviouslyForged $maxHeightPrevoted
+    echo "Forged Block: $line" | curl -s -X POST https://api.telegram.org/bot$apiToken/sendMessage -d text="'$line' address:'$address' height:'$height' maxHeightPreviouslyForged:'$maxHeightPreviouslyForged' maxHeightPrevoted: '$maxHeightPrevoted'" -d chat_id=$chat_id
+    fi
+done
+</pre>
+
+<br><br>
+Now exit and save the file and make it executable:
+
+<code><p><span class="nohigh">~$ </span> chmod +x backupbot.sh</code><br><br>
+Start the script:
+<code><p><span class="nohigh">~$ </span> screen -mS lisk-nodeinfo-backup ./backup-forgerinfo.sh</code><br><br>
+Now wait for a forged block and check if you got the output as a message on Telegram.<br><br>
+Now exit screen with CTRL+a+d<br><br><br><br>Thanks to Corsaro for the helpful script!<br><br>
