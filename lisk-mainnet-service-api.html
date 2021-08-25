@@ -64,8 +64,8 @@
 9. <a href="#step9">Install Lisk Service</a><br>
 10. <a href="#step10">Config Nginx and get TLS certificates</a><br>
 11. <a href="#step11">Install market</a><br>
-12. <a href="#step12">"Start everything"-script</a><br>
-13. <a href="#step13">Reboot Cronjob</a><br>
+12. <a href="#step12">Add auto-start for Lisk Core and Lisk Service after reboot using pm2</a><br>
+13. <a href="#step13">Manual Stop / Start procedure</a><br>
 14. <a href="#step14">Update Lisk Service</a><br>
 15. <a href="#step15">Credits</a><br>
 <br><br><br>
@@ -431,74 +431,70 @@ server {
 <span class="nohigh">~$ </span> npm install</code>
 
 <br><br><br><br>
-<h3 id="step12">12. "Start everything"-script</h3>
+<h3 id="step12">12. Add auto-start for Lisk Core and Lisk Service after reboot using pm2</h3>
 
 <strong><span style="color: #cc0000;">Important infos:</span></strong><br>
-<em>It will now take some time until your node is in sync with the network, that's why we put 120 seconds sleep between the start of Lisk Core and Lisk Service in our starteverything.sh script.<br>
+<em>It will now take some time until your node is in sync with the network, that's why we put 120 seconds sleep in our start-lisk-service.sh script.<br>
 It could be that it takes much longer, especially when the chain is bigger and you start from scratch. If you start Lisk Service before Lisk Core is in sync, it can lead to database errors.<br>
-If you started from scratch, only run Lisk Core (pm2 start core-start.json) and let it get in sync with the network and stop Lisk Core before you use this starteverything.sh script.<br>
+If you started from scratch, only run Lisk Core (pm2 start core-start.json) and let it get in sync with the network and stop Lisk Core before you use this start-lisk-service.sh script.<br>
 
-<br><em>Ok, now we go on. You need to know where your pm2 and npm on your machine is:</em><br>
-<code><span class="nohigh">~$ </span> which pm2</code><br>
-<code><span class="nohigh">~$ </span> which npm</code><br>
-<br><em>If the results are for example this...</em><br>
-<div id="box"><pre>/home/lisk/.nvm/versions/node/v12.22.5/bin/npm
-/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2</div></pre>
-...then you need to add the paths into the starteverything.sh (without the pm2 and npm at the end... or add both full paths, no idea)
-<br><br>
+<br><em>Make PM2 ready for reboots:</em><br>
+<code><p><span class="nohigh">~$ </span> cd && pm2 startup</code><br><br>
+You got an output with a sudo command. You need to copy paste and execute it. PM2 is ready now for reboots.<br><br>
 
-<code><p><span class="nohigh">~$ </span> cd && nano starteverything.sh</code><br><br>
 
-<em>Add your paths to pm2 and npm below after "export" and add everything else and save the file:</em><br>
+<br><em>Now start Lisk Core:</em><br>
+
+<code><p><span class="nohigh">~$ </span> cd && pm2 start core-start.json</code><br><br>
+
+<em>Now create a script to start Lisk Service:</em><br>
+<code><p><span class="nohigh">~$ </span> cd && nano start-lisk-service.sh</code><br><br>
+
 <div id="box"><pre>
 #!/bin/bash
-export PATH=$PATH:/home/lisk/.nvm/versions/node/v12.22.5/bin/
-pm2 start core-start.json
 sleep 120
-cd lisk-service
-npm start
+cd && cd lisk-service
+pm2 start ecosystem.core3.config.js
+sleep 5
+pm2 delete lisk-service-start
 </pre></div>
 
 <br><em>Make it executable and start it:</em><br>
 
-<code><p><span class="nohigh">~$ </span> chmod +x starteverything.sh<br>
-<span class="nohigh">~$ </span> ./starteverything.sh</code>
+<code><p><span class="nohigh">~$ </span> chmod +x start-lisk-service.sh<br>
+<span class="nohigh">~$ </span> ./start-lisk-service.sh</code><br><br>
 
-<br><br><em>Now open the pm2-monitor to see the logs for each process:</em>
+Now you need to enter the following command within 120 seconds:<br>
+<code><span class="nohigh">~$ </span> pm2 save</code>
+
+<br><br><em>Now open the pm2-monitor. After about two minutes Lisk Service (core, gateway, market) should start and 5 seconds later the process "start-lisk-service" should disappear:</em>
 <code><p><span class="nohigh">~$ </span>pm2 monit</code>
 <br><br>
- Wait until it is in sync and then use Lisk Desktop to connect to your Service node -> https://lisk-mainnet-service.YOURDOMAIN.TLD</em>
-
-<br><br><br>
-<h3 id="step13">13. Add an @reboot-Cronjob</h3>
-<br>
-<em>This cronjob starts your starteverything.sh scripts after a reboot:</em><br><br>
-
-<br><em>Check where bash is:</em><br>
-<code><span class="nohigh">~$ </span> which bash</code><br>
-
-<br><em>In the following cronjob line i use /usr/bin/bash as this was my result:</em><br><br>
-
-<code><span class="nohigh">~$ </span> crontab -e</code><br><br></code>
-
-Add this, save and close:
-<div id="box"><pre>
-@reboot sleep 20 && /usr/bin/bash /home/lisk/starteverything.sh > $HOME/reboot-logs/date +%Y-%m-%d_%H:%M:%S-crontablogs.log 2>&1
-</pre></div>
-<br>
-
-<br><em>Now reboot and open pm2 monit:</em><br>
-<code><span class="nohigh">~$ </span> pm2 monit</code><br>
-
-<br><em>Lisk Core should show up and 120 seconds later, should all three service processes show up (service-core, service-gateway, service-market).<br>
-<br>To check if everything works, visit these two domains:<br></em>
-<div id="box"><pre>
+Now reboot, open pm2 monit and wait about 120 seconds to see if everything works and gets started as expected.
+<br><br>
+To see if everything works, you can visit the following URL's:<br>
 - https://lisk-mainnet-service.YOURDOMAIN.TLD/api/v2/network/status<br>
-- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/status<br></pre></div><br>
-If you get some good looking results, nice. You now can connect with Lisk Desktop to your domain: <a href="https://lisk-mainnet-service.YOURDOMAIN.TLD">https://lisk-mainnet-service.YOURDOMAIN.TLD</a><br>
-If you see errors, bad. Try again and good luck. 
+- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/status<br>
+<br>
+If you see results loading and no error, you are finished.<br><br>
+
+If your node is in sync you can use Lisk Desktop to connect to your Service node -> https://lisk-mainnet-service.YOURDOMAIN.TLD</em>
+
 <br><br><br><br>
 
+<h3 id="step13">13. Manual Stop / Start procedure</h3>
+If you wanna stop everything and start it manual use the follwing commands.<br>
+<br>
+To stop Lisk Core and Lisk Service:<br>
+<code><p><span class="nohigh">~$ </span>pm2 delete all</code>
+<br><br>
+To start Lisk Core and Lisk Service:<br>
+<code><p><span class="nohigh">~$ </span>cd && pm2 start core-start.json</code>
+<code><p><span class="nohigh">~$ </span>cd && cd lisk-service && pm2 start ecosystem.core3.config.js</code>
+
+
+
+<br><br><br><br>
 <div id="update">
 <h3 id="step14">14. Update Lisk Service</h3>
 <code>
@@ -521,7 +517,7 @@ Now (if you have) disable/comment (add # before the line) reboot script in cront
 <span class="nohigh">~$ </span>cd && cd lisk-service/services/market<br>
 <span class="nohigh">~$ </span>npm i<br>
 <span class="nohigh">~$ </span>cd<br>
-<span class="nohigh">~$ </span>./starteverything.sh<br><br>
+<span class="nohigh">~$ </span>./start-lisk-service.sh<br><br>
 
 Now (if you have) enable/uncomment reboot script again in crontab:<br>
 <span class="nohigh">~$ </span>crontab -e<br>
