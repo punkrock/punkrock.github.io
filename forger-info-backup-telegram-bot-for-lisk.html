@@ -65,27 +65,8 @@ Now you have your Chat ID and the API token. You will need both to add it to the
 Create your backup bash script:<br>
 <code><p><span class="nohigh">~$ </span> cd && nano backupbot.sh</code><br><br>
 
-Copy this code and add it to the file (replace the token api, the chat id and the path to your logfile):<br>
-<pre>
-#!/bin/bash
-# jq needed, install it if not present **********
-apiToken="12345667890" # your telegram api token
-chat_id="XXXXXXXX" # your telegram ID
-tail -Fn0 /home/lisk/.pm2/logs/lisk-core-out.log |
-while read line ; do
-
-    echo "$line" | grep "Forged new block"
-    if [ $? = 0 ]; then
-    echo "Forged Block found: $line"
-    address=$(lisk-core forging:status | jq -r '.[].address')
-    height=$(lisk-core forging:status | jq -r '.[].height')
-    maxHeightPreviouslyForged=$(lisk-core forging:status | jq -r '.[].maxHeightPreviouslyForged')
-    maxHeightPrevoted=$(lisk-core forging:status | jq -r '.[].maxHeightPrevoted')
-    # $address $height $maxHeightPreviouslyForged $maxHeightPrevoted
-    echo "Forged Block: $line" | curl -s -X POST https://api.telegram.org/bot$apiToken/sendMessage -d text="'$line' address:'$address' height:'$height' maxHeightPreviouslyForged:'$maxHeightPreviouslyForged' maxHeightPrevoted: '$maxHeightPrevoted'" -d chat_id=$chat_id
-    fi
-done
-</pre>
+Now visit https://raw.githubusercontent.com/dakk/lisk3-scripts/master/lisk-saveforging.sh
+and copy the code into your backup.sh (replace the token api, the chat id and the path to your logfile):<br>
 
 <br><br>
 Now exit and save the file and make it executable:
