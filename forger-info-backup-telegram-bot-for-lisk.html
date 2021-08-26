@@ -62,17 +62,14 @@ This bot grabs the magical three numbers every forging delegate needs to enable 
 <br><br>
 Now you have your Chat ID and the API token. You will need both to add it to the following script:
 <br><br>
-Create your backup bash script:<br>
-<code><p><span class="nohigh">~$ </span> cd && nano backupbot.sh</code><br><br>
-
-Now visit: <a href="https://raw.githubusercontent.com/dakk/lisk3-scripts/master/lisk-saveforging.sh">https://raw.githubusercontent.com/dakk/lisk3-scripts/master/lisk-saveforging.sh</a><br>
-and copy the code into your backup.sh (replace the token api, the chat id and the path to your logfile):<br>
+Create your backup bash script and put in your chat ID and the API token:<br>
+<code><p><span class="nohigh">~$ </span> cd && wget https://raw.githubusercontent.com/dakk/lisk3-scripts/master/lisk-saveforging.sh && nano lisk-saveforging.shh</code><br><br>
 
 <br><br>
 Now exit and save the file and make it executable:
 
-<code><p><span class="nohigh">~$ </span> chmod +x backupbot.sh</code><br><br>
+<code><p><span class="nohigh">~$ </span> chmod +x lisk-saveforging.sh</code><br><br>
 Start the script:
-<code><p><span class="nohigh">~$ </span> pm2 start backupbot.sh</code><br><br>
+<code><p><span class="nohigh">~$ </span> pm2 start lisk-saveforging.sh</code><br><br>
 Now wait for a forged block and check if you got the output as a message on Telegram.<br><br>
 Now exit screen with CTRL+a+d<br><br><br><br>Thanks to dakk & corsaro for the helpful script!<br><br>
