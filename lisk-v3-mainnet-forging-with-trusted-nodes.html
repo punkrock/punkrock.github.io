@@ -1,0 +1,360 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>punkrock.github.io</title>
+  <meta name="description" content="Ressources for mining, forging and validating. Vote for punkrock!">
+  <meta name="author" content="punkrock">
+
+<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+<style type="text/css">
+	body {font-family: Arial, Helvetica, sans-serif;}
+  .highlighted-div { background-color: #ecffcb; width: auto; padding: 20px; display: inline-block }
+	.inner-pre {font-size: 18px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;}
+  .nohigh {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  #update {
+  background-color: #f0f0f0 ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
+  #box {
+  background-color: #f0f0f0 ;
+  padding: 10px ;
+  border: 1px solid green ;
+} 
+</style>
+
+</head>
+
+<body>
+
+  <pre>    ______  _   _  _   _  _   ________  _____  _____  _   __
+    | ___ \| | | || \ | || | / /| ___ \|  _  |/  __ \| | / /
+    | |_/ /| | | ||  \| || |/ / | |_/ /| | | || /  \/| |/ / 
+    |  __/ | | | || . ` ||    \ |    / | | | || |    |    \ 
+    | |    | |_| || |\  || |\  \| |\ \ \ \_/ /| \__/\| |\  \
+    \_|     \___/ \_| \_/\_| \_/\_| \_| \___/  \____/\_| \_/
+</pre>
+<pre>---------------------------------------------------------------------------
+<span class="inner-pre"><a href="https://punkrock.github.io">Home</a> | <a href="https://punkrock.github.io/lisk.html">Lisk</a></span>
+---------------------------------------------------------------------------
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Lisk v3: Forging on Mainnet <span style="color: #cc0000;">WITH TRUSTED NODES</span><br /><br /></strong></h1>
+
+<h1>Summary</h1>
+<b>On your trusted node(s):</b><br>
+1. <a href="#step1">Install Lisk Core and some other stuff on your trusted node(s)</a><br>
+2. <a href="#step2">Setup UFW</a><br>
+3. <a href="#step3">First start and creation of the configuration file for the trusted Node</a><br><br>
+<b>On your forging node:</b><br>
+4. <a href="#step4">Setup a new forging node</a><br>
+5. <a href="#step5">Create your forging account</a><br>
+6. <a href="#step6">Create a random 12-word passphrase and encrypt your account-passphrase</a><br>
+7. <a href="#step7">Register your delegate and vote for yourself</a><br>
+8. <a href="#step8">Start Lisk and activate forging</a><br>
+<br><br><br><br>
+<img src="trusted-nodes-architecture.jpeg" width="700px" height="auto">
+<br><br><br><br>
+<h3 id="step1">STEP 1 - Install Lisk Core and some other stuff on your trusted node(s)</h3>
+<code><span class="nohigh">~# </span>adduser lisk<br />
+<span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
+<span class="nohigh">~# </span>su - lisk<br /><br />
+<span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
+<span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
+<span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br></code>
+<b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
+<code><span class="nohigh">~$ </span>nvm install 12<br />
+<span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
+<span class="nohigh">~$ </span>npm i -g pm2<br></code>
+<br>
+
+<h3 id="step2">STEP 2 - Setup UFW</h3>
+<code><span class="nohigh">~$ </span>sudo ufw default deny incoming<br>
+<span class="nohigh">~$ </span>sudo ufw default allow outgoing<br>
+<span class="nohigh">~$ </span>sudo ufw allow ssh<br>
+<span class="nohigh">~$ </span>sudo ufw allow 8001/tcp<br>
+<span class="nohigh">~$ </span>sudo ufw enable<br>
+<span class="nohigh">~$ </span>sudo ufw status verbose</code>
+
+<br><br><br>
+<h3 id="step3">STEP 3 - First start and creation of the configuration file for the trusted Node</h3>
+
+Start Lisk for the first time. This will create the folders ~/.lisk/lisk-core<br>
+<code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
+
+<div id="box">
+    <pre>
+{
+  "name": "lisk-core",
+  "script": "/home/lisk/.nvm/versions/node/v12.22.5/bin/lisk-core start --api-ws -c ~/.lisk/lisk-core/config.json",
+  "env": {
+  "LISK_NETWORK": "mainnet"
+  }
+ }
+</pre>
+</div>
+
+<p>Now you create the path where Lisk will run and you create an empty config file:</p>
+<code><span class="nohigh">~$ </span>cd && mkdir ~/.lisk && mkdir ~/.lisk/lisk-core && touch ~/.lisk/lisk-core/config.json</code>
+<code><p><span class="nohigh">~$ </span>cd && pm2 start core-start.json</code>
+
+<br>
+<p><em>If your machine doesn't find the command lisk-core, then open ~./profile...</em></p>
+<code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br></p></code>
+...and add the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+
+
+
+Stop Lisk<br>
+<code><span class="nohigh">~$ </span>pm2 stop lisk-core<br><br></code>
+Create the configuration txt-file:<br />
+<code><span class="nohigh">~$ </span>nano /home/$USER/.lisk/lisk-core/config.json</p></code><br>
+Paste the following into the file and add the IP of your forging node:
+<code><pre>
+{
+        "network": {
+          "whitelistedPeers": [{
+            "ip": "<span style="background-color: #cc0000; color: #ffffff;">IP.OF.FORGING.NODE</span>",
+            "port": 8001
+      }]
+      }
+}
+        
+    </pre></code>
+
+Save and exit.<br /><br /><br>
+Now start Lisk and check if it is running:<br>
+<code><p><span class="nohigh">~$ </span>cd && nano core-start.json</code>
+<code><p><span class="nohigh">~$ </span>pm2 monit</code>
+<p><img src="lisk-core-start.jpg" width="1000px"><br>
+
+Now wait until it is in sync with the Lisk network. In the meantime you should create another trusted node (just repeat all steps again until here). <br>You should have at least two trusted nodes but maximum four as this is the limit per forging node. <br>But: Your trusted nodes can also have four additional trusted nodes. ;)</p>
+<p>&nbsp;</p>
+
+<h3 id="step4">STEP 4 - Setup a new forging node</h3>
+
+<b><span style="background-color: #cc0000; color: #ffffff;">IMPORTANT:</span></b> Make sure that the IP of your forging node has never been seen on the network. Don't use a server that was already connected to the Lisk network.
+<br>Start with a new server and follow the upcoming steps. We will create a forging node from scratch:<br><br>
+
+<code><span class="nohigh">~# </span>adduser lisk<br />
+  <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
+  <span class="nohigh">~# </span>su - lisk<br /><br />
+  <span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
+  <span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
+  <span class="nohigh">~$ </span>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash<br /><br></code>
+  <b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
+  <code><span class="nohigh">~$ </span>nvm install 12.22.5<br />
+  <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
+  <span class="nohigh">~$ </span>curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -<br />
+  <span class="nohigh">~$ </span>sudo apt-get install -y nodejs<br></code>
+  <code><span class="nohigh">~$ </span>sudo apt-get install -y ifupdown<br /><br /></code>
+
+  <br><b>Setup UFW</b><br>
+  <code><span class="nohigh">~$ </span>sudo ufw default deny incoming<br>
+    <span class="nohigh">~$ </span>sudo ufw default allow outgoing<br>
+    <span class="nohigh">~$ </span>sudo ufw allow ssh<br>
+    <span class="nohigh">~$ </span>sudo ufw enable<br>
+    <span class="nohigh">~$ </span>sudo ufw status verbose</code>
+    
+    <br><br><br>
+  <b>Now we use a script to kill the internet connection, start Lisk for the first time, stop it and turn the internet connection back on.<br>
+    We do this because we don't want to expose the IP of our forging node to the network and create the folders ~/.lisk/lisk-core in a secure way.</b><br><br>
+
+
+    Check the name of your network adapter:<br>
+    <code><span class="nohigh">~$ </span>ifconfig</code><br><br>
+    Create script file:<br>
+  <code><span class="nohigh">~$ </span>nano first-start-and-stop.sh</code><br><br>
+
+Copy and paste the code below into the file<br>
+<b><span style="background-color: #cc0000; color: #ffffff;">Info:</span></b> Use "ifconfig" and replace eth0 if needed and use "which pm2" to make sure you are using the correct absolute path to pm2!<br>
+
+<pre>#!/bin/bash
+sudo ifconfig eth0 down
+wait
+/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2 start /home/lisk/core-start.json
+sleep 20
+/home/lisk/.nvm/versions/node/v12.22.5/bin/pm2 stop all
+wait
+sudo ifconfig eth0 up</pre><br>
+
+Save & Exit.<br><br><br>
+
+Now set permissions and start the script:<br>
+<code><span class="nohigh">~$ </span>chmod +x first-start-and-stop.sh<br>
+  <span class="nohigh">~$ </span>./first-start-and-stop.sh<br>
+  </code><br><br>
+If everything worked, you should be able to cd into the lisk folder:<br>
+<code><span class="nohigh">~$ </span>cd /home/$USER/.lisk/lisk-core<br></code>
+<br><br>
+<h3 id="step5">STEP 5 - Create your forging account</h3>
+<code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
+<blockquote>
+<p><span style="color: #008000;"><sup>[ { "passphrase": "monkey ... ... ... ... ... ... ... ... ... ... image", "privateKey": "fc7d6bdf...4e51155a", "publicKey": "c50da2f4e489d33d22ffd26192eddff5ed9e6aa08c4d5a4794c62b034e51155a", "binaryAddress": "<span style="background-color: #ffcc99;">cf05384d5707179ea691731726313e83a00dc6f4</span>", "address": "<span style="background-color: #ccffcc;">lskajvtut6wzj5ah4ky7o5roo4fu7uzsywkawa94w</span>" } ]<br /></sup></span></p>
+</blockquote>
+<p><em>Store the output and don't lose it.<br />Now send LSK to your address.<br /></em></p>
+<p>&nbsp;</p>
+<h3 id="step6">STEP 6 - Create a random 12-word passphrase and encrypt your account-passphrase</h3>
+<code><p><span class="nohigh">~$ </span>lisk-core account:create</p></code>
+<p><em>You just need the 12 words. Don't lose them!</em></p>
+<blockquote>
+<p><span style="color: #008000;"><sup>pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
+</blockquote>
+<code><p><span class="nohigh">~$ </span>lisk-core passphrase:encrypt</p></code>
+<blockquote>
+<p><span style="color: #008000;"><sup>Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>Please enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span><br /><span style="color: #008000;"><sup>Please re-enter password: pitch ... ... ... ... ... ... ... ... ... ... unusual</sup></span></p>
+</blockquote>
+<p><em><br />Copy and paste the output into a txt-file. You'll need parts of it for your config.json:<br /></em></p>
+<blockquote>
+<p><sup><span style="color: #008000;">{"encryptedPassphrase":"<span style="background-color: #ff99cc;">iterations=100.......version=1</span>"}</span></sup></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>Now you create the onion hashes file:</p>
+<code><p><span class="nohigh">~$ </span>cd ~ &amp;&amp; lisk-core hash-onion -o hash_onion.json</p></code>
+<p><br />Now you create a bash file:<br /><br />
+<code><span class="nohigh">~$ </span>cd ~ &amp;&amp; nano create_config.sh</p></code>
+<p>&nbsp;</p>
+<p><em></em><em>Paste the following into the file and do NOT close it. You will replace the highlighted parts:</em></p>
+<p></p>
+<pre>cd ~ && > ~/.lisk/lisk-core/config.json
+  ONION=$(cat ~/hash_onion.json)
+  cat > ~/.lisk/lisk-core/config.json << EOF_mainnet_config
+  {
+      "network": {
+          "maxOutboundConnections": 2,
+          "maxInboundConnections": 0,
+          "advertiseAddress": false,
+          "seedPeers": [],
+          "fixedPeers": [{
+                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">trusted.NODE.1.IP</span>",
+                  "port": 8001
+              },
+  
+              {
+                  "ip": "<span style="background-color: #cc0000; color: #ffffff;">trusted.NODE.2.IP</span>",
+                  "port": 8001
+              }
+          ]
+      },
+  "logger": {
+  "fileLogLevel": "info"
+  },
+  "plugins": {
+  "httpApi": {
+  "whiteList": [
+  "127.0.0.1"
+  ]
+  }
+  },
+  "forging": {
+  "delegates": [
+  {
+  "address": "<span style="background-color: #ffcc99;">binaryAddress</span>",
+  "encryptedPassphrase": "<span style="background-color: #ff99cc;">iterations=100............version=1</span>",
+  "hashOnion": $ONION
+  }
+  ]
+ }
+}
+EOF_mainnet_config</pre>
+<p></p>
+<p><br /><em>Now remove the highlighted parts for trusted.NODE.1.IP, trusted.NODE.2.IP, binaryAddress and encryptedPassphrase and replace them with the parts from the outputs you have generated above.<br /><br />Save and exit the create_config.sh file.<br /><br />Now you need to set the permissions to the file and execute it. This step will copy and paste the onion hashes into your config.json:<br /></em></p>
+<code><p><span class="nohigh">~$ </span>chmod +x create_config.sh</p>
+<p><span class="nohigh">~$ </span>./create_config.sh</p></code>
+<p><br /><em>Now you check if the config.json is working correct.<br /></em></p>
+<b><span style="background-color: #cc0000; color: #ffffff;">Info:</span></b> You will now connect your forging node to your trusted nodes. Make sure they are in sync with the network, before you move on!<br>
+
+<code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
+
+<div id="box">
+<pre>
+{
+  "name": "lisk-core",
+  "script": "lisk-core start -c /home/lisk/.lisk/lisk-core/config.json",
+  "env": {
+    "LISK_NETWORK": "mainnet"
+  }
+}
+</pre>
+</div>
+
+<code><p><span class="nohigh">~$ </span>pm2 start core-start.json -c ~/.lisk/lisk-core/config.json<br /><br />
+  <em><span class="nohigh">~$ </span>pm2 monit</em></p></code>
+
+<p><img src="lisk-core-start.jpg" width="1000px"><br>
+
+<p><em><br />If the output is like the one above, your config.json seems correct.<br /></em><em>If not, you have made mistakes when replacing the parts. Check again.<br> To detach from pm2 press ctrl+c<br /></em></p>
+<p>&nbsp;</p>
+<h3 id="step7">STEP 7 - Register your delegate and vote for yourself</h3>
+
+1. Download Lisk Desktop >=2.0 at <a href="https://lisk.com">Lisk.com</a><br><br>
+
+2.<br><video src="Lisk-Register-A-Delegate-And-Vote-For-Yourself.mp4" width="1280px" height="auto" controls></video>
+
+<br><br><br><br>
+
+<h3 id="step8">STEP 8 - Start Lisk and activate forging</h3>
+<code><p><span class="nohigh">~$ </span>cd && pm2 start core-start.json<br /></p></code>
+
+<code>
+  <p><span class="nohigh">~$ </span>cd ~<br>
+  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/Gr33nDrag0n69/LiskCore3Tools/main/SH/lisk-forging-enable.sh -o ~/lisk-forging-enable.sh<br>
+  <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forging-enable.sh<br>
+  <p><span class="nohigh">~$ </span>./lisk-forging-enable.sh<br>
+  </code>
+  <br>
+  <blockquote>
+<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+</blockquote>
+<p>If the output says "forging":true, congratulations. You should forge on Mainnet securely behind your trusted nodes.<br />
+  <br><b><span style="background-color: #cc0000; color: #ffffff;">Important:</span></b> To verify that <b>only</b> the IP's of your trusted nodes are on the network, <a href="https://service.lisk.com/api/v2/peers?state=connected" target=_blank>check here</a>, <a href="https://lisk-mainnet-service.punkrock.me/api/v2/peers?state=connected" target=_blank>here</a> and <a href="https://mainnet-service.lisktools.eu/api/v2/peers?state=connected" target=_blank>here</a> and search for the IP's. Your forging node IP should not appear anywhere!<br>
+
+  <br />To confirm that you are forging, use the <a href="https://liskscan.io/" target=_blank>Moosty's Mainnet Explorer</a> or you can always use lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span> to see if your balanace is increasing.
+  <br>You also can check logs for forged blocks with cat ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block" or wait for forged blocks with tail -f ~/.lisk/lisk-core/logs/lisk.log | grep "Forged new block".<br><br>
+<br><br>
+
+<div id="update">
+  <h1>How to update to a new version</h1>
+  The stuff in this gray box is needed to update your Mainnet nodes:
+  <p><b>Stop your node:</b></p>
+  <code><p><span class="nohigh">~$ </span>pm2 stop lisk-core
+  <p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
+  <br>
+<p><b>If you get warnings about npm and/or nvm, try this:</b></p>
+<code><p><span class="nohigh">~$ </span>nvm install 12.22.5
+  <p><span class="nohigh">~$ </span>npm install -g npm<br><br><br></code>
+  <p><b>Now restart your node:</b></p>
+<code><p><span class="nohigh">~$ </span>cd && pm2 start core-start.json<br /></p></code>
+  <br>
+  <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
+  <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
+    Put the following line to the end of the file, save and start a new session:<br>
+<code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
+  <p><b>Now enable forging</b></p>
+<code>
+  <p><span class="nohigh">~$ </span>cd ~<br>
+  <p><span class="nohigh">~$ </span>curl https://raw.githubusercontent.com/Gr33nDrag0n69/LiskCore3Tools/main/SH/lisk-forging-enable.sh -o ~/lisk-forging-enable.sh<br>
+  <p><span class="nohigh">~$ </span>chmod 700 ~/lisk-forging-enable.sh<br>
+  <p><span class="nohigh">~$ </span>./lisk-forging-enable.sh<br>
+</code>
+<br>
+<blockquote>
+<p><sup><span style="color: #008000;">? Enter password to decrypt the encrypted passphrase: *******************************************<br />Forging status:<br />{"address":"<span style="background-color: #ffcc99;">BinaryAddress</span>","forging":true}</span></sup></p>
+</blockquote>
+</div> 
+<br>
+
+Happy forging!<br /><br>punkrock</h2>
+  </body>
+</html><code>
