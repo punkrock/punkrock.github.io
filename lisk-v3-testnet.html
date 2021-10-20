@@ -145,75 +145,13 @@ If you see the PM2 status "errored", check the PM2 error logs:<br>
 <p>&nbsp;</p>
 <h3 id="step4">STEP 4 - Register your delegate and vote for yourself</h3>
 
+1. Download <a href="https://lisk.com/wallet">Lisk Desktop</a><br><br>
+2. Now get some testLSK from the <a href="https://testnet-faucet.lisk.com/">Testnet Faucet</a> and register your delegate name and vote for yourself:<br><br>
+<video src="lisk-testnet-register-delegate-and-vote.mp4" width="1280" height="auto" controls></video>
 
-<h4>Self-Voting from Mulit-Signature Account (second passphrase):</h4>
 
-0. Download <a href="https://github.com/LiskHQ/lisk-desktop/tags" target="_blank" rel="noopener">Lisk Desktop (>= v2.0.0-rc.2)</a><br>
-1. log in with your first passphrase<br>
-2. wallet -> Add to votes<br>
-3. Enter amount (10-LSK-steps!) and click confirm<br>
-4. Click the voting queue icon at the top<br>
-5. click "continue" and then click "download" and close the popup-window<br>
-6. in left menu click "sign multisignature" and click "read from JSON file"<br>
-7. choose the downloaded JSON file<br>
-8. click "Review and sign" and in the next step "sign"<br>
-9. now download the second JSON by clicking "Download"<br>
-10. close the pop up window and sign out<br>
-11. login with second passphrase<br>
-12. in left menu click "sign multisignature" and click "read from JSON file"<br>
-13. now chose the other JSON you just downloaded<br>
-14. click "Review and sign" and in the next step "sign"<br>
-15. click Send<br>
-<br>
-Now you should see "The transaction was broadcasted to the network. It will appear in sender account's wallet after confirmation."<br>
 <br><br><br><br>
 
-<h4>Self-Voting from an account with only one passphrase:</h4>
-
-Use <a href="https://github.com/LiskHQ/lisk-desktop/tags" target="_blank" rel="noopener">Lisk Desktop (>= v2.0.0-rc.2)</a> or do it from CLI:<br><br>
-<blockquote>
-<p><span style="color: #000000;"><strong>Explainations</strong></span> <a href="https://i.imgur.com/cNWLgvW.jpg" target="_blank" rel="noopener">(All Lisk Module and Asset ID's)</a></p>
-<ul>
-<li><span style="color: #000000;"><strong>5:</strong> Module ID<br /></span></li>
-<li><span style="color: #000000;"><strong>0:</strong> Asset ID<br /></span></li>
-<li><span style="color: #000000;"><strong>1100000000:</strong> Registration fee in Beddows, including transaction fee (11 LSK)<br /></span></li>
-<li><span style="color: #000000;"><strong>punkrock:</strong> Choose your username<br /></span></li>
-</ul>
-</blockquote>
-<code><p><span style="color: #000000;"><span class="nohigh">~$ </span>lisk-core transaction:create 5 0 1100000000</span></p></code>
-<blockquote>
-<p><span style="color: #008000;"><sup>? Please enter: username: Choose your username<br />? Please enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span><br /><span style="color: #008000;"><sup>? Please re-enter passphrase: monkey ... ... ... ... ... ... ... ... ... ... image</sup></span></p>
-<p><sup><span style="color: #008000;">{"transaction":"<span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span>"}</span></sup></p>
-</blockquote>
-<p><em>Copy the output of the signed transaction and broadcast it:</em></p>
-<code><p><span class="nohigh">~$ </span>lisk-core transaction:send <span style="background-color: #ccffff;">080510001800201...........3052578d1f88c3b38eaac1e48df2f3d67bb108</span></p></code>
-<blockquote>
-<p><sup><span style="color: #008000;">Transaction with id: '2cdcf658350427e8509385235f5ac429c01dbf77cda07bcb01f5504007e9ee3f' received by node</span></sup></p>
-</blockquote>
-<p><em>If it got accepted, your delegate name is registered.</em></p>
-<p>&nbsp;</p>
-<p><em>Now check your account balance and vote for yourself:</em></p>
-<code><p><em><span class="nohigh">~$ </span>lisk-core account:get <span style="background-color: #ffcc99;">BinaryAddress</span></em></p></code>
-<blockquote>
-<p><sup><span style="color: #008000;">{"address":"cf05384d5707179ea691731726313e83a00dc6f4","token":{"balance":"1008999800000"},"sequence":{"nonce":"1"},"keys":{"numberOfSignatures":0,"mandatoryKeys":[],"optionalKeys":[]},"dpos":{"delegate":{"username":"punkrock","pomHeights":[],"consecutiveMissedBlocks":0,"lastForgedHeight":19128,"isBanned":false,"totalVotesReceived":"0"},"sentVotes":[],"unlocking":[]}}</span></sup></p>
-</blockquote>
-<p><em>The part "balance":"1008999800000 means you have 10089.998 LSK or 1008999800000 Beddows.</em><br /><em>Now vote for yourself with a big part of the balance. I will use 10060 LSK here:<br /><br /><strong><span style="color: #cc0000;">IMPORTANT: You can only use an amount in 10-LSK-steps! 10066 LSK not allowed. Only 10060 or 10070 for example.<br>And the amounts for fees and voting weight have to be entered in Beddows. 10060 LSK = 1006000000000 Beddows</span></strong></em><br /><br /></p>
-<p><span style="color: #000000;"><strong>Explainations</strong></span></p>
-<ul>
-<li><span style="color: #000000;"><strong>5:</strong> Module ID<br /></span></li>
-<li><span style="color: #000000;"><strong>1:</strong> Asset ID<br /></span></li>
-<li><span style="color: #000000;"><strong>100000000:</strong> Transaction fee<br /></span></li>
-</ul>
-<code><p><span class="nohigh">~$ </span><span style="color: #000000;">lisk-core transaction:create 5 1 100000000</span></p></code>
-<blockquote>
-<p><sup><span style="color: #008000;">? Please enter: votes(delegateAddress, amount): <span style="background-color: #ffcc99;">BinaryAddress</span>, 1006000000000<br />? Want to enter another votes(delegateAddress, amount) No<br />? Please enter passphrase: [hidden]<br />? Please re-enter passphrase: [hidden]<br />{"transaction":"0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05"}</span></sup></p>
-</blockquote>
-<p><em>Now copy the output of the signed message and broadcast it:</em></p>
-<code><p><span class="nohigh">~$ </span>lisk-core transaction:send 0805100118022080c2.......73fac59318c51140dda8fcb9c6f26a913f05<br /></p></code>
-<blockquote>
-<p><sup><span style="color: #008000;">Transaction with id: '620518d6a7a8545b760da9ea44a8ac08b40929a8ca372074d774b787ac2bee9c' received by node.</span></sup></p>
-<p>&nbsp;</p>
-</blockquote>
 <h3 id="step5">STEP 5 - Start Lisk (if not running) and activate forging</h3>
 <p>Check if Lisk is running. If "pm2 list" or "pm2 status" shows "stopped" or "errored", start it again with the following command:</p>
 <code><p><span class="nohigh">~$ </span>pm2 start core-start.json<br /></p></code>
