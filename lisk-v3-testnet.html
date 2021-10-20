@@ -64,8 +64,14 @@
 <b>Now disconnect from your server (close your sesssion) and start a new session.</b><br><br />
 <code><span class="nohigh">~$ </span>nvm install 12<br />
 <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
-<span class="nohigh">~$ </span>npm i -g pm2<br></code><br>
-
+<span class="nohigh">~$ </span>npm i -g pm2<br>
+<span class="nohigh">~$ </span>which pm2<br></code><br>
+<b>Now copy the PM2-path and paste it as an export-line into your ~/.bashrc file<br>
+<br>
+<span style="color: #cc0000;">INFO: </span>$HOME stands for /home/lisk/</b>
+    <code><p><span class="nohigh">~$ </span>nano ~/.bashrc<br></code>
+  <code><p>export PATH="$PATH:$HOME/.nvm/...YOUR...PATH...TO...PM2"<br></code>
+    	    <code><p><span class="nohigh">~$ </span>source ~/.bashrc<br><br></code>
 
 Start Lisk for the first time using PM2. The first start will create the folders ~/.lisk/lisk-core<br>
 <code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
@@ -176,16 +182,19 @@ Forging status:<br />
     <h1>How to update to a new version</h1>
     The stuff in this gray box is needed to update your testnet nodes:
 	<code><p><span class="nohigh">~$ </span>nvm install 12<br></code>
-    <code><p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
+    <code><p><span class="nohigh">~$ </span>npm update -g lisk-core<br></code>
+	    <code><p><span class="nohigh">~$ </span>pm2 update<br></code>
     <br><br>
     <p><b>Now restart your node:</b></p>
   <code><p><span class="nohigh">~$ </span>pm2 restart all<br /></p></code>
     <br>
-    <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./profile:</em></p>
-    <code><p><span class="nohigh">~$ </span>nano ~/.profile<br><br>
-      Put the following line to the end of the file, save and start a new session:<br>
-  <code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br><br><br></code>
-    <p><b>Now enable forging</b></p>
+    <p><em>If your machine doesn't find the command lisk-core, then add the following entry to your ~./bashrc:</em></p>
+    <code><p><span class="nohigh">~$ </span>nano ~/.bashrc<br><br>
+      Put the following line to the end of the file, save and exit:<br>
+  <code><p>export PATH="$PATH:$HOME/.lisk/lisk-core/bin"<br></code>
+    	    <code><p><span class="nohigh">~$ </span>source ~/.bashrc<br><br>
+
+	<p><b>Now enable forging</b></p>
 <code>
 <p><span class="nohigh">~$ </span>./lisk-forge-enable.sh<br>
 </code>
