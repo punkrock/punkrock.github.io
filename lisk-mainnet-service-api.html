@@ -498,14 +498,14 @@ To start Lisk Core and Lisk Service:<br>
 <div id="update">
 <h3 id="step14">14. Update Lisk Service</h3>
 <code>
-<span class="nohigh">~$ </span>pm2 stop all<br>
-<span class="nohigh">~$ </span>pm2 delete all<br>
+<span class="nohigh">~$ </span>pm2 kill -all && npm remove pm2 -g && npm install pm2 -g && pm2 update && pm2 --update-env<br>
+<span class="nohigh">~$ </span>pm2 startup<br><br>
+Now copy paste the output line from the previous command (pm2 startup)<br><br>
+
 <span class="nohigh">~$ </span>cp lisk-service/ecosystem.core3.config.js ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>rm -rf lisk-service<br>
 <span class="nohigh">~$ </span>npm remove -g lisk-service<br><br>
 
-Now (if you have) disable/comment (add # before the line) reboot script in crontab:<br>
-<span class="nohigh">~$ </span>crontab -e<br>
 <span class="nohigh">~$ </span>sudo reboot<br>
 <span class="nohigh">~$ </span>git clone https://github.com/LiskHQ/lisk-service.git<br>
 <span class="nohigh">~$ </span>cp ecosystem.core3.config.js lisk-service/ecosystem.core3.config.js<br>
@@ -516,23 +516,16 @@ Now (if you have) disable/comment (add # before the line) reboot script in cront
 <span class="nohigh">~$ </span>make build-local<br>
 <span class="nohigh">~$ </span>cd && cd lisk-service/services/market<br>
 <span class="nohigh">~$ </span>npm i<br>
-<span class="nohigh">~$ </span>cd<br>
-<span class="nohigh">~$ </span>./start-lisk-service.sh<br><br>
+<span class="nohigh">~$ </span>cd<br><br>
 
-Now (if you have) enable/uncomment reboot script again in crontab:<br>
-<span class="nohigh">~$ </span>crontab -e<br>
+Now start Lisk Core again and start the Lisk Service startup script:<br>
+<span class="nohigh">~$ </span>pm2 start core-start.json<br>
+<span class="nohigh">~$ </span>pm2 start start-lisk-service.sh<br><br>
 
+Now save the pm2 processes and execute the following command within 120 seconds:<br>
+<span class="nohigh">~$ </span>pm2 save<br><br>
 </code>
 </div><br><br><br>
-
-
-<em><b>Other pm2 commands:</b></em><br>
-pm2 restart all<br>
-pm2 stop all<br>
-pm2 start all<br>
-pm2 status<br>
-pm2 delete all<br>
-pm2 save<br>
 
 <br><br><br>
 <h3 id="step15">15. Credits</h3>
