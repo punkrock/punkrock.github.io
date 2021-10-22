@@ -58,6 +58,11 @@
 <h3 id="step1">STEP 1 - Create lisk user, install needed stuff</h3>
 <code><span class="nohigh">~# </span>adduser lisk<br />
 <span class="nohigh">~# </span>gpasswd -a lisk sudo<br />
+<span class="nohigh">~# </span>visudo<br />
+
+Add this line to the bottom, save and exit:
+lisk ALL=(ALL) NOPASSWD: ALL<br /><br />
+
 <span class="nohigh">~# </span>su - lisk<br /><br />
 <span class="nohigh">~$ </span>sudo apt-get -y update &amp;&amp; sudo apt-get -y upgrade &amp;&amp; sudo apt-get -y dist-upgrade &amp;&amp; sudo apt-get -y install wget tar zip unzip ufw htop nano npm git curl bash jq screen<br />
 <span class="nohigh">~$ </span>sudo apt install -y build-essential</br>
