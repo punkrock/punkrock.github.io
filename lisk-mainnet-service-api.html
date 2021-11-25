@@ -167,7 +167,7 @@ PasswordAuthentication no</pre></div>
 <pre>
 {
   "name": "Lisk Core",
-  "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8888 --http-api-plugin-port=8000",
+  "script": "lisk-core start --enable-http-api-plugin --api-ws --api-ws-port=8080 --http-api-plugin-port=8000",
   "env": {
     "LISK_NETWORK": "mainnet"
   }
@@ -261,7 +261,7 @@ module.exports = {
             env: {
                 // --- Remember to set the properties below
                 SERVICE_BROKER: 'redis://localhost:6379/0',
-                LISK_CORE_WS: 'ws://localhost:8888',
+                LISK_CORE_WS: 'ws://localhost:8080',
                 SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
                 SERVICE_CORE_REDIS_VOLATILE: "redis://localhost:6379/8",
                 SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/mainnet',
@@ -359,7 +359,7 @@ server {
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
 location /ws {
-    proxy_pass http://localhost:8888;
+    proxy_pass http://localhost:8080;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
@@ -502,6 +502,7 @@ To start Lisk Core and Lisk Service:<br>
 <span class="nohigh">~$ </span>pm2 startup<br><br>
 Now copy paste the output line from the previous command (pm2 startup)<br><br>
 
+<span class="nohigh">~$ </span>pm2 delete all<br>
 <span class="nohigh">~$ </span>cp lisk-service/ecosystem.core3.config.js ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>rm -rf lisk-service<br>
 <span class="nohigh">~$ </span>npm remove -g lisk-service<br><br>
@@ -516,14 +517,15 @@ Now copy paste the output line from the previous command (pm2 startup)<br><br>
 <span class="nohigh">~$ </span>make build-local<br>
 <span class="nohigh">~$ </span>cd && cd lisk-service/services/market<br>
 <span class="nohigh">~$ </span>npm i<br>
-<span class="nohigh">~$ </span>cd<br><br>
 
 Now start Lisk Core again and start the Lisk Service startup script:<br>
 <span class="nohigh">~$ </span>pm2 start core-start.json<br>
-<span class="nohigh">~$ </span>pm2 start start-lisk-service.sh<br><br>
+<span class="nohigh">~$ </span>pm2 start start-lisk-service.sh<br>
+<span class="nohigh">~$ </span>pm2 monit<br><br>
 
 Now save the pm2 processes and execute the following command within 120 seconds:<br>
 <span class="nohigh">~$ </span>pm2 save<br><br>
+<span class="nohigh">~$ </span>sudo reboot<br><br>
 </code>
 </div><br><br><br>
 
