@@ -67,7 +67,8 @@
 12. <a href="#step12">Add auto-start for Lisk Core and Lisk Service after reboot using pm2</a><br>
 13. <a href="#step13">Manual Stop / Start procedure</a><br>
 14. <a href="#step14">Update Lisk Service</a><br>
-15. <a href="#step15">Credits</a><br>
+15. <a href="#step15">Testing punkrock's public Lisk Mainnet Service</a><br>
+14. <a href="#step16">Credits</a><br>
 <br><br><br>
 
 <h3 id="step0">0. Requirements</h3>
@@ -192,7 +193,7 @@ PasswordAuthentication no</pre></div>
 <code><p><span class="nohigh">~$ </span> sudo mysql -u root -p</code><br><br>
 
 <code>CREATE DATABASE mainnet;</code><br>
-<code>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Cr4zypa55w0rd!!!"""@qwertz';</code><br>
+<code>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourNewCr4zypa55w0rd!!!"""@qwertz';</code><br>
 <code>FLUSH PRIVILEGES;</code><br>
 <code>\q</code><br>
 
@@ -218,103 +219,143 @@ PasswordAuthentication no</pre></div>
 
 <br><br><em>Now empty the file (CTRL + k) completely and add the following <span style="color: #cc0000;"><b>and make sure to change the MySQL password and get a free API-key from exchangeratesapi.io</b></span></em>
 <div id="box"><pre>
-module.exports = {
+  module.exports = {
     apps: [
-        {
-            name: 'lisk-service-gateway',
-            script: 'app.js',
-            cwd: './services/gateway',
-            pid_file: './pids/service_gateway.pid',
-            out_file: './logs/service_gateway.log',
-            error_file: './logs/service_gateway.err',
-            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-            watch: false,
-            kill_timeout: 10000,
-            max_memory_restart: '2000M',
-//            instances: 1,
-            autorestart: true,
-            env: {
-                PORT: '9901',
-                // --- Remember to set the properties below
-                SERVICE_BROKER: 'redis://localhost:6379/0',
-                ENABLE_HTTP_API: 'http-status,http-version2',
-                ENABLE_WS_API: 'blockchain,rpc-v2',
-                HTTP_CACHE_CONTROL_DIRECTIVES: 'public, max-age=10',
-                ENABLE_HTTP_CACHE_CONTROL: 'true',
-                SERVICE_LOG_STDOUT: true,
-                SERVICE_LOG_LEVEL: 'info'
+            {
+                    name: 'lisk-service-gateway',
+                    script: 'app.js',
+                    cwd: './services/gateway',
+                    pid_file: './pids/service_gateway.pid',
+                    out_file: './logs/service_gateway.log',
+                    error_file: './logs/service_gateway.err',
+                    log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                    watch: false,
+                    kill_timeout: 10000,
+                    max_memory_restart: '2000M',
+                    autorestart: true,
+                    env: {
+                            PORT: '9901',
+                            // --- Remember to set the properties below
+                            SERVICE_BROKER: 'redis://localhost:6379/0',
+                            WS_RATE_LIMIT_ENABLE: false,
+                            WS_RATE_LIMIT_CONNECTIONS: 5,
+                            WS_RATE_LIMIT_DURATION: 1, // in seconds
+                            HTTP_RATE_LIMIT_ENABLE: false,
+                            HTTP_RATE_LIMIT_CONNECTIONS: 200,
+                            HTTP_RATE_LIMIT_WINDOW: 10, // in seconds
+                            ENABLE_HTTP_API: 'http-status,http-version2,http-exports',
+                            ENABLE_WS_API: 'blockchain,rpc-v2',
+                            SERVICE_LOG_STDOUT: true,
+                            SERVICE_LOG_LEVEL: 'info',
+                            // HTTP_CACHE_CONTROL_DIRECTIVES: 'public, max-age=10',
+                            // ENABLE_HTTP_CACHE_CONTROL: 'true'
+                    },
             },
-        },
-        {
-            name: 'lisk-service-core',
-            script: 'app.js',
-            cwd: './services/core',
-            pid_file: './pids/service_core.pid',
-            out_file: './logs/service_core.log',
-            error_file: './logs/service_core.err',
-            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-            watch: false,
-            kill_timeout: 10000,
-            max_memory_restart: '2000M',
-  //          instances: 1,
-            autorestart: true,
-            env: {
-                // --- Remember to set the properties below
-                SERVICE_BROKER: 'redis://localhost:6379/0',
-                LISK_CORE_WS: 'ws://localhost:8080',
-                SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
-                SERVICE_CORE_REDIS_VOLATILE: "redis://localhost:6379/8",
-                SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/mainnet',
-                LISK_STATIC: 'https://static-data.lisk.com',
-                GEOIP_JSON: '',
-                INDEX_N_BLOCKS: '0',
-                ENABLE_TRANSACTION_STATS: 'true',
-                TRANSACTION_STATS_HISTORY_LENGTH_DAYS: '366',
-                TRANSACTION_STATS_UPDATE_INTERVAL: '3600',
-                ENABLE_FEE_ESTIMATOR_QUICK: 'true',
-                ENABLE_FEE_ESTIMATOR_FULL: 'false',
-                GENESIS_HEIGHT: "16270293",
-                GENESIS_BLOCK_URL: 'https://downloads.lisk.io/lisk/main/genesis_block.json.tar.gz',
-                SERVICE_LOG_STDOUT: true,
-                SERVICE_LOG_LEVEL: 'info',
-                SERVICE_LOG_CONSOLE: true
+            {
+                    name: 'lisk-service-core',
+                    script: 'app.js',
+                    cwd: './services/core',
+                    pid_file: './pids/service_core.pid',
+                    out_file: './logs/service_core.log',
+                    error_file: './logs/service_core.err',
+                    log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                    watch: false,
+                    kill_timeout: 10000,
+                    max_memory_restart: '2G',
+                    autorestart: true,
+                    env: {
+                            // --- Remember to set the properties below
+                            SERVICE_BROKER: 'redis://localhost:6379/0',
+                            LISK_CORE_WS: 'ws://localhost:8080',
+                            SERVICE_CORE_REDIS: 'redis://localhost:6379/1',
+                            SERVICE_CORE_REDIS_VOLATILE: 'redis://localhost:6379/8',
+                            SERVICE_CORE_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/mainnet',
+                            LISK_STATIC: 'https://static-data.lisk.com',
+                            GEOIP_JSON: '',
+                            INDEX_N_BLOCKS: '0',
+                            ENABLE_TRANSACTION_STATS: 'true',
+                            TRANSACTION_STATS_HISTORY_LENGTH_DAYS: '366',
+                            TRANSACTION_STATS_UPDATE_INTERVAL: '3600',
+                            ENABLE_FEE_ESTIMATOR_QUICK: 'true',
+                            ENABLE_FEE_ESTIMATOR_FULL: 'false',
+                            SERVICE_LOG_STDOUT: true,
+                            SERVICE_LOG_LEVEL: 'info'
+                    },
             },
-        },
-        {
-            name: 'lisk-service-market',
-            script: 'app.js',
-            cwd: './services/market',
-            pid_file: './pids/service_market.pid',
-            out_file: './logs/service_market.log',
-            error_file: './logs/service_market.err',
-            log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
-            watch: false,
-            kill_timeout: 10000,
-            max_memory_restart: '2000M',
-//            instances: 1,
-            autorestart: true,
-            env: {
-                // --- Remember to set the properties below
-                SERVICE_BROKER: 'redis://localhost:6379/0',
-                SERVICE_MARKET_REDIS: 'redis://localhost:6379/2',
-                SERVICE_MARKET_FIAT_CURRENCIES: 'EUR,USD,CHF,GBP,RUB',
-                SERVICE_MARKET_TARGET_PAIRS: 'LSK_BTC,LSK_EUR,LSK_USD,LSK_CHF,BTC_EUR,BTC_USD,BTC_CHF',
-                EXCHANGERATESAPI_IO_API_KEY: '<span style="color: #cc0000;"><b>GET YOUR FREE API KEY FROM: exchangeratesapi.io</b></span>',
-                SERVICE_LOG_STDOUT: true,
-                SERVICE_LOG_LEVEL: 'info'
+            {
+                    name: 'lisk-service-market',
+                    script: 'app.js',
+                    cwd: './services/market',
+                    pid_file: './pids/service_market.pid',
+                    out_file: './logs/service_market.log',
+                    error_file: './logs/service_market.err',
+                    log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                    watch: false,
+                    kill_timeout: 10000,
+                    max_memory_restart: '512M',
+                    autorestart: true,
+                    env: {
+                            // --- Remember to set the properties below
+                            SERVICE_BROKER: 'redis://localhost:6379/0',
+                            SERVICE_MARKET_REDIS: 'redis://localhost:6379/2',
+                            SERVICE_MARKET_FIAT_CURRENCIES: 'EUR,USD,CHF,GBP,RUB',
+                            SERVICE_MARKET_TARGET_PAIRS: 'LSK_BTC,LSK_EUR,LSK_USD,LSK_CHF,BTC_EUR,BTC_USD,BTC_CHF',
+                            EXCHANGERATESAPI_IO_API_KEY: '<span style="color: #cc0000;"><b>YOURKEY</b></span>',
+                            SERVICE_LOG_STDOUT: true,
+                            SERVICE_LOG_LEVEL: 'info'
+                    },
             },
-        },
+            {
+                    name: 'lisk-service-newsfeed',
+                    script: 'app.js',
+                    cwd: './services/newsfeed',
+                    pid_file: './pids/service_newsfeed.pid',
+                    out_file: './logs/service_newsfeed.log',
+                    error_file: './logs/service_newsfeed.err',
+                    log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                    watch: false,
+                    kill_timeout: 10000,
+                    max_memory_restart: '512M',
+                    autorestart: true,
+                    env: {
+                            SERVICE_BROKER: 'redis://localhost:6379/0',
+                            SERVICE_NEWSFEED_MYSQL: 'mysql://root:<span style="color: #cc0000;"><b>PASSWORD</b></span>@localhost:3306/mainnet?charset=utf8mb4',
+                            SERVICE_LOG_STDOUT: true,
+                            SERVICE_LOG_LEVEL: 'info',
+                            TWITTER_CONSUMER_KEY: '<span style="color: #cc0000;"><b>YOURKEY</b></span>',
+                            TWITTER_CONSUMER_SECRET: '<span style="color: #cc0000;"><b>YOURKEY</b></span>',
+                            TWITTER_ACCESS_TOKEN_KEY: '<span style="color: #cc0000;"><b>YOURKEY</b></span>',
+                            TWITTER_ACCESS_TOKEN_SECRET: '<span style="color: #cc0000;"><b>YOURKEY</b></span>'
+},
+            },
+            {
+                    name: 'lisk-service-export',
+                    script: 'app.js',
+                    cwd: './services/export',
+                    pid_file: './pids/service_export.pid',
+                    out_file: './logs/service_export.log',
+                    error_file: './logs/service_export.err',
+                    log_date_format: 'YYYY-MM-DD HH:mm:ss SSS',
+                    watch: false,
+                    kill_timeout: 10000,
+                    max_memory_restart: '512M',
+                    autorestart: true,
+                    env: {
+                            SERVICE_BROKER: 'redis://localhost:6379/0',
+                            // SERVICE_EXPORT_REDIS: 'redis://localhost:6379/3',
+                            SERVICE_LOG_STDOUT: true,
+                            SERVICE_LOG_LEVEL: 'info'
+            },
+            },
     ],
 };
 
 
-
-
-
-
-
 </pre></div>
 
+<strong><span style="color: #cc0000;">Important infos:</span></strong><br>
+<em>To be able to query Twitter newsfeed data, you need a Twitter Developers Account with "Elevated" level.<br>
+  It is free but you need to <a href="https://developer.twitter.com/en/portal/products/elevated">request it</a> as standard free accounts only have "Essential" level.</em>
 
 <br><br><br><br>
 <h3 id="step10">10. Config Nginx and get TLS certificates</h3>
@@ -473,8 +514,8 @@ Now you need to enter the following command within 120 seconds:<br>
 Now reboot, open pm2 monit and wait about 120 seconds to see if everything works and gets started as expected.
 <br><br>
 To see if everything works, you can visit the following URL's:<br>
-- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/v2/network/status<br>
-- https://lisk-mainnet-service.YOURDOMAIN.TLD/api/status<br>
+- https://lisk-mainnet-service.<span style="color: #cc0000;"><b>YOURDOMAIN.TLD</b></span>api/v2/network/status<br>
+- https://lisk-mainnet-service.<span style="color: #cc0000;"><b>YOURDOMAIN.TLD</b></span>/api/status<br>
 <br>
 If you see results loading and no error, you are finished.<br><br>
 
@@ -507,7 +548,6 @@ Now copy paste the output line from the previous command (pm2 startup)<br><br>
 <span class="nohigh">~$ </span>rm -rf lisk-service<br>
 <span class="nohigh">~$ </span>npm remove -g lisk-service<br><br>
 
-<span class="nohigh">~$ </span>sudo reboot<br>
 <span class="nohigh">~$ </span>git clone https://github.com/LiskHQ/lisk-service.git<br>
 <span class="nohigh">~$ </span>cp ecosystem.core3.config.js lisk-service/ecosystem.core3.config.js<br>
 <span class="nohigh">~$ </span>rm -rf ecosystem.core3.config.js<br>
@@ -527,12 +567,24 @@ Now save the pm2 processes and execute the following command within 120 seconds:
 <span class="nohigh">~$ </span>pm2 save<br><br>
 <span class="nohigh">~$ </span>sudo reboot<br><br>
 </code>
-</div><br><br><br>
+</div><br><br><br><br>
+
+<h3 id="step15">15. Testing punkrock's Lisk Mainnet public node:</h3>
+<b>CSV Export:</b><br>
+Step 1 (Prepare file): https://lisk-mainnet-service.punkrock.me/api/v2/transactions/export?address=lskmv3f4nr2fj9mgqezt642ggs23uywoptngy4aew
+Step 2 (Download file): https://lisk-mainnet-service.punkrock.me/api/v2/exports/transactions_lskmv3f4nr2fj9mgqezt642ggs23uywoptngy4aew_2016-01-01_2021-11-25.csv
+<br><br>
+<b>Newsfeed:</b><br>
+- https://lisk-mainnet-service.punkrock.me/api/v2/newsfeed<br>
+<br>
+You can also filter the output by passing a source param in the request. Supported values are: twitter_lisk,drupal_lisk_general,drupal_lisk_announcements:
+- https://lisk-mainnet-service.punkrock.me/api/v2/newsfeed?source=twitter_lisk,drupal_lisk_general,drupal_lisk_announcements
+
 
 <br><br><br>
-<h3 id="step15">15. Credits</h3>
+<h3 id="step16">16. Credits</h3>
 <br>
-<em>Thanks to lemii, przemer and Corbifex for helping.
-Happy forging on Lisk v3 mainnet!
-<br><br><b>punkrock</b></em>
+<em>Thanks to lemii, przemer, sameersubudhi and Corbifex for helping!<br><br>
+Buy LSK!
+<br><b>punkrock</b></em>
 <br><br>
