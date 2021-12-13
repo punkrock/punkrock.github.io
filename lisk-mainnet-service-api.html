@@ -539,7 +539,7 @@ To start Lisk Core and Lisk Service:<br>
 <div id="update">
 <h3 id="step14">14. Update Lisk Service</h3>
 <code>
-<span class="nohigh">~$ </span>pm2 kill -all && npm remove pm2 -g && npm install pm2 -g && pm2 update && pm2 --update-env<br>
+<span class="nohigh">~$ </span>sudo apt-get update && sudo apt-get upgrade && pm2 kill -all && npm remove pm2 -g && npm install pm2 -g && pm2 update && pm2 --update-env<br>
 <span class="nohigh">~$ </span>pm2 startup<br><br>
 Now copy paste the output line from the previous command (pm2 startup)<br><br>
 
