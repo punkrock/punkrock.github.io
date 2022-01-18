@@ -70,7 +70,7 @@ lisk ALL=(ALL) NOPASSWD: ALL<br /><br />
 <b>Start a new session or copy paste the snippet the output tells you!</b><br><br />
 <code><span class="nohigh">~$ </span>nvm install 12<br />
 <span class="nohigh">~$ </span>npm install --global --production lisk-core<br />
-<span class="nohigh">~$ </span>npm i -g pm2<br></code><br>
+<span class="nohigh">~$ </span>sudo npm i -g pm2<br></code><br>
 
 <code><p><span class="nohigh">~$ </span> cd && nano core-start.json</code>
 <br><br>
@@ -230,8 +230,11 @@ Forging status:<br />
     The stuff in this gray box is needed to update your mainnet nodes:
 	<code><p><span class="nohigh">~$ </span>pm2 delete all</code>
     <code><p><span class="nohigh">~$ </span>nvm install NEW_VERSION --reinstall-packages-from=OLD_VERSION</code>
+      <code><p><span class="nohigh">~$ </span>nvm alias default NEW_VERSION</code>
     <code><p><span class="nohigh">~$ </span>npm update -g lisk-core</code>
-      <code><p><span class="nohigh">~$ </span>lisk-core -v</code><br><br>
+      <code><p><span class="nohigh">~$ </span>lisk-core -v</code>
+        <br><br>
+         
     <br>
     <p><b>Now restart your node:</b></p>
   <code><p><span class="nohigh">~$ </span>pm2 start core-start.json<br /></p></code>
